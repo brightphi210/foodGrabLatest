@@ -12,6 +12,7 @@ import { useNavigation } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader from '@/components/Loader';
+import Checkbox from 'expo-checkbox';
 
 
 const resturantPage = () => {
@@ -78,15 +79,71 @@ const resturantPage = () => {
   }, [userToken]);
 
 
-
-
-
-
   const navigate = useNavigation<any>()
 
   const handleProductPress = (cuisines : any) => {
     navigate.navigate('authRoute/order_page', { cuisines })
   };
+
+
+  const [selectedItems, setSelectedItems] = useState<any>([]);
+  const [cartItems, setCartItems] = useState<any>([]);
+
+  const toggleItem = (itemId:any) => {
+    const index : any = selectedItems.indexOf(itemId);
+    if (index === -1) {
+      setSelectedItems([...selectedItems, itemId]);
+    } else {
+      setSelectedItems(selectedItems.filter((item:any) => item !== itemId));
+    }
+  };
+
+
+
+  const addToCart = () => {
+    const selectedItemsToAdd = cuisines.filter((item :any) => selectedItems.includes(item._id));
+    const updatedCartItems = [...cartItems, ...selectedItemsToAdd];
+    setCartItems(updatedCartItems);
+    setSelectedItems([]);
+    saveCartToAsyncStorage(updatedCartItems);
+  };
+
+
+
+  const saveCartToAsyncStorage = async (cartItems:any) => {
+    try {
+      const serializedCartItems = JSON.stringify(cartItems);
+      await AsyncStorage.setItem('cartItems', serializedCartItems);
+    } catch (error) {
+      console.error('Error saving cart items to AsyncStorage:', error);
+    }
+  };
+
+
+const [asynData, setAsynData] = useState<any>([])
+  const loadCartFromAsyncStorage = async () => {
+    try {
+      const serializedCartItems = await AsyncStorage.getItem('cartItems');
+      if (serializedCartItems !== null) {
+        return setAsynData(JSON.parse(serializedCartItems));
+      }
+      return [];
+    } catch (error) {
+      console.error('Error loading cart items from AsyncStorage:', error);
+      return [];
+    }
+  };
+
+
+
+  useEffect(() => {
+    loadCartFromAsyncStorage()
+  }, []);
+
+
+
+
+  console.log(asynData)
 
  
 
@@ -153,50 +210,64 @@ const resturantPage = () => {
 
           
 
-          <ScrollView style={{paddingVertical : 10, height : '60%'}} showsVerticalScrollIndicator ={false}>
+          <ScrollView style={{paddingVertical : 10, height : '60%',}} showsVerticalScrollIndicator ={false}>
 
                 {cuisines === undefined || cuisines === null ? <ActivityIndicator size={'large'}/> : (
-                  <>
+                  <View >
                   {cuisines.map((eachCuisines:any, index:any)=>(
-                  <TouchableOpacity key={index} onPress={() => handleProductPress(eachCuisines)}>
-                  <View style={{display : 'flex', 
-                      flexDirection : 'row', gap : 10, 
-                      justifyContent : 'center', 
-                      alignItems : 'center', 
-                      borderBottomColor : Colors.myGray,
-                      borderBottomWidth : 1,
-                      paddingBottom : 15,
-                      marginBottom : 15,
-                  }}>
 
-                      <Image source={require('../../assets/images/imgFood4.png')}
-                      style={{width : 70, height : 70, borderRadius : 5}}
-                      />
-
-                      <View style={{width : '75%'}}>
-                      <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center'}}>
-                          <Text style={{fontFamily : 'Railway2', fontSize : 15}}>{eachCuisines.name}</Text>
-                      </View>
-
-                      <Text style={{fontFamily : 'Railway1', 
-                          fontSize : 12, color : 'gray', paddingVertical : 5,
-                          textAlign : 'justify'
+                      <TouchableOpacity key={index}  onPress={()=>toggleItem(eachCuisines._id)} style={{
+                        display : 'flex', flexDirection : 'row', 
+                        alignItems : 'center', marginBottom : 20, 
+                        paddingBottom : 20, borderBottomColor : Colors.myGray,
+                        borderBottomWidth : 1,
                       }}>
-                          {eachCuisines.description}
-                      </Text>
-                      <Text style={{ color : Colors.btnGreen}}>From N{eachCuisines.price.toLocaleString()}</Text>
-                      </View>
+                        <View style={{display : 'flex', 
+                            flexDirection : 'row', gap : 10, 
+                            justifyContent : 'center', 
+                            alignItems : 'center', 
+                        }}>
 
-                  </View>
-                  </TouchableOpacity>
+                            <Image source={require('../../assets/images/imgFood4.png')}
+                            style={{width : 70, height : 70, borderRadius : 5}}
+                            />
+
+                            <View style={{width : '75%'}}>
+                            <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center'}}>
+                                <Text style={{fontFamily : 'Railway2', fontSize : 15}}>{eachCuisines.name}</Text>
+                            </View>
+
+                            <Text style={{fontFamily : 'Railway1', 
+                                fontSize : 12, color : 'gray', paddingVertical : 5,
+                                textAlign : 'justify'
+                            }}>
+                                {eachCuisines.description}
+                            </Text>
+                            <Text style={{ color : Colors.btnGreen}}>From N{eachCuisines.price.toLocaleString()}</Text>
+                            </View>
+
+                        </View>
+
+                        <Checkbox 
+                          style={styles.checkbox} 
+                          value={selectedItems.includes(eachCuisines._id)}
+                          onValueChange={() => toggleItem(eachCuisines._id)}
+                        />
+                      </TouchableOpacity>
                   ))}
-                  </>
+                  </View>
                 )}
-                        
+
+
+
+
           </ScrollView>
           </View>
         }
 
+        <TouchableOpacity style={styles.btnStyles} disabled={selectedItems.length === 0} onPress={addToCart}>
+            <Text style={{fontSize : 15, fontFamily : 'Railway2', color : 'white'}}>{isLoading ? (<ActivityIndicator color={'white'}/>) : 'Add to cart'}</Text>
+        </TouchableOpacity>
 
     </View>
   )
@@ -259,4 +330,27 @@ const styles = StyleSheet.create({
       borderRadius : 50,
       gap : 5
     },
+
+
+    checkbox: {
+      marginLeft : 'auto',
+      borderRadius : 100
+    },
+
+    btnStyles :{
+      height : 40,
+      backgroundColor : Colors.myRed,
+      flexDirection : 'row',
+      alignItems : 'center',
+      paddingHorizontal : 20,
+      justifyContent : 'center',
+      fontSize : 13,
+      borderRadius : 5,  
+      marginHorizontal : 20,
+      position : 'absolute',
+      bottom : 30,
+      left : 0,
+      right : 0,
+
+  },
 })

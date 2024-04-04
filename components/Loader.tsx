@@ -36,9 +36,9 @@ const Loader = () => {
         </View>
 
 
-        <View style={styles.bigCard0}>
+        {/* <View style={styles.bigCard0}>
         
-        </View>
+        </View> */}
 
     </View>
   )
