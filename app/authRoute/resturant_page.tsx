@@ -86,9 +86,16 @@ const resturantPage = () => {
   };
 
 
+
+
+
+
+  // =========================== ADDING MULTIPLE ITEMS TO CART ============================
   const [selectedItems, setSelectedItems] = useState<any>([]);
   const [cartItems, setCartItems] = useState<any>([]);
 
+
+  // ============== SELECT AN ITEM =================
   const toggleItem = (itemId:any) => {
     const index : any = selectedItems.indexOf(itemId);
     if (index === -1) {
@@ -99,7 +106,7 @@ const resturantPage = () => {
   };
 
 
-
+  // ============== ADD TO CART =====================
   const addToCart = () => {
     const selectedItemsToAdd = cuisines.filter((item :any) => selectedItems.includes(item._id));
     const updatedCartItems = [...cartItems, ...selectedItemsToAdd];
@@ -109,7 +116,7 @@ const resturantPage = () => {
   };
 
 
-
+  // =============== SAVE CART TO ASYNSTORAGE =================
   const saveCartToAsyncStorage = async (cartItems:any) => {
     try {
       const serializedCartItems = JSON.stringify(cartItems);
@@ -120,6 +127,8 @@ const resturantPage = () => {
   };
 
 
+
+  // ===================== AM GETTING THE STORED DATA FROM ASYNSTORAGE ==========
 const [asynData, setAsynData] = useState<any>([])
   const loadCartFromAsyncStorage = async () => {
     try {
