@@ -143,6 +143,11 @@ const [asynData, setAsynData] = useState<any>([])
 
 
 
+  const deleteAll = () => {
+    AsyncStorage.removeItem('cartItems');
+  };
+
+
   console.log(asynData)
 
  
@@ -205,6 +210,11 @@ const [asynData, setAsynData] = useState<any>([])
                   <Text style={styles.btnText1}>What’s New</Text>
               </TouchableOpacity>
 
+
+            <TouchableOpacity  style={styles.btnStyle} onPress={deleteAll}>
+                <Text style={{fontSize : 15, fontFamily : 'Railway2', color : 'white'}}>deleteAll</Text>
+            </TouchableOpacity>
+
           </View>
 
 
@@ -262,10 +272,12 @@ const [asynData, setAsynData] = useState<any>([])
 
 
           </ScrollView>
+
+
           </View>
         }
 
-        <TouchableOpacity style={styles.btnStyles} disabled={selectedItems.length === 0} onPress={addToCart}>
+        <TouchableOpacity style={selectedItems.length === 0 ? styles.btnStylesOdd : styles.btnStyles} disabled={selectedItems.length === 0} onPress={addToCart}>
             <Text style={{fontSize : 15, fontFamily : 'Railway2', color : 'white'}}>{isLoading ? (<ActivityIndicator color={'white'}/>) : 'Add to cart'}</Text>
         </TouchableOpacity>
 
@@ -351,6 +363,22 @@ const styles = StyleSheet.create({
       bottom : 30,
       left : 0,
       right : 0,
-
   },
+
+
+  btnStylesOdd :{
+    height : 40,
+    backgroundColor : 'pink',
+    flexDirection : 'row',
+    alignItems : 'center',
+    paddingHorizontal : 20,
+    justifyContent : 'center',
+    fontSize : 13,
+    borderRadius : 5,  
+    marginHorizontal : 20,
+    position : 'absolute',
+    bottom : 30,
+    left : 0,
+    right : 0,
+},
 })
