@@ -20,8 +20,8 @@ const cart = () => {
 
     const getData = async () => {
         try {
-          const jsonValue = await AsyncStorage.getItem('cuisines');
-          const parsedData = jsonValue != null ? JSON.parse(jsonValue) : [];
+          const jsonValue = await AsyncStorage.getItem('cartItems');
+          const parsedData = jsonValue != null ? JSON.parse(jsonValue) : [null];
           return setCartItems(parsedData);
         } catch (e) {
           console.log(e)
@@ -31,6 +31,9 @@ const cart = () => {
     useEffect(() => {
         getData();
     },[]);
+    
+
+    
 
 
 
@@ -42,7 +45,7 @@ const cart = () => {
           
           setCartItems(updatedCartItems);
           
-          await AsyncStorage.setItem('cuisines', JSON.stringify(updatedCartItems));
+          await AsyncStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
       } catch (e) {
           console.log(e);
       }
@@ -52,9 +55,9 @@ const cart = () => {
 
 
     const deleteAll = () => {
-      AsyncStorage.removeItem('cuisines');
+      AsyncStorage.removeItem('cartItems');
       setIsLoading(true)
-      router.replace('/home')
+      router.replace('/home');
     };
 
 
@@ -71,23 +74,23 @@ const cart = () => {
 
         {cartItems !== null &&
           <View style={{
-            backgroundColor : Colors.myLightGray, 
+            backgroundColor : Colors.myRed,  
             marginLeft : 'auto', marginTop : 30, 
             marginRight : 20, display : 'flex', flexDirection : 'column',
             justifyContent : 'center',
             alignItems : 'center',
-            paddingHorizontal : 8,
-            paddingVertical : 5,
             borderRadius : 100,
-            paddingTop : 0
+            paddingHorizontal : 7,
+            paddingVertical : 3,
+            paddingTop: 0 
 
           }}>
-            <Text style={{ fontFamily : 'Railway1',  fontSize : 15, }}>{cartItems.length}</Text>
+            <Text style={{ fontFamily : 'Railway1',  fontSize : 13, color : 'white', }}>{cartItems.length}</Text>
           </View>
         }
       </View>
 
-      {cartItems.length === 0 || cartItems === null ? (
+      {cartItems.length === 0  ? (
 
         <View style={styles.container2}>
 
@@ -114,13 +117,13 @@ const cart = () => {
                   borderRadius : 5, 
                   
                 }}>
-                <Text style={{fontFamily : 'Railway3', fontSize : 12}}>Clear Cart</Text>
+                <Text style={{fontFamily : 'Railway3', fontSize : 12, }}>Clear cart</Text>
           </TouchableOpacity>
           </View>
 
           {cartItems.map((cartItem : any, index : any) =>(
             <View style={styles.eachCartDiv} key={index}>
-              <View style={styles.eachCart}>
+              <View style={styles.eachCart} key={index}>
                 <View style={{overflow : 'hidden', width : 70, height : 60, borderRadius : 5}}>
                   <Image 
                     source={require('../../assets/images/imgFood2.png')}
@@ -129,9 +132,23 @@ const cart = () => {
                 </View>
 
                 <View style={styles.cartRight}>
-                  <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center', gap : 50}}>
-                    <Text style={{fontFamily : 'Railway2', fontSize : 15}}>{cartItem.name}</Text> 
-                    <Text style={{ marginLeft : 'auto', fontSize : 12, color : 'gray', paddingLeft : 40}}>{cartItem.quantity} Items</Text>
+                  <View  style={{ display : 'flex', flexDirection : 'row', alignItems : 'center', width : 'auto', gap : 10}}>
+                    <View style={{display : 'flex', flexDirection : 'row', gap : 3}}>
+                      {cartItem.slice(0, 2).map((item:any) => (
+                        <View key={item.id} >
+                            <Text style={{fontFamily : 'Railway2', fontSize : 12}}>{item.name.toUpperCase()}, </Text> 
+                            
+                        </View>
+                      ))}
+
+                      <View>
+                        {cartItem.length > 2 && <Text >. . . </Text>}
+                      </View>
+                    </View>
+                    
+                    <View style={{marginLeft : 'auto',}}>
+                      <Text style={{  fontSize : 12, color : 'gray'}}>{cartItem.length} Items</Text>
+                    </View>
                   </View>
                   <Text style={{ fontFamily: 'Railway1', fontSize: 12, paddingVertical: 6, color: Colors.myGreen }}>Chiken Republic</Text>
                 </View>
@@ -139,8 +156,6 @@ const cart = () => {
               </View>
 
               <View style={styles.checkOutDiv}>
-              
-
                   <Link href={"/authRoute/order_summary"} asChild>
                       <TouchableOpacity style={styles.checkOutBtn}>
                       <Text style={{fontFamily : 'Railway2', color : 'white', fontSize : 12}}>Checkout</Text>
@@ -148,7 +163,13 @@ const cart = () => {
                   </Link>
 
                 <Link href={"/authRoute/proceed_checkout"} asChild>
-                  <Text style={{fontFamily : 'Railway2', fontSize : 12}}>View Selection</Text>
+
+                  <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center', gap : 5}}>
+                    <Text style={{fontFamily : 'Railway3', fontSize : 12, }}>
+                        View Selection 
+                    </Text>
+                    <Ionicons name='chevron-forward' size={10}/>
+                  </View>
                 </Link>
 
                 <TouchableOpacity onPress={() => deleteItemFromCart(index)} style={{marginLeft : 'auto'}}>
@@ -251,7 +272,8 @@ eachCart : {
 
 },
 
-cartRight : {},
+cartRight : {
+},
 
 checkOutDiv : {
   display : 'flex',
@@ -263,7 +285,7 @@ checkOutDiv : {
 
 checkOutBtn : {
   height : 25,
-  backgroundColor : Colors.myRed,
+  backgroundColor : Colors.myLightGreen,
   flexDirection : 'row',
   alignItems : 'center',
   paddingHorizontal : 20,

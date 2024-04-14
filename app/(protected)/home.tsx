@@ -81,6 +81,15 @@ const index = () => {
   };
 
 
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+
   return (
     
     <SafeAreaView style={styles.container}>
@@ -96,7 +105,8 @@ const index = () => {
         </View>
 
 
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView showsVerticalScrollIndicator={false} refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <View>
               <View style={{paddingVertical : 0, paddingBottom : 0, }}>
                 <Image source={require('../../assets/images/dashSec2.png')}

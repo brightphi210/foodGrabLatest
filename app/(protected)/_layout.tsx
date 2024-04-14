@@ -17,7 +17,7 @@ export default function TabLayout() {
 
   const getData = async () => {
       try {
-        const jsonValue = await AsyncStorage.getItem('cuisines');
+        const jsonValue = await AsyncStorage.getItem('cartItems');
         return setCartItems(jsonValue != null ? JSON.parse(jsonValue) : null);
       } catch (e) {
         console.log(e)

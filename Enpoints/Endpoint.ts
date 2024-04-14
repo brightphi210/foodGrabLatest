@@ -1,2 +1,2 @@
 
-export const BASE_URL = 'https://foodgrab.africa/users/api/v1/'
+export const BASE_URL = 'https://api.foodgrab.africa/users/api/v1/'

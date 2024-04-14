@@ -1,9 +1,6 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native'
 import React, {useState, useEffect, useContext} from 'react'
 import Colors from '@/constants/Colors';
-import { Link } from 'expo-router'
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { AuthContext } from '@/context/AuthContext';
 import { BASE_URL } from '@/Enpoints/Endpoint';
 import { useRoute } from '@react-navigation/native';
 import { ActivityIndicator } from 'react-native';
@@ -13,6 +10,8 @@ import { StatusBar } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader from '@/components/Loader';
 import Checkbox from 'expo-checkbox';
+import { useRouter } from 'expo-router';
+import Modal from 'react-native-modal';
 
 
 const resturantPage = () => {
@@ -87,6 +86,8 @@ const resturantPage = () => {
 
 
 
+  console.log(singleShopData)
+
 
 
 
@@ -97,7 +98,7 @@ const resturantPage = () => {
 
   // ============== SELECT AN ITEM =================
   const toggleItem = (itemId:any) => {
-    const index : any = selectedItems.indexOf(itemId);
+    const index  = selectedItems.indexOf(itemId);
     if (index === -1) {
       setSelectedItems([...selectedItems, itemId]);
     } else {
@@ -106,26 +107,39 @@ const resturantPage = () => {
   };
 
 
+  const [message, setMessage] = useState<any>('')
+  const [showModal2, setShowModal2] = useState<any>(false)
+
+
   // ============== ADD TO CART =====================
-  const addToCart = () => {
+  const addToCart = async () => {
     const selectedItemsToAdd = cuisines.filter((item :any) => selectedItems.includes(item._id));
-    const updatedCartItems = [...cartItems, ...selectedItemsToAdd];
-    setCartItems(updatedCartItems);
-    setSelectedItems([]);
-    saveCartToAsyncStorage(updatedCartItems);
-  };
 
-
-  // =============== SAVE CART TO ASYNSTORAGE =================
-  const saveCartToAsyncStorage = async (cartItems:any) => {
+    let existingCartItems = [];
     try {
-      const serializedCartItems = JSON.stringify(cartItems);
-      await AsyncStorage.setItem('cartItems', serializedCartItems);
+      const storedItems = await AsyncStorage.getItem('cartItems');
+      if (storedItems) {
+        existingCartItems = JSON.parse(storedItems);
+      }
+
+    } catch (error) {
+      console.error('Error retrieving cart items from AsyncStorage:', error);
+    }
+    
+    
+
+
+    const updatedCartItems = [...existingCartItems, selectedItemsToAdd];
+    try {
+      await AsyncStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
     } catch (error) {
       console.error('Error saving cart items to AsyncStorage:', error);
     }
+    setCartItems(updatedCartItems);
+    setMessage( 'Items added to cart')
+    setShowModal2(true);
+    setSelectedItems([]);
   };
-
 
 
   // ===================== AM GETTING THE STORED DATA FROM ASYNSTORAGE ==========
@@ -156,8 +170,11 @@ const [asynData, setAsynData] = useState<any>([])
     AsyncStorage.removeItem('cartItems');
   };
 
+  console.log('THis is selected items' , selectedItems)
+  console.log('This is a cart items: ', asynData)
 
-  console.log(asynData)
+
+  const router = useRouter()
 
  
 
@@ -219,11 +236,6 @@ const [asynData, setAsynData] = useState<any>([])
                   <Text style={styles.btnText1}>What’s New</Text>
               </TouchableOpacity>
 
-
-            <TouchableOpacity  style={styles.btnStyle} onPress={deleteAll}>
-                <Text style={{fontSize : 15, fontFamily : 'Railway2', color : 'white'}}>deleteAll</Text>
-            </TouchableOpacity>
-
           </View>
 
 
@@ -248,22 +260,22 @@ const [asynData, setAsynData] = useState<any>([])
                         }}>
 
                             <Image source={require('../../assets/images/imgFood4.png')}
-                            style={{width : 70, height : 70, borderRadius : 5}}
+                            style={{width : 60, height : 50, borderRadius : 5}}
                             />
 
                             <View style={{width : '75%'}}>
                             <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center'}}>
-                                <Text style={{fontFamily : 'Railway2', fontSize : 15}}>{eachCuisines.name}</Text>
+                                <Text style={{fontFamily : 'Railway2', fontSize : 12}}>{eachCuisines.name.toUpperCase()}</Text>
                             </View>
 
                             <Text style={{fontFamily : 'Railway1', 
-                                fontSize : 12, color : 'gray', paddingVertical : 5,
+                                fontSize : 12, color : 'gray', paddingVertical : 3,
                                 textAlign : 'justify'
                             }}>
                                 {eachCuisines.description}
                             </Text>
-                            <Text style={{ color : Colors.btnGreen}}>From N{eachCuisines.price.toLocaleString()}</Text>
-                            </View>
+                            <Text style={{ color : Colors.btnGreen, fontSize : 10}}>From N{eachCuisines.price.toLocaleString()}</Text>
+                          </View>
 
                         </View>
 
@@ -289,6 +301,42 @@ const [asynData, setAsynData] = useState<any>([])
         <TouchableOpacity style={selectedItems.length === 0 ? styles.btnStylesOdd : styles.btnStyles} disabled={selectedItems.length === 0} onPress={addToCart}>
             <Text style={{fontSize : 15, fontFamily : 'Railway2', color : 'white'}}>{isLoading ? (<ActivityIndicator color={'white'}/>) : 'Add to cart'}</Text>
         </TouchableOpacity>
+
+
+        <Modal                 
+            isVisible={showModal2} backdropOpacity={0.30} 
+            animationIn={'slideInDown'} animationOut={'fadeOut'} 
+            animationInTiming={500} animationOutTiming={10}
+        >
+            <View style={styles.modalStyle2}>
+                <Image source={require('../../assets/images/succes2.png')} style={{width : 80, height : 80}}/>
+                <Text style={{fontFamily : 'Railway1', fontSize : 13, padding : 0}}>{message}</Text>
+
+                <View style={{display : 'flex', flexDirection : 'row', gap : 10, marginVertical : 10}}>
+                    <TouchableOpacity onPress={()=>router.replace('/(protected)/carts')}
+                        style={{borderColor : Colors.myGray, borderWidth : 1, 
+                            paddingHorizontal : 15, paddingVertical : 5, 
+                            marginTop : 15, borderRadius : 3,
+                        }}
+                    >
+                        <Text style={{  fontSize : 13, fontFamily : 'Railway1', color : Colors.myGreen}}>Check out</Text>
+                    </TouchableOpacity>
+
+
+                    <TouchableOpacity onPress={()=> setShowModal2(false)}
+     
+
+                        style={{backgroundColor : Colors.myRed, 
+                            paddingHorizontal : 15, paddingVertical : 5, 
+                            marginTop : 15, borderRadius : 3,
+
+                        }}
+                    >
+                        <Text style={{fontSize : 13, fontFamily : 'Railway3', color : 'white' }}>Close</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        </Modal>
 
     </View>
   )
@@ -320,7 +368,8 @@ const styles = StyleSheet.create({
       flexDirection : 'row',
       width : '20%',
       alignItems : 'center',
-      padding : 10,
+      paddingHorizontal : 10,
+      paddingVertical : 6,
       alignSelf : 'center',
       justifyContent : 'center',
       borderRadius : 50,
@@ -328,12 +377,12 @@ const styles = StyleSheet.create({
     },
   
     btnText : {
-      fontFamily : 'Railway2', color : 'white', fontSize : 13
+      fontFamily : 'Railway2', color : 'white', fontSize : 12
     },
   
   
     btnText1 : {
-      fontFamily : 'Railway2', color : Colors.btnGreen, fontSize : 13
+      fontFamily : 'Railway2', color : Colors.btnGreen, fontSize : 12
     },
   
   
@@ -345,7 +394,8 @@ const styles = StyleSheet.create({
       alignItems : 'center',
       borderColor : Colors.btnGreen,
       borderWidth : 1,
-      padding : 10,
+      paddingHorizontal : 10,
+      paddingVertical : 8,
       textAlign : 'center',
       justifyContent : 'center',
       borderRadius : 50,
@@ -355,7 +405,11 @@ const styles = StyleSheet.create({
 
     checkbox: {
       marginLeft : 'auto',
-      borderRadius : 100
+      borderRadius : 100,
+      borderColor : Colors.myLightGreen,
+      borderWidth : 1,
+      width : 17,
+      height : 17
     },
 
     btnStyles :{
@@ -389,5 +443,16 @@ const styles = StyleSheet.create({
     bottom : 30,
     left : 0,
     right : 0,
-},
+  },
+
+  modalStyle2 : {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: 'white',
+    width: '100%',
+    maxHeight: '30%',
+    alignSelf : 'center',
+    borderRadius : 10,
+  }
 })
