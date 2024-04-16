@@ -105,7 +105,8 @@ const resturantPage = () => {
       setSelectedItems(selectedItems.filter((item:any) => item !== itemId));
     }
   };
-
+  console.log('-------||||||||',selectedItems);
+  
 
   const [message, setMessage] = useState<any>('')
   const [showModal2, setShowModal2] = useState<any>(false)
@@ -113,8 +114,8 @@ const resturantPage = () => {
 
   // ============== ADD TO CART =====================
   const addToCart = async () => {
-    const selectedItemsToAdd = cuisines.filter((item :any) => selectedItems.includes(item._id));
-
+    let selectedItemsToAdd = cuisines.filter((item :any) => selectedItems.includes(item._id));
+   
     let existingCartItems = [];
     try {
       const storedItems = await AsyncStorage.getItem('cartItems');
@@ -130,6 +131,7 @@ const resturantPage = () => {
 
 
     const updatedCartItems = [...existingCartItems, selectedItemsToAdd];
+    
     try {
       await AsyncStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
     } catch (error) {
@@ -171,7 +173,7 @@ const [asynData, setAsynData] = useState<any>([])
   };
 
   console.log('THis is selected items' , selectedItems)
-  console.log('This is a cart items: ', asynData)
+  // console.log('This is a cart items: ', asynData)
 
 
   const router = useRouter()
@@ -259,7 +261,7 @@ const [asynData, setAsynData] = useState<any>([])
                             alignItems : 'center', 
                         }}>
 
-                            <Image source={require('../../assets/images/imgFood4.png')}
+                            <Image source={{uri: eachCuisines.thumbnail}}
                             style={{width : 60, height : 50, borderRadius : 5}}
                             />
 

@@ -9,6 +9,7 @@ import BackHeader from '@/components/BackHeader';
 import { StatusBar } from 'expo-status-bar';
 import {PayWithFlutterwave} from 'flutterwave-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRoute } from '@react-navigation/native';
 
 
 const order_summary = () => {
@@ -76,29 +77,19 @@ const order_summary = () => {
       getUserData();
   },[]);
 
-  const [cartItems, setCartItems] = useState([])
-
-  const [isLoading, setIsLoading] = useState(false)
 
 
-  const getData = async () => {
-      try {
-        const jsonValue = await AsyncStorage.getItem('cuisines');
-        return setCartItems(jsonValue != null ? JSON.parse(jsonValue) : null);
-      } catch (e) {
-        console.log(e)
-      }
-  };
+  const route = useRoute();
 
-  useEffect(() => {
-      getData();
-  },[]);
+  const { cartItem } : any = route.params;
+
+  // console.log('This is what am looking for', cartItem)
 
 
   const userEmail = userDetails.email;
-  // const [subTotal, setSubTotal] = useState(null)
+  const [subTotal, setSubTotal] = useState(null)
 
-  const sumTotalPrice = cartItems.reduce((total:any, product:any) => total + (product.price * product.quantity), 0);
+  const sumTotalPrice = cartItem.reduce((total:any, product:any) => total + (product.price * product.quantity), 0);
   const newTotalPrice = sumTotalPrice.toLocaleString()
   const percentage = sumTotalPrice * 0.03
   const grandTotalPrice = (sumTotalPrice + percentage)
@@ -140,22 +131,22 @@ const order_summary = () => {
           <Text style={{fontFamily : 'Railway3', fontSize : 13}}>Order Summary</Text>
         </View>
 
-        {cartItems.map((cartItem : any, index: any) =>(
+        {cartItem.map((item : any, index: any) =>(
 
         <View key={index} style={{display : 'flex', flexDirection : 'row', borderBottomWidth : 1, borderBottomColor : Colors.myGray, paddingVertical : 20}}>
           <View style={{display : 'flex', flexDirection : 'row', gap : 10}}>
             <View style={{width : 50, height : 40, overflow : 'hidden', borderRadius : 5}}>
-              <Image source={require('../../assets/images/imgFood2.png')} style={{width  : 60, height : 60}}/>
+              <Image source={{uri: item.thumbnail}} style={{width  : 60, height : 60}}/>
             </View>
 
             <View>
-              <Text style={{fontFamily : 'Railway2', fontSize : 15}}>{cartItem.name}</Text>
+              <Text style={{fontFamily : 'Railway2', fontSize : 13}}>{item.name.toUpperCase()}</Text>
               <Text style={{fontFamily : 'Railway3', color : Colors.myLightGreen, fontSize : 11, paddingTop : 6}}>Kilimajaro - Big Tree</Text>
             </View>
           </View>
 
           <View style={{marginLeft : 'auto',}}>
-            <Text style={{ color : 'gray', fontSize : 12}}>{cartItem.quantity} Items</Text>
+            <Text style={{ color : 'gray', fontSize : 12}}>{item.quantity} Items</Text>
             <Text style={{ color : 'gray', fontFamily : 'Railway1', fontSize : 12}}>View Selection</Text>
           </View>
         </View>
@@ -180,9 +171,9 @@ const order_summary = () => {
 
         <View style={{paddingTop : 10}}>
           <View style={styles.paymentDiv}>
-            {cartItems && (
+            {cartItem && (
               <View>
-                  <Text style={{fontSize : 13, color : 'gray'}}>Sub-Total {cartItems.length} (Items)</Text>
+                  <Text style={{fontSize : 13, color : 'gray'}}>Sub-Total {cartItem.length} (Items)</Text>
               </View>
             )}
             <Text style={{marginLeft : 'auto', fontWeight : '500', fontSize : 13}}>N{newTotalPrice}</Text>
@@ -214,7 +205,7 @@ const order_summary = () => {
                 tx_ref: generateTransactionRef(10),
                 authorization: "FLWPUBK_TEST-1846f466dad001520b9bf6345d69c9cb-X",
                 customer: {
-                email: userEmail,
+                email: (userDetails.email),
                 },
                 amount: grandTotalPrice,
                 currency: 'NGN',

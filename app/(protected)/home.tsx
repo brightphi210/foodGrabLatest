@@ -12,6 +12,7 @@ import { BASE_URL } from '@/Enpoints/Endpoint';
 import DashHeader from '@/components/DashHeader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader2 from '@/components/Loader2';
+import NetworkError from '@/components/NetworkError';
 
 
 
@@ -49,6 +50,7 @@ const index = () => {
   }, []);
 
   const [shopData, setShopData] = useState<any>([])
+  const [error, setError] = useState<any>(false)
 
   const fetchData = async () => {
     try {
@@ -65,7 +67,9 @@ const index = () => {
       
     } catch (error) {
       setIsLoading(false);
-      console.error(error);
+      console.log(error);
+      setError(true);
+
     }
   };
 
@@ -74,6 +78,8 @@ const index = () => {
   }, [userToken]);
 
 
+  
+  
   
 
   const handleProductPress = (shopId : any) => {
@@ -87,7 +93,7 @@ const index = () => {
     setRefreshing(true);
     setTimeout(() => {
       setRefreshing(false);
-    }, 2000);
+    }, 5000);
   }, []);
 
   return (
@@ -98,14 +104,14 @@ const index = () => {
 
 
 
-        <View style={{position : 'relative', paddingTop : 10, paddingBottom : 2}}>
+        <View style={{position : 'relative', paddingTop : 10, paddingBottom : 6}}>
           <Ionicons name='search' size={15} style={{position : 'absolute', top : 25, left : 15}}/>
           <TextInput placeholder='Search for your favourite food' style={styles.inputStyles}/>
           <Ionicons name='filter' size={15} style={{position : 'absolute', top : 25, right :15}}/>
         </View>
 
 
-        <ScrollView showsVerticalScrollIndicator={false} refreshControl={
+        <ScrollView showsVerticalScrollIndicator={true} refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <View>
               <View style={{paddingVertical : 0, paddingBottom : 0, }}>
@@ -314,6 +320,12 @@ const index = () => {
                   )}
 
 
+
+                  {error === true && (
+                    <NetworkError />
+                  )}
+
+
               </View>
             </View>
 
@@ -345,7 +357,7 @@ const styles = StyleSheet.create({
     },
 
     inputStyles : {
-      padding : 10,
+      padding : 7,
       borderColor : Colors.myGray,
       borderWidth : 1,
       borderRadius : 5,
@@ -360,10 +372,10 @@ const styles = StyleSheet.create({
     flexDirection : 'row',
     width : '50%',
     alignItems : 'center',
-    padding : 10,
+    padding : 8,
     alignSelf : 'center',
     justifyContent : 'center',
-    borderRadius : 50,
+    borderRadius : 5,
     gap : 5
   },
 
@@ -385,10 +397,10 @@ const styles = StyleSheet.create({
     alignItems : 'center',
     borderColor : Colors.btnGreen,
     borderWidth : 1,
-    padding : 10,
+    padding : 8,
     textAlign : 'center',
     justifyContent : 'center',
-    borderRadius : 50,
+    borderRadius : 5,
     gap : 5
   },
 

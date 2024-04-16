@@ -15,6 +15,8 @@ export default function TabLayout() {
 
   const [cartItems, setCartItems] = useState<any>([])
 
+  
+
   const getData = async () => {
       try {
         const jsonValue = await AsyncStorage.getItem('cartItems');
@@ -27,6 +29,11 @@ export default function TabLayout() {
   useEffect(() => {
       getData();
   },[]);
+
+
+
+
+  console.log('This is the length of the cart items', cartItems);
 
 
   const [loaded, error] = useFonts({

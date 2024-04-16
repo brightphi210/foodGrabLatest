@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Colors from '@/constants/Colors';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, useRouter } from 'expo-router'
+import { Link, useNavigation, useRouter } from 'expo-router'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StatusBar } from 'expo-status-bar';
 import Modal from 'react-native-modal';
@@ -51,7 +51,7 @@ const cart = () => {
       }
   };
 
-    console.log(cartItems)
+    // console.log(cartItems)
 
 
     const deleteAll = () => {
@@ -63,6 +63,16 @@ const cart = () => {
 
     const [showModal2, setShowModal2] = useState<any>(false)
 
+    const navigate = useNavigation<any>()
+
+    const handleProductPress = (cartItem : any) => {
+      navigate.navigate('authRoute/order_summary', { cartItem })
+    };
+
+
+    const handleProductPress2 = (cartItem : any) => {
+      navigate.navigate('authRoute/proceed_checkout', { cartItem })
+    };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -125,10 +135,13 @@ const cart = () => {
             <View style={styles.eachCartDiv} key={index}>
               <View style={styles.eachCart} key={index}>
                 <View style={{overflow : 'hidden', width : 70, height : 60, borderRadius : 5}}>
+                {cartItem.slice(0, 1).map((item:any) => (
+
                   <Image 
-                    source={require('../../assets/images/imgFood2.png')}
+                    source={{uri : item.thumbnail}}
                     style={{width : 70, height : 70, }}
                   />
+                ))}
                 </View>
 
                 <View style={styles.cartRight}>
@@ -156,13 +169,11 @@ const cart = () => {
               </View>
 
               <View style={styles.checkOutDiv}>
-                  <Link href={"/authRoute/order_summary"} asChild>
-                      <TouchableOpacity style={styles.checkOutBtn}>
-                      <Text style={{fontFamily : 'Railway2', color : 'white', fontSize : 12}}>Checkout</Text>
-                      </TouchableOpacity>
-                  </Link>
+                <TouchableOpacity style={styles.checkOutBtn} onPress={()=> handleProductPress(cartItem)}>
+                  <Text style={{fontFamily : 'Railway2', color : 'white', fontSize : 12}}>Checkout</Text>
+                </TouchableOpacity>
 
-                <Link href={"/authRoute/proceed_checkout"} asChild>
+                <TouchableOpacity onPress={()=> handleProductPress2(cartItem)} >
 
                   <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center', gap : 5}}>
                     <Text style={{fontFamily : 'Railway3', fontSize : 12, }}>
@@ -170,7 +181,7 @@ const cart = () => {
                     </Text>
                     <Ionicons name='chevron-forward' size={10}/>
                   </View>
-                </Link>
+                </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => deleteItemFromCart(index)} style={{marginLeft : 'auto'}}>
                   <FontAwesome name='trash' size={15} color={Colors.myRed}  />
