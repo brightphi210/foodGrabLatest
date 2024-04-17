@@ -13,9 +13,7 @@ const cart = () => {
 
   
   const [isLoading, setIsLoading] = useState(false)
-  
   const router = useRouter();  
-
   const [cartItems, setCartItems] = useState<any>([])
 
     const getData = async () => {
@@ -32,36 +30,32 @@ const cart = () => {
         getData();
     },[]);
     
-
-    
-
-
-
     const deleteItemFromCart = async (itemIndex : any) => {
       try {
-          const updatedCartItems = [...cartItems];
-          
+          const updatedCartItems = [...cartItems];          
           updatedCartItems.splice(itemIndex, 1);
-          
           setCartItems(updatedCartItems);
-          
           await AsyncStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
       } catch (e) {
           console.log(e);
       }
   };
 
-    // console.log(cartItems)
-
-
-    const deleteAll = () => {
-      AsyncStorage.removeItem('cartItems');
-      setIsLoading(true)
-      router.replace('/home');
+    const deleteAll = async () => {
+      try {
+        const updatedCartItems: any = [];
+          setCartItems(updatedCartItems);
+          await AsyncStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
+          setShowModal2(false)
+      } catch (e) {
+          console.log(e);
+      }
     };
-
+    
 
     const [showModal2, setShowModal2] = useState<any>(false)
+
+
 
     const navigate = useNavigation<any>()
 
@@ -100,7 +94,7 @@ const cart = () => {
         }
       </View>
 
-      {cartItems.length === 0  ? (
+      {cartItems.length === 0   ? (
 
         <View style={styles.container2}>
 
@@ -131,63 +125,82 @@ const cart = () => {
           </TouchableOpacity>
           </View>
 
-          {cartItems.map((cartItem : any, index : any) =>(
-            <View style={styles.eachCartDiv} key={index}>
-              <View style={styles.eachCart} key={index}>
-                <View style={{overflow : 'hidden', width : 70, height : 60, borderRadius : 5}}>
-                {cartItem.slice(0, 1).map((item:any) => (
-
-                  <Image 
-                    source={{uri : item.thumbnail}}
-                    style={{width : 70, height : 70, }}
-                  />
-                ))}
-                </View>
-
-                <View style={styles.cartRight}>
-                  <View  style={{ display : 'flex', flexDirection : 'row', alignItems : 'center', width : 'auto', gap : 10}}>
-                    <View style={{display : 'flex', flexDirection : 'row', gap : 3}}>
-                      {cartItem.slice(0, 2).map((item:any) => (
-                        <View key={item.id} >
-                            <Text style={{fontFamily : 'Railway2', fontSize : 12}}>{item.name.toUpperCase()}, </Text> 
-                            
+          {cartItems.map((cartItem : any, index : any) =>(<>
+          
+            {cartItem && (<>
+  
+              
+              <View style={styles.eachCartDiv} key={index}>
+                
+                  <View style={styles.eachCart} key={index}>
+                    <View style={{overflow : 'hidden', width : 70, height : 60, borderRadius : 5}}>
+  
+                    {cartItem && (
+                      <>
+                        {cartItem.slice(0, 1).map((item:any) => (
+  
+                          <Image 
+                            source={{uri : item.thumbnail}}
+                            style={{width : 70, height : 70, }}
+                          />
+                        ))}
+                      </>
+                    ) }
+                    </View>
+  
+                    <View style={styles.cartRight}>
+                      <View  style={{ display : 'flex', flexDirection : 'row', alignItems : 'center', width : 'auto', gap : 10}}>
+                        <View style={{display : 'flex', flexDirection : 'row', gap : 3}}>
+  
+                          {cartItem && (
+                            <>
+                              {cartItem.slice(0, 2).map((item:any) => (
+                                <View key={item.id} >
+                                    <Text style={{fontFamily : 'Railway2', fontSize : 12}}>{item.name.toUpperCase()}, </Text> 
+                                    
+                                </View>
+                              ))}
+                            </>
+                          )}
+  
+  
+                          <View>
+                            {cartItem.length > 2 && <Text >. . . </Text>}
+                          </View>
                         </View>
-                      ))}
-
-                      <View>
-                        {cartItem.length > 2 && <Text >. . . </Text>}
+                        
+                        <View style={{marginLeft : 'auto',}}>
+                          <Text style={{  fontSize : 12, color : 'gray'}}>{cartItem.length} Items</Text>
+                        </View>
                       </View>
+                      <Text style={{ fontFamily: 'Railway1', fontSize: 12, paddingVertical: 6, color: Colors.myGreen }}>Chiken Republic</Text>
                     </View>
                     
-                    <View style={{marginLeft : 'auto',}}>
-                      <Text style={{  fontSize : 12, color : 'gray'}}>{cartItem.length} Items</Text>
-                    </View>
                   </View>
-                  <Text style={{ fontFamily: 'Railway1', fontSize: 12, paddingVertical: 6, color: Colors.myGreen }}>Chiken Republic</Text>
-                </View>
+  
+                  <View style={styles.checkOutDiv}>
+                    <TouchableOpacity style={styles.checkOutBtn} onPress={()=> handleProductPress(cartItem)}>
+                      <Text style={{fontFamily : 'Railway2', color : 'white', fontSize : 12}}>Checkout</Text>
+                    </TouchableOpacity>
+  
+                    <TouchableOpacity onPress={()=> handleProductPress2(cartItem)} >
+  
+                      <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center', gap : 5}}>
+                        <Text style={{fontFamily : 'Railway3', fontSize : 12, }}>
+                            View Selection 
+                        </Text>
+                        <Ionicons name='chevron-forward' size={10}/>
+                      </View>
+                    </TouchableOpacity>
+  
+                    <TouchableOpacity onPress={() => deleteItemFromCart(index)} style={{marginLeft : 'auto'}}>
+                      <FontAwesome name='trash' size={15} color={Colors.myRed}  />
+                    </TouchableOpacity>
+                  </View>
                 
               </View>
-
-              <View style={styles.checkOutDiv}>
-                <TouchableOpacity style={styles.checkOutBtn} onPress={()=> handleProductPress(cartItem)}>
-                  <Text style={{fontFamily : 'Railway2', color : 'white', fontSize : 12}}>Checkout</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={()=> handleProductPress2(cartItem)} >
-
-                  <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center', gap : 5}}>
-                    <Text style={{fontFamily : 'Railway3', fontSize : 12, }}>
-                        View Selection 
-                    </Text>
-                    <Ionicons name='chevron-forward' size={10}/>
-                  </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => deleteItemFromCart(index)} style={{marginLeft : 'auto'}}>
-                  <FontAwesome name='trash' size={15} color={Colors.myRed}  />
-                </TouchableOpacity>
-              </View>
-            </View>
+            </>)}
+          </>
           ))}
 
       </ScrollView>

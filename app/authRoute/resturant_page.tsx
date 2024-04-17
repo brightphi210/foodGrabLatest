@@ -12,22 +12,17 @@ import Loader from '@/components/Loader';
 import Checkbox from 'expo-checkbox';
 import { useRouter } from 'expo-router';
 import Modal from 'react-native-modal';
+import { Ionicons } from '@expo/vector-icons';
+import Animated, { SlideInDown, SlideOutDown, SlideInLeft, BounceIn, BounceInDown, BounceOutDown } from "react-native-reanimated";
 
 
 const resturantPage = () => {
 
     const route = useRoute<any>();
     const { shopId } : any = route.params;
-
-
-
     const [singleShopData, setSingleShopData] = useState<any>({})
     const [cuisines, setCuisines] = useState<any>([])
-
-
     const [isLoading, setIsLoading] = useState(false)
-
-
     const [userToken, setUserToken] = useState(null);
     const getData = async () => {
       try {
@@ -79,13 +74,9 @@ const resturantPage = () => {
 
 
   const navigate = useNavigation<any>()
-
   const handleProductPress = (cuisines : any) => {
     navigate.navigate('authRoute/order_page', { cuisines })
   };
-
-
-
   console.log(singleShopData)
 
 
@@ -106,7 +97,6 @@ const resturantPage = () => {
     }
   };
   console.log('-------||||||||',selectedItems);
-  
 
   const [message, setMessage] = useState<any>('')
   const [showModal2, setShowModal2] = useState<any>(false)
@@ -145,7 +135,7 @@ const resturantPage = () => {
 
 
   // ===================== AM GETTING THE STORED DATA FROM ASYNSTORAGE ==========
-const [asynData, setAsynData] = useState<any>([])
+  const [asynData, setAsynData] = useState<any>([])
   const loadCartFromAsyncStorage = async () => {
     try {
       const serializedCartItems = await AsyncStorage.getItem('cartItems');
@@ -159,31 +149,36 @@ const [asynData, setAsynData] = useState<any>([])
     }
   };
 
-
-
   useEffect(() => {
     loadCartFromAsyncStorage()
   }, []);
-
-
-
 
   const deleteAll = () => {
     AsyncStorage.removeItem('cartItems');
   };
 
-  console.log('THis is selected items' , selectedItems)
+  // console.log('THis is selected items' , selectedItems)
   // console.log('This is a cart items: ', asynData)
 
 
   const router = useRouter()
+  const navigation = useRouter()
 
- 
+  const handleBackPress = () => {
+    navigation.replace('/(protected)/home'); 
+  };
+
+
 
   return (
-    <View style={styles.container}>
+    <Animated.View style={styles.container}   
+      entering={BounceInDown.duration(500).delay(400)}
+      exiting={BounceOutDown.duration(500).delay(400)}
+    >
 
-        <BackHeader />
+          <TouchableOpacity onPress={handleBackPress} style={{paddingVertical: 10}}>
+            <Ionicons name='arrow-back' size={20} />
+          </TouchableOpacity>
         <StatusBar style='dark'/>
 
         {isLoading || singleShopData === null || singleShopData === undefined   ? 
@@ -194,7 +189,7 @@ const [asynData, setAsynData] = useState<any>([])
               <Text style={{ fontFamily : 'Railway2', fontSize : 17, }}>{singleShopData.shopName}</Text>
               <Text style={{marginLeft : 'auto', fontFamily : 'Railway1'}}>Open till 06:300 pm</Text>
           </View>
-          <Image source={require('../../assets/images/rest1.png')}
+          <Image source={{uri : singleShopData.backdropPic}}
               resizeMode='cover'
               style={{width : '100%', height : 100,
               borderRadius : 5
@@ -340,7 +335,7 @@ const [asynData, setAsynData] = useState<any>([])
             </View>
         </Modal>
 
-    </View>
+    </Animated.View>
   )
 }
 
@@ -351,6 +346,7 @@ const styles = StyleSheet.create({
         backgroundColor : 'white',
         flex : 1,
         paddingHorizontal : 20,
+        paddingTop : 30
     },
 
 

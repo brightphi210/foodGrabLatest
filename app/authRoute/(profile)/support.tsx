@@ -10,6 +10,7 @@ import Modal from "react-native-modal";
 import { AntDesign } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router'
+import BackHeaderAccount from '@/components/BackHeaderAccount'
 
 
 const support = () => {
@@ -105,7 +106,7 @@ const support = () => {
         <StatusBar style='dark'/>
         
         <View style={{backgroundColor : 'white', zIndex : 3, paddingBottom : 10, marginBottom : 30,}}>
-            <BackHeader />
+            <BackHeaderAccount />
             <Text style={{fontFamily : 'Railway3', fontSize : 16}}>support</Text>
 
             <View>

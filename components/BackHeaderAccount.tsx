@@ -4,11 +4,16 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { Ionicons } from '@expo/vector-icons'
 import { useNavigation, useRouter } from 'expo-router'
 
+
 const BackHeaderAccount = () => {
-    const router = useRouter()
+    const navigation = useRouter()
+
+    const handleBackPress = () => {
+      navigation.replace('/account'); 
+    };
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity onPress={router.back}>
+      <TouchableOpacity onPress={handleBackPress}>
         <Ionicons name='arrow-back' size={20} />
       </TouchableOpacity>
     </SafeAreaView>

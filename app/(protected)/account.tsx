@@ -10,6 +10,7 @@ import AccountHeader from '@/components/AccountHeader';
 import Colors from '@/constants/Colors';
 import { AuthContext } from '@/context/AuthContext';
 import { StatusBar } from 'expo-status-bar';
+import Animated, { SlideInLeft, SlideOutRight } from 'react-native-reanimated';
 
 const account = () => {
   const [image, setImage] = useState()
@@ -81,7 +82,10 @@ const account = () => {
 
       {isLoading && <ActivityIndicator size={'large'}/>}
 
-      <View style={{ flex: 1, marginTop: 30, alignItems: 'center' }}>
+      <Animated.View style={{ flex: 1, marginTop: 30, alignItems: 'center' }}
+        entering={SlideInLeft.duration(200).delay(200)}
+        exiting={SlideOutRight.duration(200).delay(100)}
+      >
         <View style={styles.avatarContainer}>
 
           <View>
@@ -161,7 +165,7 @@ const account = () => {
 
 
         </View>
-      </View>
+      </Animated.View>
     </SafeAreaView>
   )
 }

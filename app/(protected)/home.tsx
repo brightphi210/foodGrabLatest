@@ -13,6 +13,7 @@ import DashHeader from '@/components/DashHeader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader2 from '@/components/Loader2';
 import NetworkError from '@/components/NetworkError';
+import Animated, { SlideInDown, SlideInLeft, SlideInRight, SlideInUp, SlideOutDown, SlideOutRight } from "react-native-reanimated";
 
 
 
@@ -99,11 +100,14 @@ const index = () => {
   return (
     
     <SafeAreaView style={styles.container}>
-        <DashHeader />
         <StatusBar style='dark'/>
 
 
-
+        <Animated.View
+            entering={SlideInLeft.duration(200).delay(200)}
+            exiting={SlideOutRight.duration(200).delay(100)}
+        >
+        <DashHeader />
         <View style={{position : 'relative', paddingTop : 10, paddingBottom : 6}}>
           <Ionicons name='search' size={15} style={{position : 'absolute', top : 25, left : 15}}/>
           <TextInput placeholder='Search for your favourite food' style={styles.inputStyles}/>
@@ -111,7 +115,7 @@ const index = () => {
         </View>
 
 
-        <ScrollView showsVerticalScrollIndicator={true} refreshControl={
+        <ScrollView showsVerticalScrollIndicator={false} refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <View>
               <View style={{paddingVertical : 0, paddingBottom : 0, }}>
@@ -296,10 +300,12 @@ const index = () => {
                         
                         <TouchableOpacity style={styles.restImageDiv} key={index} onPress={() => handleProductPress(item._id)}>
                           
-                        <Image source={require('../../assets/images/rest1.png')}
+                        <Image source={{uri : item.backdropPic}}
                           resizeMode='cover'
                           style={styles.restImage}
                         />
+
+                        {/* {console.log('this is the general image',item.backdropPic)} */}
   
                         <View style={{paddingHorizontal : 10, paddingVertical : 10}}>
                           <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center', }}>
@@ -331,7 +337,7 @@ const index = () => {
 
           }
       </ScrollView>
-
+      </Animated.View>
 
 
 

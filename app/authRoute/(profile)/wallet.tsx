@@ -7,6 +7,7 @@ import { AntDesign, FontAwesome, Ionicons } from '@expo/vector-icons'
 import Modal from "react-native-modal";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useRouter } from 'expo-router'
+import BackHeaderAccount from '@/components/BackHeaderAccount'
 
 
 
@@ -109,7 +110,7 @@ cardMonth
     <RefreshControl refreshing={isRefressing} style={styles.container}>
         
         <StatusBar style='dark'/>
-        <BackHeader />
+        <BackHeaderAccount />
         <Text style={{fontFamily : 'Railway3', fontSize : 16}}>Wallet</Text>
 
         <View style={styles.card}>

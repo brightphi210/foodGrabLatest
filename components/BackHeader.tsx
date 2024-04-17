@@ -5,10 +5,17 @@ import { Ionicons } from '@expo/vector-icons'
 import { useNavigation, useRouter } from 'expo-router'
 
 const BackHeader = () => {
-    const router = useNavigation()
+    const navigation = useRouter()
+
+    const handleBackPress = () => {
+      navigation.replace('/carts'); 
+    };
+
+    
+
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity onPress={router.goBack}>
+      <TouchableOpacity onPress={handleBackPress}>
         <Ionicons name='arrow-back' size={20} />
       </TouchableOpacity>
     </SafeAreaView>

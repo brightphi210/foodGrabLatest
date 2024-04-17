@@ -10,6 +10,7 @@ import { StatusBar } from 'expo-status-bar';
 import {PayWithFlutterwave} from 'flutterwave-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRoute } from '@react-navigation/native';
+import Animated, { BounceInDown, BounceInUp, BounceOutDown, SlideInLeft, SlideOutRight } from 'react-native-reanimated';
 
 
 const order_summary = () => {
@@ -121,7 +122,10 @@ const order_summary = () => {
 
 
   return (
-    <View style={styles.container}>
+    <Animated.View style={styles.container}
+    entering={SlideInLeft.duration(200).delay(200)}
+    exiting={SlideOutRight.duration(200).delay(200)}
+    >
       <StatusBar style='dark'/>
       <BackHeader />
       <Text style={{fontFamily : 'Railway2', fontSize : 15, paddingBottom : 20}}>Checkout</Text>
@@ -226,7 +230,7 @@ const order_summary = () => {
 
 
       </ScrollView>
-    </View>
+    </Animated.View>
   )
 }
 

@@ -10,6 +10,7 @@ import BackHeader from '@/components/BackHeader';
 import { StatusBar } from 'expo-status-bar';
 import { AntDesign } from '@expo/vector-icons';
 import { useRoute } from '@react-navigation/native';
+import Animated, { BounceInDown, BounceInUp, BounceOutDown, SlideInLeft, SlideOutRight } from 'react-native-reanimated';
 
 
 const proceed_checkout = () => {
@@ -21,8 +22,13 @@ const proceed_checkout = () => {
     const { cartItem } : any = route.params;
   
     console.log('This is what am looking for', cartItem)
+
+ 
   return (
-    <View style={styles.container} >
+    <Animated.View style={styles.container} 
+        entering={SlideInLeft.duration(200).delay(200)}
+        exiting={SlideOutRight.duration(200).delay(200)}
+    >
         <StatusBar style='dark'/>
         <BackHeader />
       <View>
@@ -84,7 +90,7 @@ const proceed_checkout = () => {
                 <Text style={{fontFamily : 'Railway2', fontSize : 13, color : Colors.myRed}}>Cancel Order</Text>
             </TouchableOpacity>
         </View>
-    </View>
+    </Animated.View>
   )
 }
 
@@ -103,7 +109,7 @@ const styles = StyleSheet.create({
         alignItems : 'center',
         flexDirection : 'row',
         justifyContent : 'space-between',
-        paddingTop : 30
+        paddingTop : 20
     },
 
     cartDiv : {
