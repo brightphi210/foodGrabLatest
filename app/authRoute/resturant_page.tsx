@@ -313,11 +313,8 @@ const resturantPage = () => {
                     >
                         <Text style={{  fontSize : 13, fontFamily : 'Railway1', color : Colors.myGreen}}>Check out</Text>
                     </TouchableOpacity>
-
-
+                    
                     <TouchableOpacity onPress={()=> setShowModal2(false)}
-     
-
                         style={{backgroundColor : Colors.myRed, 
                             paddingHorizontal : 15, paddingVertical : 5, 
                             marginTop : 15, borderRadius : 3,
