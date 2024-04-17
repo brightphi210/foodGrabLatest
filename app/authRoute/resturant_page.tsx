@@ -286,12 +286,7 @@ const resturantPage = () => {
                   </View>
                 )}
 
-
-
-
           </ScrollView>
-
-
           </View>
         }
 
