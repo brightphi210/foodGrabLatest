@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Pressable } from 'react-native'
+import React, { useContext, useState } from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -10,24 +10,44 @@ import BackHeader from '@/components/BackHeader';
 import { StatusBar } from 'expo-status-bar';
 import { AntDesign } from '@expo/vector-icons';
 import { useRoute } from '@react-navigation/native';
-import Animated, { BounceInDown, BounceInUp, BounceOutDown, SlideInLeft, SlideOutRight } from 'react-native-reanimated';
+import Animated, { BounceInDown, BounceInLeft, BounceInUp, BounceOutDown, FadeIn, SlideInLeft, SlideOutRight } from 'react-native-reanimated';
+import { AuthContext } from '@/context/AuthContext';
 
 
 const proceed_checkout = () => {
 
-    const navigate = useNavigation()
-
+    const navigate = useNavigation<any>()
     const route = useRoute();
 
-    const { cartItem } : any = route.params;
-  
-    console.log('This is what am looking for', cartItem)
+    let { cartItem} : any = route.params;
+    
+    const handleProductPress = (cartItem : any) => {
+        navigate.navigate('authRoute/order_summary', { cartItem })
+    };
+
+
+    const [cartItema, setCartItema] = useState(cartItem);
+
+    const incrementQuantity = (index:any) => {
+        const updatedCartItems = [...cartItem];
+        updatedCartItems[index].quantity++; 
+        setCartItema(updatedCartItems); 
+    };
+
+    const decrementQuantity = (index: any) => {
+        const updatedCartItems = [...cartItema];
+        if (updatedCartItems[index].quantity > 1) {
+          updatedCartItems[index].quantity--;
+        }
+        setCartItema(updatedCartItems); // Update the state
+      };
 
  
   return (
     <Animated.View style={styles.container} 
-        entering={SlideInLeft.duration(200).delay(200)}
-        exiting={SlideOutRight.duration(200).delay(200)}
+        entering={FadeIn.duration(200).delay(200)}
+        exiting={BounceOutDown.duration(500).delay(400)}
+        
     >
         <StatusBar style='dark'/>
         <BackHeader />
@@ -42,28 +62,33 @@ const proceed_checkout = () => {
 
         <View >
             {cartItem.map((item : any, index : any) => (
-
+                    
                 <View style={styles.cartDiv} key={index}>
+                    
                     <Text style={{fontFamily : 'Railway3', fontSize : 12}}>{item.name.toUpperCase()}</Text>
-                    <Text style={{ fontSize : 13, color : 'grey'}}>N{item.price.toLocaleString()}</Text>
+                    <Text style={{ fontSize : 13, color : 'grey'}}>N{(item.price * item.quantity).toLocaleString()}</Text>
 
+                        
                     <View style={styles.iconDiv}>
 
-                        <TouchableOpacity>
+                        <Pressable onPress={()=>decrementQuantity(index)}>
                             <AntDesign name='minus' size={15} />
-                        </TouchableOpacity>
+                        </Pressable>
 
                         <Text style={{ fontSize : 15}}>{item.quantity}</Text>
 
-                        <TouchableOpacity>
-                        <AntDesign name='plus' size={15} />
-                        </TouchableOpacity>
+                        <Pressable onPress={()=>incrementQuantity(index)}>
+                            <AntDesign name='plus' size={15} />
+                        </Pressable>
 
                     </View>
+
+
+                    
                 </View>
             ))}
 
-            <View style={styles.btnDivs}>
+            {/* <View style={styles.btnDivs}>
                 <TouchableOpacity style={styles.eachBtn}>
                     <FontAwesome name='plus'/>
                     <Text style={{fontFamily : 'Railway3', fontSize : 12, }}>Add more</Text>
@@ -74,17 +99,14 @@ const proceed_checkout = () => {
                     <FontAwesome name='copy'/>
                     <Text style={{fontFamily : 'Railway3', fontSize : 12, }}>Duplicate pack</Text>
                 </TouchableOpacity>
-            </View>
+            </View> */}
         </View>
     </View>
 
-      <View style={styles.bottomBtns} >
-
-            <Link href={'/authRoute/order_summary'} asChild> 
-                <TouchableOpacity style={styles.eachBottomBtn}>
-                    <Text style={{fontFamily : 'Railway2', fontSize : 13, color : 'white'}}>Proceed to Checkout</Text>
-                </TouchableOpacity>
-            </Link>
+        <View style={styles.bottomBtns} >
+            <TouchableOpacity style={styles.eachBottomBtn} onPress={()=> handleProductPress(cartItem)}>
+                <Text style={{fontFamily : 'Railway2', fontSize : 13, color : 'white'}}>Proceed to Checkout</Text>
+            </TouchableOpacity>
 
             <TouchableOpacity style={styles.eachBottomBtn2} onPress={navigate.goBack}>
                 <Text style={{fontFamily : 'Railway2', fontSize : 13, color : Colors.myRed}}>Cancel Order</Text>

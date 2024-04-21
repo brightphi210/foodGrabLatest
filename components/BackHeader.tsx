@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Ionicons } from '@expo/vector-icons'
@@ -15,9 +15,9 @@ const BackHeader = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity onPress={handleBackPress}>
+      <Pressable onPress={handleBackPress}>
         <Ionicons name='arrow-back' size={20} />
-      </TouchableOpacity>
+      </Pressable>
     </SafeAreaView>
   )
 }

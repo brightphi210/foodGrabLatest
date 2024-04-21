@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, Text, View, Image, TouchableOpacity, TouchableNativeFeedback, ScrollView } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, View, Image, TouchableOpacity, TouchableNativeFeedback, ScrollView, Pressable } from 'react-native'
 import React from 'react'
 import Colors from '@/constants/Colors';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -81,34 +81,30 @@ const index = () => {
               
               
 
-                <TouchableNativeFeedback  onPress={handlePress}>
-                  <View style={styles.imageDIvBorder}>
+                <Pressable  onPress={handlePress} style={styles.imageDIvBorder}>
                     <Image source={require('../../assets/images/foodSearch.png')}
                       style={{width : 130, height : 90, alignSelf : 'center'}}
                     />
                     <Text style={{textAlign : 'center', fontFamily : 'Railway2', fontSize : 15}}>Food</Text>
-                  </View>
-                </TouchableNativeFeedback>
+                </Pressable>
 
-              <TouchableNativeFeedback  onPress={handlePress}>
-                <View style={styles.imageDIvBorder}>
+              <Pressable  onPress={handlePress} style={styles.imageDIvBorder}>
                   <Image source={require('../../assets/images/storeSearch.png')}
                     style={{width : 100, height : 100, alignSelf : 'center'}}
                   />
                   <Text style={{textAlign : 'center', fontFamily : 'Railway2', fontSize : 15,}}>Restaurant</Text>
-                </View>
-              </TouchableNativeFeedback>
+              </Pressable>
             </View>
             
 
-            <TouchableNativeFeedback  onPress={handlePress}>
+            <Pressable  onPress={handlePress} >
                 <View style={styles.imageDIvBorder2}>
                   <Image source={require('../../assets/images/explore.png')}
                     style={{width : 100, height : 80, alignSelf : 'center'}}
                   />
                   <Text style={{textAlign : 'center', fontFamily : 'Railway2', fontSize : 15, paddingTop : 20}}>Explore the app</Text>
                 </View>
-            </TouchableNativeFeedback>
+            </Pressable>
 
         </View>
     </SafeAreaView>
@@ -133,7 +129,6 @@ const styles = StyleSheet.create({
 
     imageDIvBorder : {
       width : '50%', 
-      height : '100%', 
       borderColor : Colors.myGray, 
       borderWidth : 1, 
       display : 'flex', 
@@ -144,7 +139,6 @@ const styles = StyleSheet.create({
     
     imageDIvBorder2 : {
       width : '100%', 
-      height : '30%', 
       borderColor : Colors.myGray, 
       borderWidth : 1, 
       display : 'flex', 

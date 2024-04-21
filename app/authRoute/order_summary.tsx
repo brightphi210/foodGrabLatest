@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView, Pressable } from 'react-native'
 import React, {useEffect, useState} from 'react'
 import Colors from '@/constants/Colors';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -10,7 +10,7 @@ import { StatusBar } from 'expo-status-bar';
 import {PayWithFlutterwave} from 'flutterwave-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRoute } from '@react-navigation/native';
-import Animated, { BounceInDown, BounceInUp, BounceOutDown, SlideInLeft, SlideOutRight } from 'react-native-reanimated';
+import Animated, { BounceInDown, BounceInUp, BounceOutDown, FadeIn, SlideInLeft, SlideOutRight } from 'react-native-reanimated';
 
 
 const order_summary = () => {
@@ -18,49 +18,6 @@ const order_summary = () => {
   const navigate = useNavigation()
   
   const router = useRouter()
-  const [current1, setCurrent1] = useState(true);
-  const [current2, setCurrent2] = useState(false);
-
-  const [current3, setCurrent3] = useState(true);
-  const [current4, setCurrent4] = useState(false);
-
-
-  const [current5, setCurrent5] = useState(true);
-  const [current6, setCurrent6] = useState(false);
-
-  const activate1 = () =>{
-      setCurrent1(true);
-      setCurrent2(false);
-  }
-
-  const activate2 = () =>{
-      setCurrent1(false);
-      setCurrent2(true);
-  }
-
-
-  const activate3 = () =>{
-      setCurrent3(true);
-      setCurrent4(false);
-  }
-
-  const activate4 = () =>{
-      setCurrent3(false);
-      setCurrent4(true);
-  }
-
-
-  const activate5 = () =>{
-      setCurrent5(true);
-      setCurrent6(false);
-  }
-
-  const activate6 = () =>{
-      setCurrent5(false);
-      setCurrent6(true);
-  }
-
-
   const [userDetails, setUserDetails] = useState<any>({})
 
   const getUserData = async () => {
@@ -78,13 +35,12 @@ const order_summary = () => {
       getUserData();
   },[]);
 
-
-
   const route = useRoute();
 
   const { cartItem } : any = route.params;
 
-  // console.log('This is what am looking for', cartItem)
+  console.log('= = = This is CartItems = = = ', cartItem);
+  
 
 
   const userEmail = userDetails.email;
@@ -95,7 +51,6 @@ const order_summary = () => {
   const percentage = sumTotalPrice * 0.03
   const grandTotalPrice = (sumTotalPrice + percentage)
 
-  console.log(percentage)
 
   interface RedirectParams {
     status: 'successful' | 'cancelled';
@@ -123,7 +78,7 @@ const order_summary = () => {
 
   return (
     <Animated.View style={styles.container}
-    entering={SlideInLeft.duration(200).delay(200)}
+    entering={FadeIn.duration(200).delay(200)}
     exiting={SlideOutRight.duration(200).delay(200)}
     >
       <StatusBar style='dark'/>
@@ -216,16 +171,16 @@ const order_summary = () => {
                 payment_options: 'card'
             }}
             customButton={(props : any) => (
-                <TouchableOpacity style={styles.eachBottomBtn} onPress={props.onPress} disabled={props.disabled}>
+                <Pressable style={styles.eachBottomBtn} onPress={props.onPress} disabled={props.disabled}>
                     <Text style={{fontFamily : 'Railway2', fontSize : 15, color : 'white'}}>Make Payment</Text>
-                </TouchableOpacity>
+                </Pressable>
 
             )}
         />
 
-          <TouchableOpacity style={styles.eachBottomBtn2} onPress={navigate.goBack}>
+          <Pressable style={styles.eachBottomBtn2} onPress={navigate.goBack}>
               <Text style={{fontFamily : 'Railway2', fontSize : 13, color : Colors.myRed}}>Cancel Order</Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
 
 

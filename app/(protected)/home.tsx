@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView, ActivityIndicator, RefreshControl } from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView, ActivityIndicator, RefreshControl, Pressable } from 'react-native'
 import React, { useContext, useState, useEffect } from 'react'
 import Colors from '@/constants/Colors';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -78,11 +78,6 @@ const index = () => {
     fetchData();
   }, [userToken]);
 
-
-  
-  
-  
-
   const handleProductPress = (shopId : any) => {
     navigate.navigate('authRoute/resturant_page', {shopId})
   };
@@ -103,10 +98,10 @@ const index = () => {
         <StatusBar style='dark'/>
 
 
-        <Animated.View
+        {/* <Animated.View
             entering={SlideInLeft.duration(200).delay(200)}
             exiting={SlideOutRight.duration(200).delay(100)}
-        >
+        > */}
         <DashHeader />
         <View style={{position : 'relative', paddingTop : 10, paddingBottom : 6}}>
           <Ionicons name='search' size={15} style={{position : 'absolute', top : 25, left : 15}}/>
@@ -298,14 +293,13 @@ const index = () => {
                     <>
                       {shopData.map((item : any, index:any) => (
                         
-                        <TouchableOpacity style={styles.restImageDiv} key={index} onPress={() => handleProductPress(item._id)}>
+                        <Pressable style={styles.restImageDiv} key={index} onPress={() => handleProductPress(item._id)}>
                           
                         <Image source={{uri : item.backdropPic}}
                           resizeMode='cover'
                           style={styles.restImage}
                         />
 
-                        {/* {console.log('this is the general image',item.backdropPic)} */}
   
                         <View style={{paddingHorizontal : 10, paddingVertical : 10}}>
                           <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center', }}>
@@ -320,7 +314,7 @@ const index = () => {
                               </TouchableOpacity>
                           </View>
                         </View>
-                      </TouchableOpacity>
+                      </Pressable>
                     ))}
                     </>
                   )}
@@ -337,7 +331,7 @@ const index = () => {
 
           }
       </ScrollView>
-      </Animated.View>
+      {/* </Animated.View> */}
 
 
 

@@ -7,57 +7,42 @@ import { Link, useNavigation, useRouter } from 'expo-router'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StatusBar } from 'expo-status-bar';
 import Modal from 'react-native-modal';
-import { Ionicons } from '@expo/vector-icons';
-
+import { AntDesign, Ionicons } from '@expo/vector-icons';
+import { AuthContext } from '@/context/AuthContext';
+import { useContext } from 'react';
+import { Pressable } from 'react-native';
 const cart = () => {
+
+
+  const {deleteAll} = useContext(AuthContext)
+  const {deleteItemFromCart} = useContext(AuthContext)
+
+
+  const [cartItems, setCartItems] = useState([])
+
+  const getCartData = async () => {
+      try {
+        const jsonValue = await AsyncStorage.getItem('cartItems');
+        const parsedData = jsonValue != null ? JSON.parse(jsonValue) : [null];
+        return setCartItems(parsedData);
+      } catch (e) {
+        console.log(e)
+      }
+  };
+
+  
+  useEffect(() => {
+    getCartData();
+  },[]);
 
   
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter();  
-  const [cartItems, setCartItems] = useState<any>([])
 
-    const getData = async () => {
-        try {
-          const jsonValue = await AsyncStorage.getItem('cartItems');
-          const parsedData = jsonValue != null ? JSON.parse(jsonValue) : [null];
-          return setCartItems(parsedData);
-        } catch (e) {
-          console.log(e)
-        }
-    };
-
-    useEffect(() => {
-        getData();
-    },[]);
-    
-    const deleteItemFromCart = async (itemIndex : any) => {
-      try {
-          const updatedCartItems = [...cartItems];          
-          updatedCartItems.splice(itemIndex, 1);
-          setCartItems(updatedCartItems);
-          await AsyncStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
-      } catch (e) {
-          console.log(e);
-      }
-  };
-
-    const deleteAll = async () => {
-      try {
-        const updatedCartItems: any = [];
-          setCartItems(updatedCartItems);
-          await AsyncStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
-          setShowModal2(false)
-      } catch (e) {
-          console.log(e);
-      }
-    };
-    
 
     const [showModal2, setShowModal2] = useState<any>(false)
-
-
-
     const navigate = useNavigation<any>()
+    
 
     const handleProductPress = (cartItem : any) => {
       navigate.navigate('authRoute/order_summary', { cartItem })
@@ -157,7 +142,6 @@ const cart = () => {
                               {cartItem.slice(0, 2).map((item:any) => (
                                 <View key={item.id} >
                                     <Text style={{fontFamily : 'Railway2', fontSize : 12}}>{item.name.toUpperCase()}, </Text> 
-                                    
                                 </View>
                               ))}
                             </>
@@ -179,19 +163,19 @@ const cart = () => {
                   </View>
   
                   <View style={styles.checkOutDiv}>
-                    <TouchableOpacity style={styles.checkOutBtn} onPress={()=> handleProductPress(cartItem)}>
+                    <Pressable style={styles.checkOutBtn} onPress={()=> handleProductPress(cartItem)}>
                       <Text style={{fontFamily : 'Railway2', color : 'white', fontSize : 12}}>Checkout</Text>
-                    </TouchableOpacity>
+                    </Pressable>
   
-                    <TouchableOpacity onPress={()=> handleProductPress2(cartItem)} >
+                    <Pressable onPress={()=> handleProductPress2(cartItem)} >
   
                       <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center', gap : 5}}>
                         <Text style={{fontFamily : 'Railway3', fontSize : 12, }}>
-                            View Selection 
+                            Edit Selection 
                         </Text>
-                        <Ionicons name='chevron-forward' size={10}/>
+                        <AntDesign name='edit' size={10}/>
                       </View>
-                    </TouchableOpacity>
+                    </Pressable>
   
                     <TouchableOpacity onPress={() => deleteItemFromCart(index)} style={{marginLeft : 'auto'}}>
                       <FontAwesome name='trash' size={15} color={Colors.myRed}  />
@@ -304,7 +288,6 @@ checkOutDiv : {
   flexDirection : 'row',
   alignItems : 'center',
   gap : 20 
-  // justifyContent : 'space-between'
 },
 
 checkOutBtn : {
@@ -316,7 +299,6 @@ checkOutBtn : {
   justifyContent : 'center',
   borderRadius : 3,  
   marginTop : 5,
-  width : '30%',
 },
 
 

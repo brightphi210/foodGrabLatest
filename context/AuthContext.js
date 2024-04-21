@@ -6,8 +6,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [userToken, setUserToken] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(undefined);
-
-
+  const router = useRouter();
 
 
   const getData = async () => {
@@ -29,9 +28,19 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
 
+  const [cartItems, setCartItems] = useState([])
 
-  const router = useRouter();
-  
+  const getCartData = async () => {
+      try {
+        const jsonValue = await AsyncStorage.getItem('cartItems');
+        const parsedData = jsonValue != null ? JSON.parse(jsonValue) : [null];
+        return setCartItems(parsedData);
+      } catch (e) {
+        console.log(e)
+      }
+  };
+
+
 
   const logout = () => {
     setUserToken(null);
@@ -40,8 +49,36 @@ export const AuthProvider = ({ children }) => {
     router.replace('/login');
   };
 
+
+  const deleteItemFromCart = async (itemIndex) => {
+    try {
+        const updatedCartItems = [...cartItems];          
+        updatedCartItems.splice(itemIndex, 1);
+        setCartItems(updatedCartItems);
+        await AsyncStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
+    } catch (e) {
+        console.log(e);
+    }
+  };
+
+  const deleteAll = async () => {
+    try {
+      const updatedCartItems = [];
+        setCartItems(updatedCartItems);
+        await AsyncStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
+        setShowModal2(false)
+    } catch (e) {
+        console.log(e);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ userToken, isAuthenticated, logout, getData }}>
+    <AuthContext.Provider value={{ 
+        userToken, isAuthenticated, 
+        logout, getData, getCartData, 
+        cartItems, setCartItems, deleteAll, 
+        deleteItemFromCart
+    }}>
       {children}
     </AuthContext.Provider>
   );

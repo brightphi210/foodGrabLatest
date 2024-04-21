@@ -21,10 +21,10 @@ const MainLayout = () => {
 
   const {isAuthenticated} = useAuth()
   const segments = useSegments()
-
   const router = useRouter();
-
   let [seenScreen, setSeenScree] = useState<any>(false)
+  let [verified, setVerified] = useState<any>(null)
+
   const getData = async () => {
     try {
         const jsonValue = await AsyncStorage.getItem('welcomeScreen');
@@ -39,7 +39,7 @@ const MainLayout = () => {
   },[]);
 
 
-  let [verified, setVerified] = useState<any>(null)
+
   const getVerifiedData = async () => {
     try {
         const jsonValue = await AsyncStorage.getItem('data');
@@ -47,8 +47,6 @@ const MainLayout = () => {
           let newVerified = JSON.parse(jsonValue)
           setVerified(newVerified.data.emailVerificationStatus)
         }
-
-        // console.log(jsonValue)
     } catch (e) {
       console.log(e)
     }
@@ -59,7 +57,6 @@ const MainLayout = () => {
   },[]);
 
 
-// console.log(typeof(verified))
 
   useEffect(()=>{
     if(typeof isAuthenticated == 'undefined') return 
@@ -82,7 +79,7 @@ const MainLayout = () => {
       // router.replace('/home')
       // router.replace('/register')
       // router.replace('/account')
-      // router.replace('/carts')
+      router.replace('/carts')
       // router.replace('/authRoute/(profile)/personal')
       // router.replace('/authRoute/(profile)/wallet')
       // router.replace('/authRoute/(profile)/FAQs')

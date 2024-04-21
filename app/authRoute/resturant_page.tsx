@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Pressable } from 'react-native'
 import React, {useState, useEffect, useContext} from 'react'
 import Colors from '@/constants/Colors';
 import { BASE_URL } from '@/Enpoints/Endpoint';
@@ -13,7 +13,7 @@ import Checkbox from 'expo-checkbox';
 import { useRouter } from 'expo-router';
 import Modal from 'react-native-modal';
 import { Ionicons } from '@expo/vector-icons';
-import Animated, { SlideInDown, SlideOutDown, SlideInLeft, BounceIn, BounceInDown, BounceOutDown } from "react-native-reanimated";
+import Animated, { SlideInDown, SlideOutDown, SlideInLeft, BounceIn, BounceInDown, BounceOutDown, FadeOut } from "react-native-reanimated";
 
 
 const resturantPage = () => {
@@ -55,7 +55,6 @@ const resturantPage = () => {
       });
       const myData = await res.json();
 
-      // console.log(myData)
       setIsLoading(false);
 
       setSingleShopData(myData.data);
@@ -77,10 +76,7 @@ const resturantPage = () => {
   const handleProductPress = (cuisines : any) => {
     navigate.navigate('authRoute/order_page', { cuisines })
   };
-  console.log(singleShopData)
-
-
-
+  
 
   // =========================== ADDING MULTIPLE ITEMS TO CART ============================
   const [selectedItems, setSelectedItems] = useState<any>([]);
@@ -96,7 +92,7 @@ const resturantPage = () => {
       setSelectedItems(selectedItems.filter((item:any) => item !== itemId));
     }
   };
-  console.log('-------||||||||',selectedItems);
+
 
   const [message, setMessage] = useState<any>('')
   const [showModal2, setShowModal2] = useState<any>(false)
@@ -157,13 +153,10 @@ const resturantPage = () => {
     AsyncStorage.removeItem('cartItems');
   };
 
-  // console.log('THis is selected items' , selectedItems)
-  // console.log('This is a cart items: ', asynData)
 
 
   const router = useRouter()
   const navigation = useRouter()
-
   const handleBackPress = () => {
     navigation.replace('/(protected)/home'); 
   };
@@ -172,13 +165,12 @@ const resturantPage = () => {
 
   return (
     <Animated.View style={styles.container}   
-      entering={BounceInDown.duration(500).delay(400)}
-      exiting={BounceOutDown.duration(500).delay(400)}
+      entering={BounceInDown.duration(300).delay(300)}
+      exiting={FadeOut.duration(50).delay(50)}
     >
-
-          <TouchableOpacity onPress={handleBackPress} style={{paddingVertical: 10}}>
+          <Pressable onPress={handleBackPress} style={{paddingVertical: 10}}>
             <Ionicons name='arrow-back' size={20} />
-          </TouchableOpacity>
+          </Pressable>
         <StatusBar style='dark'/>
 
         {isLoading || singleShopData === null || singleShopData === undefined   ? 
@@ -234,9 +226,6 @@ const resturantPage = () => {
               </TouchableOpacity>
 
           </View>
-
-
-          
 
           <ScrollView style={{paddingVertical : 10, height : '60%',}} showsVerticalScrollIndicator ={false}>
 
@@ -313,7 +302,7 @@ const resturantPage = () => {
                     >
                         <Text style={{  fontSize : 13, fontFamily : 'Railway1', color : Colors.myGreen}}>Check out</Text>
                     </TouchableOpacity>
-                    
+
                     <TouchableOpacity onPress={()=> setShowModal2(false)}
                         style={{backgroundColor : Colors.myRed, 
                             paddingHorizontal : 15, paddingVertical : 5, 
