@@ -1,28 +1,19 @@
 import { useContext, useEffect, useState } from 'react';
-import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { MaterialCommunityIcons, Ionicons, Feather, MaterialIcons, AntDesign } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Link, useNavigation, useRouter } from "expo-router"
-
-import AccountHeader from '@/components/AccountHeader';
 import Colors from '@/constants/Colors';
 import { AuthContext } from '@/context/AuthContext';
 import { StatusBar } from 'expo-status-bar';
-import Animated, { SlideInLeft, SlideOutRight } from 'react-native-reanimated';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
 const account = () => {
   const [image, setImage] = useState()
-
   const [isLoading, setIsLoading] = useState(true)
-
   const router = useNavigation<any>()
-  const { userData, logout } = useContext(AuthContext)
-
-
-
-
+  const { userData, logout,  getData, userDetails} = useContext(AuthContext)
 
   const uploadImage = async () => {
     try {
@@ -52,39 +43,25 @@ const account = () => {
     }
   }
 
-
-  const [userDetails, setUserDetails] = useState<any>({})
-
-  const getData = async () => {
-      try {
-        const jsonValue = await AsyncStorage.getItem('data');
-        const newJsonValue = (jsonValue != null ? JSON.parse(jsonValue) : null)
-        setIsLoading(false)
-
-        return setUserDetails(newJsonValue.data);
-      } catch (e) {
-        console.log(e)
-      }
-  };
-
   useEffect(() => {
-      getData();
-      setIsLoading(false)
+    getData();
+    setIsLoading(false)
   },[]);
+
+
+
+
 
 
   return (
     <SafeAreaView style={styles.container}>
       
       <StatusBar style='dark'/>
-      <AccountHeader />
-
-
       {isLoading && <ActivityIndicator size={'large'}/>}
 
       <Animated.View style={{ flex: 1, marginTop: 30, alignItems: 'center' }}
-        entering={SlideInLeft.duration(200).delay(200)}
-        exiting={SlideOutRight.duration(200).delay(100)}
+        entering={FadeIn.duration(300).delay(500)}
+        exiting={FadeOut.duration(200).delay(100)}
       >
         <View style={styles.avatarContainer}>
 
@@ -97,71 +74,84 @@ const account = () => {
             )}
           </View>
           <TouchableOpacity style={styles.editButton} onPress={() => uploadImage()}>
-            <MaterialCommunityIcons name="camera-outline" size={18} color="#fff" />
+            <MaterialCommunityIcons name="camera-outline" size={15} color="#fff" />
           </TouchableOpacity>
         </View>
 
         <View style={{ marginTop: 10, gap: 10,  }}>
-          <Text style={{ fontFamily: "Railway2", fontSize: 20, fontWeight: "600", color: "#1D2739" }}>{userDetails.fullname}</Text>
-          <Text style={{ textAlign: 'center', color: Colors.myRed,  }}>10 <Text style={{ color: Colors.myGreen, fontFamily : 'Railway3' }}>Successful Order </Text></Text>
+          <Text style={{ fontFamily: "Railway2", fontSize: 15, fontWeight: "600", color: "#1D2739" }}>{userDetails.fullname}</Text>
+          <Text style={{ textAlign: 'center', color: Colors.myRed, fontSize : 13  }}>10 <Text style={{ color: Colors.myGreen, fontFamily : 'Railway3' }}>Successful Order </Text></Text>
         </View>
 
-        <View style={{ width: "100%", marginTop: 50, flexDirection: 'column', gap: 40, }}>
+        <View style={{ width: "100%", marginTop: 50, flexDirection: 'column', gap: 25, }}>
 
 
-            <TouchableOpacity style={{ 
+            <Pressable style={{ 
               flexDirection: 'row', 
               alignItems: 'center', 
               justifyContent: 'space-between' ,
-              borderBottomColor : Colors.myGray, borderBottomWidth : 1, paddingBottom : 20,
+              backgroundColor : Colors.myLightGray, padding : 15,  paddingVertical : 15,
+              borderRadius : 5
             }} onPress={()=> router.navigate('authRoute/(profile)/personal')}>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
                 <MaterialIcons name="perm-contact-cal" size={15} color={Colors.myRed} />
-                <Text style={{ fontSize: 15, color: "#606060", fontFamily : 'Railway3'}}>Personal Information</Text>
+                <Text style={{ fontSize: 13, color: "#606060", fontFamily : 'Railway3'}}>Personal Information</Text>
               </View>
-              <MaterialIcons name="arrow-forward-ios" size={13} color={Colors.myGray} />
-            </TouchableOpacity>
+              <MaterialIcons name="arrow-forward-ios" size={13} color={Colors.btnGreen} />
+            </Pressable>
 
 
-            <TouchableOpacity onPress={()=> router.navigate('authRoute/(profile)/wallet')} 
-              style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderBottomColor : Colors.myGray, borderBottomWidth : 1, paddingBottom : 20}}>
+            <Pressable onPress={()=> router.navigate('authRoute/(profile)/wallet')} 
+              style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', 
+              backgroundColor : Colors.myLightGray, padding : 15,  paddingVertical : 15,
+              borderRadius : 5
+              }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
                 <MaterialCommunityIcons name="wallet-outline" size={15} color={Colors.myRed} />
-                <Text style={{ fontSize: 15, color: "#606060", fontFamily : 'Railway3'}}>Wallet (Payment)</Text>
+                <Text style={{ fontSize: 13, color: "#606060", fontFamily : 'Railway3'}}>Wallet (Payment)</Text>
               </View>
-              <MaterialIcons name="arrow-forward-ios" size={13} color={Colors.myGray} />
-            </TouchableOpacity>
+              <MaterialIcons name="arrow-forward-ios" size={13} color={Colors.btnGreen} />
+            </Pressable>
 
 
 
-            <TouchableOpacity onPress={()=>router.navigate('authRoute/(profile)/support')}
-              style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderBottomColor : Colors.myGray, borderBottomWidth : 1, paddingBottom : 10 }}>
+            <Pressable onPress={()=>router.navigate('authRoute/(profile)/support')}
+              style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', 
+              backgroundColor : Colors.myLightGray, padding : 15,  paddingVertical : 15,
+              borderRadius : 5
+              }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
                 <Feather name="phone" size={15} color={Colors.myRed} />
-                <Text style={{ fontSize: 15, color: "#606060", fontFamily : 'Railway3'}}>Support</Text>
+                <Text style={{ fontSize: 13, color: "#606060", fontFamily : 'Railway3'}}>Support</Text>
               </View>
-              <MaterialIcons name="arrow-forward-ios" size={13} color={Colors.myGray} />
-            </TouchableOpacity>
+              <MaterialIcons name="arrow-forward-ios" size={13} color={Colors.btnGreen} />
+            </Pressable>
 
 
 
-            <TouchableOpacity onPress={()=>router.navigate('authRoute/(profile)/FAQs')} 
-              style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderBottomColor : Colors.myGray, borderBottomWidth : 1, paddingBottom : 20}}>
+            <Pressable onPress={()=>router.navigate('authRoute/(profile)/FAQs')} 
+              style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', 
+              backgroundColor : Colors.myLightGray, padding : 15,  paddingVertical : 15,
+              borderRadius : 5
+              }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
                 <AntDesign name="questioncircleo" size={15} color={Colors.myRed} />
-                <Text style={{ fontSize: 15, color: "#606060", fontFamily : 'Railway3'}}>FAQs</Text>
+                <Text style={{ fontSize: 13, color: "#606060", fontFamily : 'Railway3'}}>FAQs</Text>
               </View>
-              <MaterialIcons name="arrow-forward-ios" size={13} color={Colors.myGray} />
-            </TouchableOpacity>
+              <MaterialIcons name="arrow-forward-ios" size={13} color={Colors.btnGreen} />
+            </Pressable>
 
 
-          <TouchableOpacity onPress={logout} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Pressable onPress={logout} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+            backgroundColor : Colors.myLightGray, padding : 15,  paddingVertical : 15,
+            borderRadius : 5
+           }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
               <AntDesign name="logout" size={15} color={Colors.myRed} />
-              <Text style={{ fontSize: 15, color: "#606060", fontFamily : 'Railway3'}}>Logout</Text>
+              <Text style={{ fontSize: 13, color: "#606060", fontFamily : 'Railway3'}}>Logout</Text>
             </View>
-            <MaterialIcons name="arrow-forward-ios" size={13} color={Colors.myGray} />
-          </TouchableOpacity>
+            <MaterialIcons name="arrow-forward-ios" size={13} color={Colors.btnGreen}n/>
+          </Pressable>
 
 
         </View>
@@ -177,7 +167,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     paddingHorizontal: 30,
-    paddingTop: 0,
+    paddingTop: 30,
   },
   avatarContainer: {
     alignItems: "center",
@@ -185,8 +175,8 @@ const styles = StyleSheet.create({
   },
   image: {
     borderRadius: 50,
-    width: 80,
-    height: 80,
+    width: 70,
+    height: 70,
     borderColor: Colors.myRed,
     borderWidth: 1
   },

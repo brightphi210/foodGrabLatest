@@ -56,14 +56,13 @@ const personal = () => {
         getData();
     },[]);
 
-    // console.log(userDetails)
 
   return (
     <View style={styles.container}>
         
         <StatusBar style='dark'/>
         <BackHeaderAccount />
-        <Text style={{fontFamily : 'Railway3', fontSize : 16}}>Person Details</Text>
+        <Text style={{fontFamily : 'Railway3', fontSize : 15}}>Person Details</Text>
 
         <View style={{paddingVertical : 20}}>
 
@@ -99,7 +98,7 @@ const personal = () => {
         
 
         <View style={{backgroundColor : Colors.myLightGray, padding : 10}}>
-            <Text style={{fontFamily : 'Railway3', fontSize : 16}}>Change Password </Text>
+            <Text style={{fontFamily : 'Railway3', fontSize : 13}}>Change Password </Text>
         </View>
         <View style={{paddingVertical : 20}}>
 
@@ -145,7 +144,7 @@ const personal = () => {
             </View>
 
             <TouchableOpacity style={styles.btnStyles}>
-                <Text style={{fontSize : 15, fontFamily : 'Railway2', color : 'white'}}>{isLoading ? (<ActivityIndicator color={'white'}/>) : 'Change Password'}</Text>
+                <Text style={{fontSize : 12, fontFamily : 'Railway2', color : 'white'}}>{isLoading ? (<ActivityIndicator color={'white'}/>) : 'Change Password'}</Text>
             </TouchableOpacity>
 
 
@@ -161,7 +160,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white',
         paddingHorizontal: 20,
-        paddingTop: 0,
+        paddingTop: 20,
     },
 
     inputStyles : {
@@ -184,14 +183,14 @@ const styles = StyleSheet.create({
     },
 
     btnStyles :{
-        height : 50,
+        height : 35,
         backgroundColor : Colors.myRed,
         flexDirection : 'row',
         alignItems : 'center',
-        paddingHorizontal : 20,
+        paddingHorizontal : 0,
         justifyContent : 'center',
-        borderRadius : 10,  
-        marginTop : 40,
+        borderRadius : 5,  
+        marginTop : 30,
     },
 
     iconStyle : {

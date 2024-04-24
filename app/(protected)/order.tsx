@@ -1,7 +1,7 @@
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useEffect, useState } from 'react';
-import { Link, useRouter } from 'expo-router'
+import { Link, useNavigation, useRouter } from 'expo-router'
 import { FadeInLeft, FadeOutRight } from 'react-native-reanimated';
 import Animated from 'react-native-reanimated';
 
@@ -9,29 +9,79 @@ import OrderHeader from '@/components/OrderHeader';
 import Colors from '@/constants/Colors';
 import OrderData from '@/components/OrderData';
 import { StatusBar } from 'expo-status-bar';
+import { BASE_URL } from '@/Enpoints/Endpoint';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import OrderLoader from '@/components/OrderLoader';
 
 const order = () => {
-  const [activeFilter, setActiveFilter] = useState<any>('Active Order')
-  const [orders, setOrder] = useState<any>([])
-  const [filterOrders, setFilterOrder] = useState<any>([])
+ 
 
-  const router = useRouter()
+  const [userToken, setUserToken] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isActive1, setIsActive1] = useState(true);
+  const [isActive2, setIsActive2] = useState(false);
+  const [orderDatas, setOrderData] = useState<any>()
+  const [error, setError] = useState<any>(false)
+
+  const getData = async () => {
+    try {
+      const storedToken = await AsyncStorage.getItem('token');
+      if (storedToken) {
+        setUserToken(JSON.parse(storedToken));
+      } 
+    } catch (e) {
+      console.error('Error retrieving authentication data:', e);
+    }
+  };
 
   useEffect(() => {
-    setOrder(OrderData)
-    setFilterOrder(OrderData.filter((order : any) => order.category === activeFilter));
-  }, [activeFilter])
+    getData();
+  }, []);
 
-  const handleWorkFilter = (item : any) => {
-    setActiveFilter(item)
 
-    setTimeout(() => {
-      setFilterOrder(orders.filter((order: any) => order.category.includes(item)))
-    }, 500)
-  }
-  const calculateTotalPrice = (items:any) => {
-    return items.reduce((total:any, item:any) => total + parseFloat(item.price), 0).toFixed(2);
+  const fetchOrderData = async () => {
+    try {
+      const res = await fetch(`${BASE_URL}viewOrders`, {
+        method: 'GET',
+        headers: {
+          "Authorization": `Bearer ${userToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      const myData = await res.json();
+      setOrderData(myData.data);
+      
+    } catch (error) {
+      console.log(error);
+      setError(true);
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  useEffect(() => {
+    fetchOrderData();
+  }, [userToken]);
+
+
+
+  const handleIsActive1 = () =>{
+    setIsActive1(true);
+    setIsActive2(false);
+  }
+
+  const handleIsActive2 = () =>{
+    setIsActive1(false);
+    setIsActive2(true);
+  }
+
+  const navigate = useNavigation<any>()
+  const handleOrderPress = (data : any) => {
+    navigate.navigate('authRoute/order_details', { data })
+  };
+
+
+  console.log('This is the list orders', orderDatas)
 
   return (
     <SafeAreaView style={styles.container}>
@@ -40,81 +90,182 @@ const order = () => {
 
       <View style={{ marginTop: 20 }}>
         <View style={styles.filterContainer}>
-          {["Active Order", "Completed Order"].map((item, index) => (
-            <TouchableOpacity style={activeFilter === item ? styles.active : styles.inActive} key={index} onPress={() => handleWorkFilter(item)}>
-              <Text style={activeFilter === item ? styles.activeText : styles.inActiveText}>{item}</Text>
-            </TouchableOpacity>
-          ))}
+            <Pressable style={isActive1 === true ? styles.active : styles.inActive} onPress={handleIsActive1}>
+              <Text style={isActive1 === true ? styles.activeText : styles.inActiveText}>Active Order</Text>
+            </Pressable>
+
+
+            <Pressable style={isActive2 === true ? styles.active : styles.inActive} onPress={handleIsActive2}>
+              <Text style={isActive2 === true ? styles.activeText : styles.inActiveText}>Completed Order</Text>
+            </Pressable>
         </View>
       </View>
-      {filterOrders.length > 0 ? (
-        filterOrders.map((product : any, index : any) => (
+
+      <>
+          {orderDatas !== undefined && orderDatas.length === 0 && (
+            <View style={{ flex: 1, paddingTop : 150, justifyContent: 'center', alignItems: 'center', gap: 15 }}>
+
+              <Image source={require("../../assets/images/Box.png")} 
+                style={{width : 80, height : 80}}
+              />
+  
+              <Text style={{ fontFamily: 'Railway1' }}>You don’t have an active order</Text>
+  
+                <TouchableOpacity style={styles.orderBtn} >
+                  <Text style={{color : 'white', fontSize : 12}}>Place an order now</Text>
+                </TouchableOpacity>
+            </View>  
+          )}
+        
+        </>
+
+      
+      {isActive1 === true && (<>
+        {isLoading || orderDatas === undefined  ?
+            
+          <ActivityIndicator size={'large'} style={{flex : 1, justifyContent : 'center', alignItems : 'center'}}/> :
           <ScrollView
             style={{ flex: 1, marginTop: 20 }}
             showsVerticalScrollIndicator={false}
-            key={index}
-          >
-            <Animated.View style={styles.eachCartDiv} entering={FadeInLeft.duration(300).delay(200)} exiting={FadeOutRight.duration(300).delay(200)}>
-              <View style={styles.eachCart}>
-                <View style={{ overflow: 'hidden', width: 90, height: 80, borderRadius: 5 }}>
-                  <Image
-                    source={require("../../assets/images/combo1.png")}
-                    style={{ width: 100, height: 100, }}
-                  />
-                </View>
+          > 
+            {orderDatas && orderDatas.map((data:any, index :any)=>(
 
-                <View style={styles.cartRight}>
-                  <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 25 }}>
-                    <Text style={{ fontFamily: 'Railway2', fontSize: 18 }}>{product.title}</Text>
-                    <View style={product.status === "Processing" ? styles.statusProcessing : styles.statusDelivered}>
-                      <Text style={product.status === "Processing" ? styles.statusProcessingText : styles.statusDeliveredText}>{product.status}</Text>
+              <Animated.View key={index} style={styles.eachCartDiv} entering={FadeInLeft.duration(300).delay(200)} exiting={FadeOutRight.duration(300).delay(200)}>
+                <View style={styles.eachCart}>
+                  <View style={{ overflow: 'hidden', width: 70, height: 60, borderRadius: 5 }}>
+
+                  {data.items.slice(0, 1).map((item:any) => (
+                      <Image
+                      source={{uri: item.cuisineImage}}
+                      style={{ width: 80, height: 60, }}
+                    />
+                  ))}
+    
+                  </View>
+
+                  <View style={styles.cartRight}>
+                    <View>
+
+                      <View style={{display : 'flex', flexDirection : 'row', gap : 3}}>
+
+                            {data.items.slice(0, 2).map((item:any) => (
+                              <View key={item.id} >
+                                  <Text style={{fontFamily : 'Railway2', fontSize : 11}}>{item.name.toUpperCase()}, </Text> 
+                              </View>
+                            ))}
+
+
+                            <View>
+                              {data.items.length > 2 && <Text >. . </Text>}
+                            </View>
+
+                      </View>
+
+                      <Text style={{ fontFamily: 'Railway2', fontSize: 12, paddingVertical: 6, color: "#54804D", fontWeight: "600" }}>Kilimajaro - Big Tree</Text>
+                      <Text style={{ fontFamily: 'Railway3', fontSize: 13, color: 'gray', fontWeight: "600" }}>&#8358;{data.totalPrice.toLocaleString()}</Text>
+                    
                     </View>
                   </View>
-                  <Text style={{ fontFamily: 'Railway2', fontSize: 12, paddingVertical: 6, color: "#54804D", fontWeight: "600" }}>{product.restaurant}</Text>
-                  <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 5 }}>
-                    <Text style={{ fontFamily: 'Railway3', fontSize: 13, color: 'gray', fontWeight: "600" }}>&#8358;{calculateTotalPrice(product.items)}</Text>
+
+                  <View style={{
+                      marginLeft : 'auto', 
+                      borderRadius : 3, 
+                      backgroundColor : Colors.myLightPink, 
+                      padding : 5, paddingHorizontal : 10
+                    }}>
+                    <Text style={{fontSize : 10}}>{data.requestStatus.toLowerCase()}. .</Text>
                   </View>
                 </View>
-              </View>
 
-              {activeFilter === "Active Order" ? (
-                <View>
-                    <TouchableOpacity style={{
-                      alignItems: "center", backgroundColor: Colors.myGray, padding: 13, paddingHorizontal: 20, width: '100%', borderRadius: 5, marginTop: 10
-                    }}>
-                      <Text style={{ fontFamily: 'Railway2', color: 'black' }}>See Details</Text>
-                    </TouchableOpacity>
-                </View>
+                  <View>
+                      <TouchableOpacity style={{
+                        alignItems: "center", 
+                        backgroundColor: Colors.myLightGray, 
+                        padding: 10, paddingHorizontal: 20, 
+                        width: '100%', borderRadius: 5, marginTop: 10
+                      }} onPress={()=> handleOrderPress(data)}>
+                        <Text style={{ fontFamily: 'Railway3', color: 'black' }}>See Details</Text>
+                      </TouchableOpacity>
+                  </View>
+              </Animated.View>
+            ))}
 
-              ) : (
-                <View style={styles.checkOutDiv}>
-
-                    <TouchableOpacity style={styles.seeDetails}>
-                      <Text style={{ fontFamily: 'Railway2', color: 'black' }}>See Details</Text>
-                    </TouchableOpacity>
-
-
-                  <TouchableOpacity style={styles.reOrderBtn}>
-                    <Text style={{ fontFamily: 'Railway2', color: 'white' }}>Reorder</Text>
-                  </TouchableOpacity>
-                </View>
-              )}
-
-            </Animated.View>
           </ScrollView>
-        ))
-      ) : (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', gap: 15 }}>
+        } 
 
-          <Image source={require("../../assets/images/Box.png")} />
+      </>)}
 
-          <Text style={{ fontFamily: 'Railway1' }}>You don’t have an active order</Text>
 
-            <TouchableOpacity style={styles.orderBtn} onPress={()=>{router.replace('/(protected)/home')}}>
-              <Text style={styles.activeText}>Place an order now</Text>
-            </TouchableOpacity>
-        </View>
-      )}
+
+
+
+      {isActive2 === true && (<>
+        <ScrollView
+            style={{ flex: 1, marginTop: 20 }}
+            showsVerticalScrollIndicator={false}
+          > 
+
+              <Animated.View style={styles.eachCartDiv} entering={FadeInLeft.duration(300).delay(200)} exiting={FadeOutRight.duration(300).delay(200)}>
+                <View style={styles.eachCart}>
+                  <View style={{ overflow: 'hidden', width: 70, height: 60, borderRadius: 5 }}>
+                    <Image
+                      source={require("../../assets/images/combo1.png")}
+                      style={{ width: 80, height: 60, }}
+                    />
+                  </View>
+
+                  <View style={styles.cartRight}>
+                    <View>
+
+                      <View style={{display : 'flex', flexDirection : 'row', gap : 3}}>
+
+                        <View>
+                            <Text style={{fontFamily : 'Railway2', fontSize : 12}}>Yam Porridge </Text> 
+                        </View>
+
+                      </View>
+
+                      <Text style={{ fontFamily: 'Railway2', fontSize: 12, paddingVertical: 6, color: "#54804D", fontWeight: "600" }}>Kilimajaro - Big Tree</Text>
+                      <Text style={{ fontFamily: 'Railway3', fontSize: 13, color: 'gray', fontWeight: "600" }}>&#8358;4,650</Text>
+                    
+                    </View>
+                  </View>
+
+                  <View style={{
+                      marginLeft : 'auto', 
+                      borderRadius : 3, 
+                      backgroundColor : Colors.myLightestGreen, 
+                      padding : 5, paddingHorizontal : 10
+                    }}>
+                    <Text style={{fontSize : 10}}>Delivered</Text>
+                  </View>
+                </View>
+
+                  <View style={{display : 'flex', flexDirection : 'row', gap : 10}}>
+                      <TouchableOpacity style={{
+                        alignItems: "center", 
+                        backgroundColor: Colors.myLightGray, 
+                        padding: 10, paddingHorizontal: 20, 
+                        width: '50%', borderRadius: 5, marginTop: 10
+                      }}>
+                        <Text style={{ fontFamily: 'Railway3', color: 'black' }}>See Details</Text>
+                      </TouchableOpacity>
+
+
+                      <TouchableOpacity style={{
+                        alignItems: "center", 
+                        backgroundColor: Colors.myRed, 
+                        padding: 10, paddingHorizontal: 20, 
+                        width: '45%', borderRadius: 5, marginTop: 10
+                      }}>
+                        <Text style={{ fontFamily: 'Railway3', color: 'white' }}>Reorder</Text>
+                      </TouchableOpacity>
+                  </View>
+              </Animated.View>
+          </ScrollView>
+      </>)}
+
+
     </SafeAreaView>
   )
 }
@@ -137,7 +288,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderColor: Colors.myRed,
     borderWidth: 1,
-    borderRadius: 6
+    borderRadius: 5
   },
 
   active: {
@@ -146,7 +297,7 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingHorizontal: 20,
     width: '50%',
-    borderRadius: 5
+    borderRadius: 4
   },
 
   inActive: {
@@ -159,24 +310,25 @@ const styles = StyleSheet.create({
   },
 
   activeText: {
-    color: "#fff",
+    color: "white",
     fontFamily: 'Railway3'
   },
+  
   inActiveText: {
-    color: "#475367",
+    color: "black",
     fontFamily: 'Railway3'
   },
 
   orderBtn: {
-    height : 40,
+    height : 35,
     backgroundColor : Colors.myRed,
     flexDirection : 'row',
     alignItems : 'center',
     paddingHorizontal : 20,
     justifyContent : 'center',
-    borderRadius : 10,  
+    borderRadius : 5,  
     marginTop : 10,
-    width : '80%',
+    width : '50%',
   },
 
 
@@ -186,13 +338,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     borderRadius: 5,
+    marginBottom : 20
   },
 
   eachCart: {
     display: 'flex',
     flexDirection: 'row',
     gap: 10,
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginBottom: 5
 
   },

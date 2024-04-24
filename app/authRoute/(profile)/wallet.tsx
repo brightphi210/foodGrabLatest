@@ -98,11 +98,11 @@ const wallet = () => {
         AsyncStorage.removeItem('cardMonth');
         AsyncStorage.removeItem('cardYear');
         router.replace('/authRoute/(profile)/wallet')
-      };
+    };
 
 
-cardYear
-cardMonth
+    cardYear
+    cardMonth
       
 
 

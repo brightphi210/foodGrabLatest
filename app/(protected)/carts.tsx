@@ -11,26 +11,12 @@ import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { AuthContext } from '@/context/AuthContext';
 import { useContext } from 'react';
 import { Pressable } from 'react-native';
+import Animated, { FadeInLeft, FadeOutRight } from 'react-native-reanimated';
 const cart = () => {
 
 
-  const {deleteAll} = useContext(AuthContext)
-  const {deleteItemFromCart} = useContext(AuthContext)
+  const {deleteItemFromCart, cartItems, getCartData, deleteAll} = useContext(AuthContext)
 
-
-  const [cartItems, setCartItems] = useState([])
-
-  const getCartData = async () => {
-      try {
-        const jsonValue = await AsyncStorage.getItem('cartItems');
-        const parsedData = jsonValue != null ? JSON.parse(jsonValue) : [null];
-        return setCartItems(parsedData);
-      } catch (e) {
-        console.log(e)
-      }
-  };
-
-  
   useEffect(() => {
     getCartData();
   },[]);
@@ -38,20 +24,21 @@ const cart = () => {
   
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter();  
-
-
-    const [showModal2, setShowModal2] = useState<any>(false)
-    const navigate = useNavigation<any>()
+  const [showModal2, setShowModal2] = useState<any>(false)
+  const navigate = useNavigation<any>()
     
 
-    const handleProductPress = (cartItem : any) => {
-      navigate.navigate('authRoute/order_summary', { cartItem })
-    };
+  const handleProductPress = (cartItem : any) => {
+    navigate.navigate('authRoute/order_summary', { cartItem })
+  };
 
 
-    const handleProductPress2 = (cartItem : any) => {
-      navigate.navigate('authRoute/proceed_checkout', { cartItem })
-    };
+  const handleProductPress2 = (cartItem : any) => {
+    navigate.navigate('authRoute/proceed_checkout', { cartItem })
+  };
+
+
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -86,12 +73,13 @@ const cart = () => {
         <View >
           <Image 
             source={require('../../assets/images/Box.png')}
+            style={{width : 80, height : 80}}
           />
         </View>
-          <Text style={{paddingVertical : 20, fontFamily : 'Railway1'}}>Your Cart is empty</Text>
+          <Text style={{paddingVertical : 20, fontFamily : 'Railway1', }}>Your Cart is empty</Text>
 
         <TouchableOpacity style={styles.btnStyles} onPress={()=>{router.replace('/(protected)/home')}}>
-          <Text style={{color : 'white'}}>Add Items to cart</Text>
+          <Text style={{color : 'white', fontSize : 12}}>Add Items to cart</Text>
         </TouchableOpacity>
         </View>
 
@@ -115,7 +103,7 @@ const cart = () => {
             {cartItem && (<>
   
               
-              <View style={styles.eachCartDiv} key={index}>
+              <Animated.View style={styles.eachCartDiv} key={index} entering={FadeInLeft.duration(300).delay(200)} exiting={FadeOutRight.duration(300).delay(200)}>
                 
                   <View style={styles.eachCart} key={index}>
                     <View style={{overflow : 'hidden', width : 70, height : 60, borderRadius : 5}}>
@@ -182,7 +170,7 @@ const cart = () => {
                     </TouchableOpacity>
                   </View>
                 
-              </View>
+              </Animated.View>
             </>)}
           </>
           ))}
@@ -246,15 +234,15 @@ const styles = StyleSheet.create({
 
 
   btnStyles :{
-    height : 40,
+    height : 35,
     backgroundColor : Colors.myRed,
     flexDirection : 'row',
     alignItems : 'center',
-    paddingHorizontal : 20,
+    paddingHorizontal : 10,
     justifyContent : 'center',
     borderRadius : 5,  
     marginTop : 10,
-    width : '80%',
+    width : '50%',
 },
 
 container3 : {

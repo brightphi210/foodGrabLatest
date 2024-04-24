@@ -176,15 +176,6 @@ const orderPage = () => {
         getQuantity();
       }, [quantity]);
 
-
-
-      console.log(quantity)
-      
-      
-
-
-
-
   return (
     <View style={styles.container}>
         <StatusBar style='dark'/>

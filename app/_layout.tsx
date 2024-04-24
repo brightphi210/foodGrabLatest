@@ -75,17 +75,20 @@ const MainLayout = () => {
     // }
 
     else if(isAuthenticated && !inApp ){
-      router.replace('/authRoute/home_dash')
-      // router.replace('/home')
+      // router.replace('/authRoute/home_dash')
+      router.replace('/home')
       // router.replace('/register')
       // router.replace('/account')
-      router.replace('/carts')
+      // router.replace('/carts')
+      router.replace('/order')
       // router.replace('/authRoute/(profile)/personal')
       // router.replace('/authRoute/(profile)/wallet')
       // router.replace('/authRoute/(profile)/FAQs')
       // router.replace('/authRoute/(profile)/support')
       // router.replace('/authRoute/proceed_checkout')
       // router.replace('/authRoute/order_summary')
+      // router.replace('/authRoute/order_status')
+      // router.replace('/authRoute/order_details')
       // router.replace('/public/welcome_one')
       // router.replace('/public/welcome_one')
       // router.replace('/otp_verification')

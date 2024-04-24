@@ -13,12 +13,11 @@ import DashHeader from '@/components/DashHeader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader2 from '@/components/Loader2';
 import NetworkError from '@/components/NetworkError';
-import Animated, { SlideInDown, SlideInLeft, SlideInRight, SlideInUp, SlideOutDown, SlideOutRight } from "react-native-reanimated";
+import Animated, { FadeInLeft, FadeOutRight, SlideInDown, SlideInLeft, SlideInRight, SlideInUp, SlideOutDown, SlideOutRight } from "react-native-reanimated";
 
 
 
 const index = () => {
-  // const {userToken} = useContext(AuthContext)
   const [show, setShow] = useState(false);
 
   const navigate = useNavigation<any>()
@@ -97,11 +96,6 @@ const index = () => {
     <SafeAreaView style={styles.container}>
         <StatusBar style='dark'/>
 
-
-        {/* <Animated.View
-            entering={SlideInLeft.duration(200).delay(200)}
-            exiting={SlideOutRight.duration(200).delay(100)}
-        > */}
         <DashHeader />
         <View style={{position : 'relative', paddingTop : 10, paddingBottom : 6}}>
           <Ionicons name='search' size={15} style={{position : 'absolute', top : 25, left : 15}}/>
@@ -291,30 +285,33 @@ const index = () => {
                   : (
 
                     <>
-                      {shopData.map((item : any, index:any) => (
+                    {shopData.map((item : any, index:any) => (
                         
-                        <Pressable style={styles.restImageDiv} key={index} onPress={() => handleProductPress(item._id)}>
-                          
-                        <Image source={{uri : item.backdropPic}}
-                          resizeMode='cover'
-                          style={styles.restImage}
-                        />
+                        <Animated.View key={index} entering={FadeInLeft.duration(300).delay(200)} exiting={FadeOutRight.duration(300).delay(200)}>
+                        <Pressable style={styles.restImageDiv}  onPress={() => handleProductPress(item._id)}>
 
-  
-                        <View style={{paddingHorizontal : 10, paddingVertical : 10}}>
-                          <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center', }}>
-                            <Text style={{fontFamily : 'Railway3'}}>{item.shopName}</Text>
-                            <Text style={{marginLeft : 'auto', fontFamily : 'Railway2'}}>5.0 (123)</Text>
+                          
+                          <Image source={{uri : item.backdropPic}}
+                            resizeMode='cover'
+                            style={styles.restImage}
+                          />
+
+    
+                          <View style={{paddingHorizontal : 10, paddingVertical : 10}}>
+                            <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center', }}>
+                              <Text style={{fontFamily : 'Railway3'}}>{item.shopName}</Text>
+                              <Text style={{marginLeft : 'auto', fontFamily : 'Railway2'}}>5.0 (123)</Text>
+                            </View>
+    
+                            <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center', paddingTop : 10}}>
+                                <Text style={{fontFamily : 'Railway1'}}>From N1000 | 5 - 10 mins</Text>
+                                <TouchableOpacity style={{marginLeft : 'auto',}}>
+                                  <FontAwesome name='heart-o' color={Colors.btnGreen}  size={15}/>
+                                </TouchableOpacity>
+                            </View>
                           </View>
-  
-                          <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center', paddingTop : 10}}>
-                              <Text style={{fontFamily : 'Railway1'}}>From N1000 | 5 - 10 mins</Text>
-                              <TouchableOpacity style={{marginLeft : 'auto',}}>
-                                <FontAwesome name='heart-o' color={Colors.btnGreen}  size={15}/>
-                              </TouchableOpacity>
-                          </View>
-                        </View>
-                      </Pressable>
+                        </Pressable>
+                      </Animated.View>
                     ))}
                     </>
                   )}

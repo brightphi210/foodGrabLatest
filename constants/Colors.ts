@@ -22,6 +22,7 @@ export default {
   myGray : '#D0D5DD',
   myLightGray : '#EDEDED',
   myLightGreen : '#70AA67',
+  myLightestGreen : '#D3FFCC',
   btnGreen : '#54804D',
   lighterGreen : '#EEFFEB',
   myPink: '#FFDFE1',

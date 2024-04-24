@@ -30,12 +30,6 @@ export default function TabLayout() {
       getData();
   },[]);
 
-
-
-
-  console.log('This is the length of the cart items', cartItems);
-
-
   const [loaded, error] = useFonts({
     SpaceMono: require('../../assets/fonts/SpaceMono-Regular.ttf'),
     Railway1: require('../../assets/fonts/Raleway-Regular.ttf'),
@@ -77,6 +71,7 @@ export default function TabLayout() {
                 color={focused ? Colors.btnGreen : 'gray'}
               />
               <Text style={{fontFamily : 'Railway3', paddingTop : 5, color : 'gray', fontSize : 12}}>Home</Text>
+              {/* {focused ? (<FontAwesome name='circle' color={Colors.myLightGreen} style={{textAlign : 'center', paddingTop : 5}} size={8}/>) : ''} */}
             </View>
           ),
         }}
@@ -98,7 +93,7 @@ export default function TabLayout() {
           tabBarIcon: ({ focused }) => (
             <View style={{position : 'relative'}}>
 
-              { cartItems === null || cartItems.length === 0 ? '' : (
+              { cartItems.length === 0 ? '' : (
                 <FontAwesome name='circle' 
                   size={6} color={'red'} 
                   style={{position : 'absolute', right : -5, top : 2,}}
@@ -111,7 +106,8 @@ export default function TabLayout() {
                 name="basket-outline"
                 color={focused ? Colors.btnGreen : 'gray'}
               />
-              <Text style={{fontFamily : 'Railway3', paddingTop : 5, color : 'gray', fontSize : 12}}>Carts</Text>
+              <Text style={{fontFamily : 'Railway3', paddingTop : 5, color : 'gray', fontSize : 12}}>My Carts</Text>
+              {/* {focused ? (<FontAwesome name='circle' color={Colors.myLightGreen} style={{textAlign : 'center', paddingTop : 5}} size={8}/>) : ''} */}
             </View>
           ),
         }}
@@ -136,7 +132,9 @@ export default function TabLayout() {
                 name="bag-outline"
                 color={focused ? Colors.btnGreen : 'gray'}
               />
-              <Text style={{fontFamily : 'Railway3', paddingTop : 5, color : 'gray', fontSize : 12}}>Orders</Text>
+              <Text style={{fontFamily : 'Railway3', paddingTop : 5, color : 'gray', fontSize : 12}}>My Orders</Text>
+              
+              {/* {focused ? (<FontAwesome name='circle' color={Colors.myLightGreen} style={{textAlign : 'center', paddingTop : 5}} size={8}/>) : ''} */}
             </View>
           ),
         }}
@@ -163,6 +161,7 @@ export default function TabLayout() {
                 color={focused ? Colors.btnGreen : 'gray'}
               />
               <Text style={{fontFamily : 'Railway3', paddingTop : 5, color : 'gray', fontSize : 12}}>Account</Text>
+              {/* {focused ? (<FontAwesome name='circle' color={Colors.myLightGreen} style={{textAlign : 'center', paddingTop : 5}} size={8}/>) : ''} */}
             </View>
           ),
         }}

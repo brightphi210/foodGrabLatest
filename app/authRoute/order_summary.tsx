@@ -1,56 +1,58 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView, Pressable } from 'react-native'
-import React, {useEffect, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import Colors from '@/constants/Colors';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { Link, useRouter } from 'expo-router'
 import { useNavigation } from 'expo-router';
 import BackHeader from '@/components/BackHeader';
 import { StatusBar } from 'expo-status-bar';
 import {PayWithFlutterwave} from 'flutterwave-react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRoute } from '@react-navigation/native';
 import Animated, { BounceInDown, BounceInUp, BounceOutDown, FadeIn, SlideInLeft, SlideOutRight } from 'react-native-reanimated';
+import { AuthContext } from '@/context/AuthContext';
+import { BASE_URL } from '@/Enpoints/Endpoint';
 
 
 const order_summary = () => {
-
-  const navigate = useNavigation()
-  
-  const router = useRouter()
-  const [userDetails, setUserDetails] = useState<any>({})
-
-  const getUserData = async () => {
-      try {
-        const jsonValue = await AsyncStorage.getItem('data');
-        const newJsonValue = (jsonValue != null ? JSON.parse(jsonValue) : null)
-
-        return setUserDetails(newJsonValue.data);
-      } catch (e) {
-        console.log(e)
-      }
-  };
-
-  useEffect(() => {
-      getUserData();
-  },[]);
-
+  const { getData, getUserData, userDetails, userToken  } = useContext(AuthContext)  
   const route = useRoute();
-
   const { cartItem } : any = route.params;
+  const navigate = useNavigation()
+  const router = useRouter()
 
-  console.log('= = = This is CartItems = = = ', cartItem);
-  
 
-
+  const [shopId, setShopId] = useState(cartItem[0].shopId);
   const userEmail = userDetails.email;
   const [subTotal, setSubTotal] = useState(null)
-
   const sumTotalPrice = cartItem.reduce((total:any, product:any) => total + (product.price * product.quantity), 0);
   const newTotalPrice = sumTotalPrice.toLocaleString()
   const percentage = sumTotalPrice * 0.03
   const grandTotalPrice = (sumTotalPrice + percentage)
+  
+// console.log('THis is the data ', cartItem);
 
+  // Extracting required fields and saving into a new array
+  const newArray = cartItem.map((item : any) => ({
+    cuisineId: item._id,
+    name: item.name,
+    price: item.price,
+    quantity: item.quantity,
+    cuisineImage : item.thumbnail
+  }));
+
+
+  const [finalData, setFinalData] = useState({
+    "shopId" : shopId,
+    "items" : newArray
+  })
+
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  useEffect(() => {
+      getUserData();
+  },[]);
 
   interface RedirectParams {
     status: 'successful' | 'cancelled';
@@ -58,13 +60,40 @@ const order_summary = () => {
     tx_ref: string;
   }
 
-    const handleOnRedirect = (data: RedirectParams) => {
-      if(data.status === 'successful'){
-          router.replace('/authRoute/order_status')
-        }
-    };
+  const handleOnRedirect = async (data: RedirectParams) => {
+    if(data.status === 'successful'){
 
-    const generateTransactionRef = (length: number) => {
+      try {
+  
+        const response = await fetch(`${BASE_URL}checkout`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${userToken}`,
+          },
+          body: JSON.stringify(finalData),
+        });
+    
+        if (!response.ok) {
+          if (response.status === 400) {
+            throw new Error('Bad request. Please check your data.');
+          } else {
+            throw new Error(`API request failed with status ${response.status}`);
+          }
+        }
+    
+        const responseData = await response.json();
+    
+        console.log('POST request successful:', responseData);
+        router.replace('/authRoute/order_status')
+    
+      } catch (error) {
+        console.error('POST request error:', error);
+      }
+      }
+  };
+
+  const generateTransactionRef = (length: number) => {
     var result = '';
     var characters =
         'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -73,7 +102,7 @@ const order_summary = () => {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return `flw_tx_ref_${result}`;
-    };
+  };
 
 
   return (
@@ -111,18 +140,12 @@ const order_summary = () => {
         </View>
         ))}
 
-
-
         <View style={{paddingTop : 10}}>
           <Text style={{fontFamily : 'Railway1', fontSize : 11, color : 'grey', paddingBottom : 5}}>Delivery Address</Text>
           <View style={{borderColor : Colors.myGray, borderWidth : 1, padding : 10, borderRadius : 5}}>
             <TextInput placeholder='Enter Address'/>
           </View>
         </View>
-
-
-
-
 
         <View style={styles.grayBG}>
           <Text style={{fontFamily : 'Railway3', fontSize : 13}}>Payment Summary</Text>
@@ -135,22 +158,22 @@ const order_summary = () => {
                   <Text style={{fontSize : 13, color : 'gray'}}>Sub-Total {cartItem.length} (Items)</Text>
               </View>
             )}
-            <Text style={{marginLeft : 'auto', fontWeight : '500', fontSize : 13}}>N{newTotalPrice}</Text>
+            <Text style={{marginLeft : 'auto', fontWeight : '500', fontSize : 13}}>&#8358;{newTotalPrice}</Text>
           </View>
 
           <View style={styles.paymentDiv}>
             <Text style={{fontFamily : 'Railway1', fontSize : 13, color : 'gray'}}>Delivery Fee</Text>
-            <Text style={{marginLeft : 'auto', fontWeight : '500', fontSize : 13}}>N3,700.00</Text>
+            <Text style={{marginLeft : 'auto', fontWeight : '500', fontSize : 13}}>&#8358;3,700.00</Text>
           </View>
 
           <View style={styles.paymentDiv}> 
             <Text style={{fontFamily : 'Railway1', fontSize : 13, color : 'gray'}}>Booking Fee</Text>
-            <Text style={{marginLeft : 'auto', fontWeight : '500', fontSize : 13}}>N{percentage}</Text>
+            <Text style={{marginLeft : 'auto', fontWeight : '500', fontSize : 13}}>&#8358;{percentage}</Text>
           </View>
 
           <View style={styles.paymentDiv}>
             <Text style={{fontFamily : 'Railway3', color : Colors.myRed}}>Total</Text>
-            <Text style={{marginLeft : 'auto', fontWeight : '500', fontSize : 13, color : Colors.myRed}}>N{grandTotalPrice.toLocaleString()}</Text>
+            <Text style={{marginLeft : 'auto', fontWeight : '500', fontSize : 13, color : Colors.myRed}}>&#8358;{grandTotalPrice.toLocaleString()}</Text>
           </View>
         </View>
 

@@ -28,13 +28,26 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
 
+
   const [cartItems, setCartItems] = useState([])
+  const [userDetails, setUserDetails] = useState({})
 
   const getCartData = async () => {
       try {
         const jsonValue = await AsyncStorage.getItem('cartItems');
         const parsedData = jsonValue != null ? JSON.parse(jsonValue) : [null];
         return setCartItems(parsedData);
+      } catch (e) {
+        console.log(e)
+      }
+  };
+
+
+  const getUserData = async () => {
+      try {
+        const jsonValue = await AsyncStorage.getItem('data');
+        const newJsonValue = (jsonValue != null ? JSON.parse(jsonValue) : null)
+        return setUserDetails(newJsonValue.data);
       } catch (e) {
         console.log(e)
       }
@@ -61,23 +74,17 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const deleteAll = async () => {
-    try {
-      const updatedCartItems = [];
-        setCartItems(updatedCartItems);
-        await AsyncStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
-        setShowModal2(false)
-    } catch (e) {
-        console.log(e);
-    }
-  };
+
+  
+
+
 
   return (
     <AuthContext.Provider value={{ 
         userToken, isAuthenticated, 
         logout, getData, getCartData, 
-        cartItems, setCartItems, deleteAll, 
-        deleteItemFromCart
+        cartItems, setCartItems, 
+        deleteItemFromCart, getUserData, userDetails
     }}>
       {children}
     </AuthContext.Provider>
