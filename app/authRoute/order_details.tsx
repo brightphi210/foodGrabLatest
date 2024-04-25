@@ -1,4 +1,4 @@
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { useRoute } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
@@ -20,10 +20,10 @@ const order_details = () => {
       router.replace('/order'); 
     };
     
-    // const [status, setStatus] = useState('processing');
+    const [status, setStatus] = useState('processing');
     // const [status, setStatus] = useState('packaging');
     // const [status, setStatus] = useState('intransit');
-    const [status, setStatus] = useState('delivered');
+    // const [status, setStatus] = useState('delivered');
     
 
 
@@ -32,9 +32,9 @@ const order_details = () => {
         <StatusBar style='dark'/>
 
         <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center'}}>
-            <Pressable onPress={handleBackPress}>
+            <TouchableOpacity onPress={handleBackPress}>
                 <Ionicons name='arrow-back' size={30}/>
-            </Pressable>
+            </TouchableOpacity>
 
             <Text style={{marginLeft : 'auto', fontFamily : 'Railway2'}}>Your Order is Processed</Text>
         </View>
@@ -110,7 +110,7 @@ const order_details = () => {
                                             paddingBottom : 20
                                         }}>
                                         <Text style={{fontFamily : 'Railway3', fontSize : 13}}>{item.name}</Text>
-                                        <Text style={{marginLeft : 'auto', fontSize : 13}}>N{item.price.toLocaleString()}</Text>
+                                        <Text style={{marginLeft : 'auto', fontSize : 13}}>N{(item.price * item.quantity).toLocaleString()}</Text>
                                     </View>
 
                                 </View>
@@ -180,13 +180,13 @@ const order_details = () => {
 
 
                             <View style={{display : 'flex', flexDirection : 'row', gap : 10, alignItems : 'center', marginTop : 30}}>
-                                <Pressable style={{paddingVertical : 10, borderRadius : 5, paddingHorizontal : 25, borderColor : Colors.myRed, borderWidth : 1, backgroundColor : 'white'}}>
+                                <TouchableOpacity style={{paddingVertical : 10, borderRadius : 5, paddingHorizontal : 25, borderColor : Colors.myRed, borderWidth : 1, backgroundColor : 'white'}}>
                                     <Text style={{color : Colors.myRed, fontSize : 15, fontFamily : 'Railway3'}}>No, I didn't</Text>
-                                </Pressable>
+                                </TouchableOpacity>
 
-                                <Pressable style={{paddingVertical : 11, borderRadius : 5, paddingHorizontal : 25, backgroundColor : Colors.myRed}}>
+                                <TouchableOpacity style={{paddingVertical : 11, borderRadius : 5, paddingHorizontal : 25, backgroundColor : Colors.myRed}}>
                                     <Text style={{color : 'white', fontSize : 15, fontFamily : 'Railway3'}}>Yes, I did</Text>
-                                </Pressable>
+                                </TouchableOpacity>
                             </View>
                         </View>
                     </>

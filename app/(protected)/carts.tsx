@@ -154,11 +154,11 @@ const cart = () => {
                   </View>
   
                   <View style={styles.checkOutDiv}>
-                    <Pressable style={styles.checkOutBtn} onPress={()=> handleProductPress(cartItem)}>
+                    <TouchableOpacity style={styles.checkOutBtn} onPress={()=> handleProductPress(cartItem)}>
                       <Text style={{fontFamily : 'Railway2', color : 'white', fontSize : 12}}>Checkout</Text>
-                    </Pressable>
+                    </TouchableOpacity>
   
-                    <Pressable onPress={()=> handleProductPress2(cartItem)} >
+                    <TouchableOpacity onPress={()=> handleProductPress2(cartItem)} >
   
                       <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center', gap : 5}}>
                         <Text style={{fontFamily : 'Railway3', fontSize : 12, }}>
@@ -166,7 +166,7 @@ const cart = () => {
                         </Text>
                         <AntDesign name='edit' size={10}/>
                       </View>
-                    </Pressable>
+                    </TouchableOpacity>
   
                     <TouchableOpacity onPress={() => deleteItemFromCart(index)} style={{marginLeft : 'auto'}}>
                       <FontAwesome name='trash' size={15} color={Colors.myRed}  />

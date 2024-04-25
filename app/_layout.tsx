@@ -76,11 +76,11 @@ const MainLayout = () => {
 
     else if(isAuthenticated && !inApp ){
       router.replace('/authRoute/home_dash')
-      router.replace('/home')
+      // router.replace('/home')
       // router.replace('/register')
       // router.replace('/account')
       // router.replace('/carts')
-      router.replace('/order')
+      // router.replace('/order')
       // router.replace('/authRoute/(profile)/personal')
       // router.replace('/authRoute/(profile)/wallet')
       // router.replace('/authRoute/(profile)/FAQs')

@@ -15,9 +15,9 @@ const BackHeader = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Pressable onPress={handleBackPress}>
-        <Ionicons name='arrow-back' size={20} />
-      </Pressable>
+      <TouchableOpacity onPress={handleBackPress}>
+        <Ionicons name='arrow-back' size={30} />
+      </TouchableOpacity>
     </SafeAreaView>
   )
 }
