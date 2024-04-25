@@ -38,6 +38,9 @@ const cart = () => {
   };
 
 
+  // console.log(cartItems);
+  
+
 
 
   return (

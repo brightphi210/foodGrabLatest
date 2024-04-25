@@ -19,6 +19,11 @@ const order_summary = () => {
   const navigate = useNavigation()
   const router = useRouter()
 
+  const handleBackPress = () => {
+    router.replace('/carts'); 
+  };
+
+
 
   const [shopId, setShopId] = useState(cartItem[0].shopId);
   const userEmail = userDetails.email;
@@ -201,7 +206,7 @@ const order_summary = () => {
             )}
         />
 
-          <Pressable style={styles.eachBottomBtn2} onPress={navigate.goBack}>
+          <Pressable style={styles.eachBottomBtn2} onPress={handleBackPress}>
               <Text style={{fontFamily : 'Railway2', fontSize : 13, color : Colors.myRed}}>Cancel Order</Text>
           </Pressable>
         </View>

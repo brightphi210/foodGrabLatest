@@ -81,7 +81,7 @@ const order = () => {
   };
 
 
-  console.log('This is the list orders', orderDatas)
+  // console.log('This is the list orders', orderDatas)
 
   return (
     <SafeAreaView style={styles.container}>
@@ -178,7 +178,7 @@ const order = () => {
                 </View>
 
                   <View>
-                      <TouchableOpacity style={{
+                      <TouchableOpacity  style={{
                         alignItems: "center", 
                         backgroundColor: Colors.myLightGray, 
                         padding: 10, paddingHorizontal: 20, 

@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
   const getCartData = async () => {
       try {
         const jsonValue = await AsyncStorage.getItem('cartItems');
-        const parsedData = jsonValue != null ? JSON.parse(jsonValue) : [null];
+        const parsedData = jsonValue != null ? JSON.parse(jsonValue) : [];
         return setCartItems(parsedData);
       } catch (e) {
         console.log(e)

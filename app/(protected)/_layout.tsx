@@ -7,27 +7,18 @@ import Colors from '@/constants/Colors';
 import { View, StyleSheet } from 'react-native';
 import { useFonts } from 'expo-font';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthContext } from '@/context/AuthContext';
 
 export default function TabLayout() {
 
-  const [cartItems, setCartItems] = useState<any>([])
 
-  
-
-  const getData = async () => {
-      try {
-        const jsonValue = await AsyncStorage.getItem('cartItems');
-        return setCartItems(jsonValue != null ? JSON.parse(jsonValue) : null);
-      } catch (e) {
-        console.log(e)
-      }
-  };
+  const {cartItems, getCartData,} = useContext(AuthContext)
 
   useEffect(() => {
-      getData();
+    getCartData();
   },[]);
 
   const [loaded, error] = useFonts({
