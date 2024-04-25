@@ -10,7 +10,6 @@ const OTPVerifcation = () => {
   const [isEmpty, setIsEmpty] = useState<any>(null)
 
   const handleChange = (e : any) =>{
-    // e.target.value 
     setIsEmpty(!isEmpty)
   }
 
