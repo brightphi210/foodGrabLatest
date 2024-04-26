@@ -31,6 +31,7 @@ export const AuthProvider = ({ children }) => {
 
   const [cartItems, setCartItems] = useState([])
   const [userDetails, setUserDetails] = useState({})
+  const [userDetails2, setUserDetails2] = useState({})
 
   const getCartData = async () => {
       try {
@@ -52,6 +53,17 @@ export const AuthProvider = ({ children }) => {
         console.log(e)
       }
   };
+
+
+  const getUserData2 = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('user');
+      const newJsonValue = (jsonValue != null ? JSON.parse(jsonValue) : null)
+      return setUserDetails2(newJsonValue.data);
+    } catch (e) {
+      console.log(e)
+    }
+};
 
 
 
@@ -83,7 +95,7 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider value={{ 
         userToken, isAuthenticated, 
         logout, getData, getCartData, 
-        cartItems, setCartItems, 
+        cartItems, setCartItems, userDetails2,getUserData2,
         deleteItemFromCart, getUserData, userDetails
     }}>
       {children}

@@ -94,6 +94,7 @@ const MainLayout = () => {
       // router.replace('/otp_verification')
     }else if(isAuthenticated == false ){
       router.replace('/login')
+
     }
   }, [isAuthenticated])
 

@@ -169,7 +169,7 @@ const register = () => {
             }
 
             <TouchableOpacity style={styles.btnStyles} onPress={handleLogin}>
-                <Text style={{fontSize : 15, fontFamily : 'Railway2', color : 'white'}}>{isLoading ? (<ActivityIndicator color={'white'}/>) : 'Signin'}</Text>
+                <Text style={{fontSize : 15, fontFamily : 'Railway2', color : 'white'}}>{isLoading ? (<ActivityIndicator color={'white'} size={'large'}/>) : 'Signin'}</Text>
             </TouchableOpacity>
 
             <Text style={{textAlign : 'center', paddingTop : 10, fontSize : 13, fontFamily : 'Railway3',}}>

@@ -1,33 +1,92 @@
-import {StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import {ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
 import Colors from '@/constants/Colors';
-import {Link} from 'expo-router'
+import {Link, useRouter} from 'expo-router'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { AuthContext } from '@/context/AuthContext';
+import { BASE_URL } from '@/Enpoints/Endpoint';
 
-const OTPVerifcation = () => {
+const OTPVerifcation = () => 
+  {
   const [isEmpty, setIsEmpty] = useState<any>(null)
+  const [isLoading, setIsLoading] = useState(false)
+
+  const {getUserData2, userDetails2} = useContext(AuthContext)
 
   const handleChange = (e : any) =>{
     setIsEmpty(!isEmpty)
   }
 
+  const navigation = useRouter()
 
-  const [token, setToken] = useState('');
+  useEffect(() => {
+    getUserData2()
+  },[])
 
-  const handleVerifyToken = () => {
-    // Assuming you have a function to verify the token
-    if (token.length === 4 && /^\d+$/.test(token)) {
-      // Token verification logic goes here
-      // For example, you might send the token to a server for validation
-      // Replace the alert with appropriate logic for your application
-      alert('Token verified successfully');
-    } else {
-      alert('Invalid token. Please enter a 4-digit number.');
+
+  const email = userDetails2.email
+  const [code, setCode] = useState('')
+
+
+
+  // const handleVerifyToken = () => {
+  //   // Assuming you have a function to verify the token
+  //   if (code.length === 4 && /^\d+$/.test(code)) {
+  //     // Token verification logic goes here
+  //     // For example, you might send the token to a server for validation
+  //     // Replace the alert with appropriate logic for your application
+  //     alert('Token verified successfully');
+  //   } else {
+  //     alert('Invalid token. Please enter a 4-digit number.');
+  //   }
+  // };
+
+
+  const handVerify = async ( ) => {
+
+    setIsLoading(true)
+    try {
+      const response = await fetch(`${BASE_URL}verifyEmail`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(
+          {
+            email,
+            code
+          }),
+      })
+
+
+      if (!response.ok) {
+        setIsLoading(false);
+        if (response.status === 400) {
+          throw new Error('Bad request. Please check your data.');
+        } else {
+          throw new Error(`API request failed with status ${response.status}`);
+        }
+      }
+      const responseData = await response.json();
+
+      if(responseData.status === "SUCCESS") {
+        navigation.replace('/login')
+      }
+
+      setIsLoading(false)
+      console.log('POST request successful:', responseData);
+
+    } catch (error) {
+      console.log('There was an error!! ', error);
+      setIsLoading(false);
+      
     }
-  };
+  }
 
+  console.log("This is user data: ", email);
+  
 
 
   return (
@@ -43,9 +102,9 @@ const OTPVerifcation = () => {
           <View style={styles.OTPDiv}>
           <TextInput
               style={styles.input}
-              onChangeText={setToken}
-              value={token}
-              keyboardType="numeric"
+              onChangeText={setCode}
+              value={code}
+              // keyboardType="numeric"
               placeholder="Enter 4-digit token"
               maxLength={4}
             />
@@ -54,8 +113,8 @@ const OTPVerifcation = () => {
           
 
 
-          <TouchableOpacity style={styles.btnContainer} onPress={() => {/* handle verification */}}>
-            <Text style={styles.btnText}>Verify my account</Text>
+          <TouchableOpacity style={styles.btnContainer} onPress={handVerify}>
+            <Text style={styles.btnText}>{isLoading === true ? <ActivityIndicator size={'large'}/> : 'Verify my account'}</Text>
           </TouchableOpacity>
 
 

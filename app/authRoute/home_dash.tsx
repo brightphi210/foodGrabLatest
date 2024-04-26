@@ -1,5 +1,5 @@
-import { SafeAreaView, StyleSheet, Text, View, Image, TouchableOpacity, TouchableNativeFeedback, ScrollView, Pressable } from 'react-native'
-import React from 'react'
+import { SafeAreaView, StyleSheet, Text, View, Image, TouchableOpacity, TouchableNativeFeedback, ScrollView } from 'react-native'
+import React, { useContext } from 'react'
 import Colors from '@/constants/Colors';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import DashHeader from '@/components/DashHeader';
@@ -7,12 +7,14 @@ import { Link, useRouter } from 'expo-router'
 import { StatusBar } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FontAwesome } from '@expo/vector-icons';
+import { AuthContext } from '@/context/AuthContext';
 
 
 // import DashHeader from '../../components/DashHeader';
 
 const index = () => {
     const router = useRouter()
+    const {logout} = useContext(AuthContext)
     
     const handlePress =() =>{
         router.replace('/(protected)/home')
@@ -24,13 +26,15 @@ const index = () => {
       router.replace('/public/welcome_one');
     };
 
+    
+
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style='dark'/>
         <DashHeader />
 
-        {/* <TouchableOpacity onPress={deleteSeenScreen}>
+        {/* <TouchableOpacity onPress={logout}>
           <Text style={{fontSize : 20, paddingTop : 20}}>Remove Screen</Text>
         </TouchableOpacity> */}
         
@@ -81,30 +85,30 @@ const index = () => {
               
               
 
-                <Pressable  onPress={handlePress} style={styles.imageDIvBorder}>
+                <TouchableOpacity  onPress={handlePress} style={styles.imageDIvBorder}>
                     <Image source={require('../../assets/images/foodSearch.png')}
                       style={{width : 130, height : 90, alignSelf : 'center'}}
                     />
                     <Text style={{textAlign : 'center', fontFamily : 'Railway2', fontSize : 15}}>Food</Text>
-                </Pressable>
+                </TouchableOpacity>
 
-              <Pressable  onPress={handlePress} style={styles.imageDIvBorder}>
+              <TouchableOpacity  onPress={handlePress} style={styles.imageDIvBorder}>
                   <Image source={require('../../assets/images/storeSearch.png')}
                     style={{width : 100, height : 100, alignSelf : 'center'}}
                   />
                   <Text style={{textAlign : 'center', fontFamily : 'Railway2', fontSize : 15,}}>Restaurant</Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
             
 
-            <Pressable  onPress={handlePress} >
+            <TouchableOpacity  onPress={handlePress} >
                 <View style={styles.imageDIvBorder2}>
                   <Image source={require('../../assets/images/explore.png')}
                     style={{width : 100, height : 80, alignSelf : 'center'}}
                   />
                   <Text style={{textAlign : 'center', fontFamily : 'Railway2', fontSize : 15, paddingTop : 20}}>Explore the app</Text>
                 </View>
-            </Pressable>
+            </TouchableOpacity>
 
         </View>
     </SafeAreaView>
