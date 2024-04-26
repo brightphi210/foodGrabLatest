@@ -25,7 +25,8 @@ const order_details = () => {
     // const [status, setStatus] = useState('intransit');
     // const [status, setStatus] = useState('delivered');
     
-
+    console.log('THis is the data, ', data);
+    
 
   return (
     <SafeAreaView style={styles.container}>

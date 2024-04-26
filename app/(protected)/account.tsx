@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { ActivityIndicator, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Image, TouchableOpacity, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { MaterialCommunityIcons, Ionicons, Feather, MaterialIcons, AntDesign } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
@@ -7,13 +7,13 @@ import { Link, useNavigation, useRouter } from "expo-router"
 import Colors from '@/constants/Colors';
 import { AuthContext } from '@/context/AuthContext';
 import { StatusBar } from 'expo-status-bar';
-import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
+import Animated, { FadeIn, FadeInDown, FadeOut, FadeOutDown, SlideInLeft, SlideOutRight } from 'react-native-reanimated';
 
 const account = () => {
   const [image, setImage] = useState()
   const [isLoading, setIsLoading] = useState(true)
   const router = useNavigation<any>()
-  const { userData, logout,  getData, userDetails} = useContext(AuthContext)
+  const { userData, logout,  getUserData, userDetails} = useContext(AuthContext)
 
   const uploadImage = async () => {
     try {
@@ -44,8 +44,7 @@ const account = () => {
   }
 
   useEffect(() => {
-    getData();
-    setIsLoading(false)
+    getUserData();
   },[]);
 
 
@@ -57,11 +56,11 @@ const account = () => {
     <SafeAreaView style={styles.container}>
       
       <StatusBar style='dark'/>
-      {isLoading && <ActivityIndicator size={'large'}/>}
+      {/* {isLoading && <ActivityIndicator size={'large'}/>} */}
 
       <Animated.View style={{ flex: 1, marginTop: 30, alignItems: 'center' }}
-        entering={FadeIn.duration(300).delay(500)}
-        exiting={FadeOut.duration(200).delay(100)}
+        entering={FadeIn.duration(500).delay(500)}
+        exiting={FadeOutDown.duration(500).delay(500)}
       >
         <View style={styles.avatarContainer}>
 
@@ -79,18 +78,18 @@ const account = () => {
         </View>
 
         <View style={{ marginTop: 10, gap: 10,  }}>
-          <Text style={{ fontFamily: "Railway2", fontSize: 15, fontWeight: "600", color: "#1D2739" }}>{userDetails.fullname}</Text>
+          <Text style={{ fontFamily: "Railway2", fontSize: 15, fontWeight: "600", color: "#1D2739" ,textAlign : 'center' }}>{userDetails.fullname}</Text>
           <Text style={{ textAlign: 'center', color: Colors.myRed, fontSize : 13  }}>10 <Text style={{ color: Colors.myGreen, fontFamily : 'Railway3' }}>Successful Order </Text></Text>
         </View>
 
         <View style={{ width: "100%", marginTop: 50, flexDirection: 'column', gap: 25, }}>
 
 
-            <Pressable style={{ 
+            <TouchableOpacity style={{ 
               flexDirection: 'row', 
               alignItems: 'center', 
               justifyContent: 'space-between' ,
-              backgroundColor : Colors.myLightGray, padding : 15,  paddingVertical : 15,
+              backgroundColor : Colors.myLightGray, padding : 15,  paddingVertical : 30,
               borderRadius : 5
             }} onPress={()=> router.navigate('authRoute/(profile)/personal')}>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
@@ -98,12 +97,12 @@ const account = () => {
                 <Text style={{ fontSize: 13, color: "#606060", fontFamily : 'Railway3'}}>Personal Information</Text>
               </View>
               <MaterialIcons name="arrow-forward-ios" size={13} color={Colors.btnGreen} />
-            </Pressable>
+            </TouchableOpacity>
 
 
-            <Pressable onPress={()=> router.navigate('authRoute/(profile)/wallet')} 
+            {/* <TouchableOpacity onPress={()=> router.navigate('authRoute/(profile)/wallet')} 
               style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', 
-              backgroundColor : Colors.myLightGray, padding : 15,  paddingVertical : 15,
+              backgroundColor : Colors.myLightGray, padding : 15,  paddingVertical : 30,
               borderRadius : 5
               }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
@@ -111,13 +110,13 @@ const account = () => {
                 <Text style={{ fontSize: 13, color: "#606060", fontFamily : 'Railway3'}}>Wallet (Payment)</Text>
               </View>
               <MaterialIcons name="arrow-forward-ios" size={13} color={Colors.btnGreen} />
-            </Pressable>
+            </TouchableOpacity> */}
 
 
 
-            <Pressable onPress={()=>router.navigate('authRoute/(profile)/support')}
+            <TouchableOpacity onPress={()=>router.navigate('authRoute/(profile)/support')}
               style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', 
-              backgroundColor : Colors.myLightGray, padding : 15,  paddingVertical : 15,
+              backgroundColor : Colors.myLightGray, padding : 15,  paddingVertical : 30,
               borderRadius : 5
               }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
@@ -125,13 +124,13 @@ const account = () => {
                 <Text style={{ fontSize: 13, color: "#606060", fontFamily : 'Railway3'}}>Support</Text>
               </View>
               <MaterialIcons name="arrow-forward-ios" size={13} color={Colors.btnGreen} />
-            </Pressable>
+            </TouchableOpacity>
 
 
 
-            <Pressable onPress={()=>router.navigate('authRoute/(profile)/FAQs')} 
+            <TouchableOpacity onPress={()=>router.navigate('authRoute/(profile)/FAQs')} 
               style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', 
-              backgroundColor : Colors.myLightGray, padding : 15,  paddingVertical : 15,
+              backgroundColor : Colors.myLightGray, padding : 15,  paddingVertical : 30,
               borderRadius : 5
               }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
@@ -139,11 +138,11 @@ const account = () => {
                 <Text style={{ fontSize: 13, color: "#606060", fontFamily : 'Railway3'}}>FAQs</Text>
               </View>
               <MaterialIcons name="arrow-forward-ios" size={13} color={Colors.btnGreen} />
-            </Pressable>
+            </TouchableOpacity>
 
 
-          <Pressable onPress={logout} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-            backgroundColor : Colors.myLightGray, padding : 15,  paddingVertical : 15,
+          <TouchableOpacity onPress={logout} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+            backgroundColor : Colors.myLightGray, padding : 15,  paddingVertical : 30,
             borderRadius : 5
            }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
@@ -151,7 +150,7 @@ const account = () => {
               <Text style={{ fontSize: 13, color: "#606060", fontFamily : 'Railway3'}}>Logout</Text>
             </View>
             <MaterialIcons name="arrow-forward-ios" size={13} color={Colors.btnGreen}n/>
-          </Pressable>
+          </TouchableOpacity>
 
 
         </View>
@@ -166,7 +165,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    paddingHorizontal: 30,
+    paddingHorizontal: 20,
     paddingTop: 30,
   },
   avatarContainer: {

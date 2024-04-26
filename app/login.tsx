@@ -12,6 +12,7 @@ import { ActivityIndicator } from 'react-native';
 import { AuthContext } from '@/context/AuthContext';
 import { useContext } from 'react';
 import { StatusBar } from 'expo-status-bar';
+import Animated, { BounceInUp, BounceOutDown, FadeIn, FadeOut, SlideInDown, SlideInLeft, SlideOutDown, SlideOutRight } from 'react-native-reanimated';
 const register = () => {
 
     const {userToken} :any = useContext(AuthContext);
@@ -81,12 +82,15 @@ const register = () => {
   return (
     <SafeAreaView style={{flex : 1, backgroundColor : Colors.myRed}}>
         <StatusBar style='light'/>
-      <View style={styles.container}>
+      <Animated.View style={styles.container}
+       entering={FadeIn.duration(300).delay(300)}
+       exiting={FadeOut.duration(300).delay(300)}
+      >
         <ScrollView showsVerticalScrollIndicator={false}>
-            <Text style={{fontFamily : 'Railway2', fontSize : 25}}>Login</Text>
+            <Text style={{fontFamily : 'Railway2', fontSize : 25, paddingTop : 50, paddingBottom : 20}}>Login</Text>
             <Text style={{fontFamily : 'Railway1', fontSize : 15}}>Welcome back, login to place your order today</Text>
 
-            <View style={{
+            {/* <View style={{
                 display : 'flex', flexDirection :'row', 
                 padding : 1, width : '100%', backgroundColor : Colors.myRed, 
                 borderRadius : 5, marginTop : 15
@@ -98,40 +102,40 @@ const register = () => {
                 <TouchableOpacity style={showActive ? styles.active : styles.inActive} onPress={hideFunc}>
                     <Text style={showActive ? styles.activeColor : styles.inActiveColor}>Email Address</Text>
                 </TouchableOpacity>
-            </View>
+            </View> */}
 
             { 
-                showActive ? 
-                    <View style={{paddingTop : 0}}>
+                // showActive ? 
+                //     <View style={{paddingTop : 0}}>
 
-                        <View style={styles.inputDiv}>
-                            <Text style={{fontFamily : 'Railway3', paddingBottom : 10, fontSize : 15}}>Phone Number</Text>
-                            <TextInput placeholder='Phone Number : ' style={styles.inputStyles}/>
-                        </View>
+                //         <View style={styles.inputDiv}>
+                //             <Text style={{fontFamily : 'Railway3', paddingBottom : 10, fontSize : 15}}>Phone Number</Text>
+                //             <TextInput placeholder='Phone Number : ' style={styles.inputStyles}/>
+                //         </View>
 
-                        <View style={styles.inputDiv}>
-                            <Text style={{fontFamily : 'Railway3', paddingBottom : 10, fontSize : 15}}>Password</Text>
-                            <View>
-                                <TextInput placeholder='Password:' 
-                                    style={styles.inputStyles}
-                                    secureTextEntry={!showPassword}
-                                    value={ password}
-                                />
+                //         <View style={styles.inputDiv}>
+                //             <Text style={{fontFamily : 'Railway3', paddingBottom : 10, fontSize : 15}}>Password</Text>
+                //             <View>
+                //                 <TextInput placeholder='Password:' 
+                //                     style={styles.inputStyles}
+                //                     secureTextEntry={!showPassword}
+                //                     value={ password}
+                //                 />
 
-                                <TouchableOpacity onPress={togglePasswordVisibility} style={styles.iconStyle}>
-                                    {showPassword ? 
-                                        <Ionicons name='eye-off' size={20}/>
-                                        :
-                                        <Ionicons name='eye' size={20} /> 
-                                    }
-                                </TouchableOpacity>
+                //                 <TouchableOpacity onPress={togglePasswordVisibility} style={styles.iconStyle}>
+                //                     {showPassword ? 
+                //                         <Ionicons name='eye-off' size={20}/>
+                //                         :
+                //                         <Ionicons name='eye' size={20} /> 
+                //                     }
+                //                 </TouchableOpacity>
                                 
-                            </View>
-                        </View>
+                //             </View>
+                //         </View>
 
-                    </View> 
+                //     </View> 
                 
-                : 
+                // : 
 
                     <View style={{paddingTop : 0}}>
 
@@ -178,7 +182,7 @@ const register = () => {
             </Text>
         </ScrollView>
 
-      </View>
+      </Animated.View>
     </SafeAreaView>
   )
 }
@@ -200,7 +204,7 @@ const styles = StyleSheet.create({
         backgroundColor : Colors.myRed,
         padding : 13,
         paddingHorizontal : 20,
-        width : '50%',
+        width : '100%',
         borderRadius : 5
     },
 
@@ -213,7 +217,7 @@ const styles = StyleSheet.create({
         backgroundColor : 'white',
         padding : 13,
         paddingHorizontal : 20,
-        width : '50%',
+        width : '100%',
         borderRadius : 5
     },
 
@@ -228,7 +232,7 @@ const styles = StyleSheet.create({
     },
 
     inputStyles : {
-        padding : 10,
+        padding : 15,
         borderColor : Colors.myGray,
         borderWidth : 1,
         borderRadius : 5,
@@ -238,13 +242,13 @@ const styles = StyleSheet.create({
     },
 
     btnStyles :{
-        height : 50,
+        height : 60,
         backgroundColor : Colors.myRed,
         flexDirection : 'row',
         alignItems : 'center',
         paddingHorizontal : 20,
         justifyContent : 'center',
-        borderRadius : 10,  
+        borderRadius : 5,  
         marginTop : 40,
     },
 

@@ -66,7 +66,7 @@ const personal = () => {
 
         <View style={{paddingVertical : 20}}>
 
-            <View style={{paddingBottom : 10}}>
+            <View style={{paddingBottom : 20}}>
                 <Text style={{fontFamily : 'Railway3', fontSize : 13, paddingBottom : 5}}>Full name</Text>
                 <TextInput 
                     placeholder='Full name' 
@@ -77,14 +77,14 @@ const personal = () => {
             </View>
 
 
-            <View style={{paddingBottom : 10, position : 'relative'}}>
+            <View style={{paddingBottom : 20, position : 'relative'}}>
                 <Text style={{fontFamily : 'Railway3', fontSize : 13, paddingBottom : 5}}>Phone Number</Text>
                 <TextInput placeholder='Phone Number' style={styles.inputStyles}/>
                 <Text style={{position : 'absolute', right : 20, top: "60%", fontSize : 10, fontFamily : 'Railway3', color : Colors.btnGreen}}>{userDetails.emailVerificationStatus}</Text>
             </View>
 
 
-            <View style={{paddingBottom : 10, position : 'relative'}}>
+            <View style={{paddingBottom : 20, position : 'relative'}}>
                 <Text style={{fontFamily : 'Railway3', fontSize : 13, paddingBottom : 5}}>Email address</Text>
                 <TextInput 
                     placeholder='Email Address' 
@@ -97,7 +97,7 @@ const personal = () => {
 
         
 
-        <View style={{backgroundColor : Colors.myLightGray, padding : 10}}>
+        {/* <View style={{backgroundColor : Colors.myLightGray, padding : 10}}>
             <Text style={{fontFamily : 'Railway3', fontSize : 13}}>Change Password </Text>
         </View>
         <View style={{paddingVertical : 20}}>
@@ -148,7 +148,7 @@ const personal = () => {
             </TouchableOpacity>
 
 
-        </View>
+        </View> */}
     </View>
   )
 }
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     inputStyles : {
         borderWidth : 1, 
         borderColor : Colors.myGray,
-        padding : 8,
+        padding : 15,
         paddingHorizontal : 20,
         fontSize : 13,
         borderRadius : 5

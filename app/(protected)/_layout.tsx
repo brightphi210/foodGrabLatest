@@ -152,7 +152,6 @@ export default function TabLayout() {
                 color={focused ? Colors.btnGreen : 'gray'}
               />
               <Text style={{fontFamily : 'Railway3', paddingTop : 5, color : 'gray', fontSize : 12}}>Account</Text>
-              {/* {focused ? (<FontAwesome name='circle' color={Colors.myLightGreen} style={{textAlign : 'center', paddingTop : 5}} size={8}/>) : ''} */}
             </View>
           ),
         }}

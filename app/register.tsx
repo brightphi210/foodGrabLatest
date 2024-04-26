@@ -12,6 +12,7 @@ import { StatusBar } from 'expo-status-bar';
 
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Animated, { FadeIn, FadeOut, SlideInDown, SlideOutDown } from 'react-native-reanimated';
 const register = () => {
 
     const [showActive, setShowActiveColor] = useState(false)
@@ -122,12 +123,15 @@ const register = () => {
     <SafeAreaView style={{flex : 1, backgroundColor : Colors.myRed,}}>
         <StatusBar style='light'/>
         
-      <View style={styles.container}>
+      <Animated.View style={styles.container}
+             entering={FadeIn.duration(500).delay(500)}
+             exiting={FadeOut.duration(500).delay(500)}
+      >
         <ScrollView >
-            <Text style={{fontFamily : 'Railway2', fontSize : 20}}>Get Started</Text>
+            <Text style={{fontFamily : 'Railway2', fontSize : 20, paddingTop : 30, paddingBottom : 10}}>Get Started</Text>
             <Text style={{fontFamily : 'Railway1', fontSize : 13}}>Sign up today and start placing your order</Text>
 
-            <View style={{
+            {/* <View style={{
                 display : 'flex', flexDirection :'row', 
                 padding : 1, width : '100%', backgroundColor : Colors.myRed, 
                 borderRadius : 5, marginTop : 15
@@ -139,7 +143,7 @@ const register = () => {
                 <TouchableOpacity style={showActive ? styles.active : styles.inActive} onPress={hideFunc}>
                     <Text style={showActive ? styles.activeColor : styles.inActiveColor}>Email Address</Text>
                 </TouchableOpacity>
-            </View>
+            </View> */}
 
             { 
                 showActive ? 
@@ -268,14 +272,14 @@ const register = () => {
 
 
 
-            <View style={{display : 'flex', flexDirection : 'row', gap : 5, paddingTop : 10, alignItems : 'center'}}>
+            {/* <View style={{display : 'flex', flexDirection : 'row', gap : 5, paddingTop : 10, alignItems : 'center'}}>
                 <Checkbox style={{borderColor : Colors.myRed, width : 15, height : 15}} value={isChecked} onValueChange={setChecked} color={isChecked && Colors.myRed}/>
                 <Text style={{width : '90%', fontSize : 12, fontFamily : 'Railway1'}}>
                     If you are creating a new account, 
                     <Text style={{color : Colors.myRed}}>Terms & Conditions</Text> 
                     and  <Text style={{color : Colors.myRed}}>Privacy Policy</Text> will apply
                 </Text>
-            </View>
+            </View> */}
 
             <TouchableOpacity style={styles.btnStyles} onPress={handleSignup}>
                 <Text style={{fontSize : 15, fontFamily : 'Railway2', color : 'white'}}>{isLoading ? (<ActivityIndicator color={'white'} size={'large'}/>) : 'Get Started'}</Text>
@@ -287,7 +291,7 @@ const register = () => {
             </Text>
         </ScrollView>
 
-      </View>
+      </Animated.View>
 
       <MyModal 
             isModalOpen={isModalOpen} 
@@ -349,7 +353,7 @@ const styles = StyleSheet.create({
     },
 
     inputStyles : {
-        padding : 10,
+        padding : 15,
         borderColor : Colors.myGray,
         borderWidth : 1,
         borderRadius : 5,
@@ -359,13 +363,13 @@ const styles = StyleSheet.create({
     },
 
     btnStyles :{
-        height : 50,
+        height : 60,
         backgroundColor : Colors.myRed,
         flexDirection : 'row',
         alignItems : 'center',
         paddingHorizontal : 20,
         justifyContent : 'center',
-        borderRadius : 10,  
+        borderRadius : 5,  
         marginTop : 15,
     },
 

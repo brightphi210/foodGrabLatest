@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
         borderWidth : 1, 
         borderColor : Colors.myGray,
         fontFamily : 'Railway3',
-        padding : 8,
+        padding : 15,
         paddingHorizontal : 20,
         fontSize : 13,
         borderRadius : 5,
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
     },
 
     btnStyles :{
-        height : 40,
+        height : 50,
         backgroundColor : Colors.myRed,
         flexDirection : 'row',
         alignItems : 'center',

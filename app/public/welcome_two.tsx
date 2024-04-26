@@ -3,12 +3,16 @@ import React from 'react'
 import { StatusBar } from 'expo-status-bar';
 import Colors from '@/constants/Colors';
 import { Link } from 'expo-router';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
 const welcome_two = () => {
   return (
     <SafeAreaView style={{flex : 1, backgroundColor :'gray'}}>
         <StatusBar style='dark'/>
-      <View style={styles.container}> 
+      <Animated.View style={styles.container}
+             entering={FadeIn.duration(300).delay(300)}
+             exiting={FadeOut.duration(300).delay(300)}
+      > 
         <Image source={require('../../assets/images/food.png')} style={styles.imgStyle}/>
 
             {/* ========= Text =============== */}
@@ -27,7 +31,7 @@ const welcome_two = () => {
                 <Text style={{fontSize : 18, color : 'white', fontFamily : 'Railway2'}}>Next</Text>
                 </TouchableOpacity>
             </Link>
-      </View>
+      </Animated.View>
     </SafeAreaView>
   )
 }
@@ -62,13 +66,13 @@ const styles = StyleSheet.create({
     bottom : 50,
     left : 0,
     right : 0,
-    height : 50,
+    height : 60,
     backgroundColor : Colors.myRed,
     flexDirection : 'row',
     alignItems : 'center',
     paddingHorizontal : 20,
     marginHorizontal : 30,
     justifyContent : 'center',
-    borderRadius : 10,     
+    borderRadius : 5,     
   }
 })

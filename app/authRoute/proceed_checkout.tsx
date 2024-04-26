@@ -4,7 +4,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Colors from '@/constants/Colors';
-import { Link } from 'expo-router'
+import { Link, useRouter } from 'expo-router'
 import { useNavigation } from 'expo-router';
 import BackHeader from '@/components/BackHeader';
 import { StatusBar } from 'expo-status-bar';
@@ -17,6 +17,7 @@ import { AuthContext } from '@/context/AuthContext';
 const proceed_checkout = () => {
 
     const navigate = useNavigation<any>()
+    const router = useRouter()
     const route = useRoute();
 
     let { cartItem} : any = route.params;
@@ -40,7 +41,12 @@ const proceed_checkout = () => {
           updatedCartItems[index].quantity--;
         }
         setCartItema(updatedCartItems); // Update the state
+    };
+
+    const handleBackPress = () => {
+        router.replace('/carts'); 
       };
+    
 
  
   return (
@@ -108,7 +114,7 @@ const proceed_checkout = () => {
                 <Text style={{fontFamily : 'Railway2', fontSize : 13, color : 'white'}}>Proceed to Checkout</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.eachBottomBtn2} onPress={navigate.goBack}>
+            <TouchableOpacity style={styles.eachBottomBtn2} onPress={handleBackPress}>
                 <Text style={{fontFamily : 'Railway2', fontSize : 13, color : Colors.myRed}}>Cancel Order</Text>
             </TouchableOpacity>
         </View>

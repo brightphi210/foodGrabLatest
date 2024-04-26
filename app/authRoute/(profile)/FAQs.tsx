@@ -45,19 +45,25 @@ const FAQs = () => {
     <View style={styles.container}>
         <StatusBar style='dark'/>
         <BackHeaderAccount />
-        <Text style={{fontFamily : 'Railway2', fontSize : 16}}>FAQs</Text>
+        <Text style={{fontFamily : 'Railway2', fontSize : 16, paddingTop : 20}}>FAQs</Text>
 
 
         <View style={{paddingTop : 10}}>
-            <TouchableOpacity onPress={handleShow1} style={{display: 'flex', flexDirection : 'row', alignItems : 'center', gap : 10, marginTop : 30}}>
-                <FontAwesome name='question-circle-o' size={15} color={Colors.myRed}/>
+            <TouchableOpacity onPress={handleShow1} style={{
+                
+                flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', 
+              backgroundColor : Colors.myLightGray, padding : 15,  paddingVertical : 30,
+              borderRadius : 5, display : 'flex', gap :10, marginBottom : 20
+                
+            }}>
+                <FontAwesome name='question-circle-o' size={20} color={Colors.myRed}/>
                 <Text style={{fontFamily : 'Railway3', fontSize : 15}}>How do food grab work</Text>
-                <Ionicons name='chevron-forward-outline' size={15} style={{marginLeft : 'auto'}} color={Colors.myGray}/>
+                <Ionicons name='chevron-forward-outline' size={20} style={{marginLeft : 'auto'}} color={Colors.myGray}/>
             </TouchableOpacity>
 
             {
                 show1 && (
-                <View style={{marginTop : 20, backgroundColor : Colors.myLightGray, padding : 20, borderRadius : 5}}>
+                <View style={{marginTop : 10, marginBottom : 20, backgroundColor : Colors.myLightGray, padding : 20, borderRadius : 5}}>
                     <Text style={{fontSize : 15, fontFamily : 'Railway1', textAlign : 'left', lineHeight : 20}}>
                         Lorem ipsum dolor, sit amet consectetur adipisicing elit. dolore debitis. 
                         Nisi cupiditate nesciunt distinctio doloremque incidunt autem. Animi.
@@ -68,16 +74,22 @@ const FAQs = () => {
 
 
 
-            <TouchableOpacity onPress={handleShow2} style={{display: 'flex', flexDirection : 'row', alignItems : 'center', gap : 10, marginTop : 30}}>
-                <FontAwesome name='question-circle-o' size={15} color={Colors.myRed}/>
+            <TouchableOpacity onPress={handleShow2} style={{
+                
+                flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', 
+                backgroundColor : Colors.myLightGray, padding : 15,  paddingVertical : 30,
+                borderRadius : 5, display : 'flex', gap :10, marginBottom : 20
+                
+            }}>
+                <FontAwesome name='question-circle-o' size={20} color={Colors.myRed}/>
                 <Text style={{fontFamily : 'Railway3', fontSize : 15}}>What is delivery fee?</Text>
-                <Ionicons name='chevron-forward-outline' size={15} style={{marginLeft : 'auto'}} color={Colors.myGray}/>
+                <Ionicons name='chevron-forward-outline' size={20} style={{marginLeft : 'auto'}} color={Colors.myGray}/>
             </TouchableOpacity>
 
 
             {
                 show2 && (
-                    <View style={{marginTop : 20, backgroundColor : Colors.myLightPink, padding : 20, borderRadius : 5}}>
+                    <View style={{marginTop : 10, marginBottom:20, backgroundColor : Colors.myLightPink, padding : 20, borderRadius : 5}}>
                     <Text style={{fontSize : 15, fontFamily : 'Railway1', textAlign : 'left', lineHeight : 20}}>
                         Lorem ipsum dolor, sit amet consectetur adipisicing elit. dolore debitis. 
                         Nisi cupiditate nesciunt distinctio doloremque incidunt autem. Animi.
@@ -86,7 +98,12 @@ const FAQs = () => {
                 )
             }
 
-            <TouchableOpacity onPress={handleShow3} style={{display: 'flex', flexDirection : 'row', alignItems : 'center', gap : 10, marginTop : 30}}>
+            <TouchableOpacity onPress={handleShow3} style={{
+                
+                flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', 
+              backgroundColor : Colors.myLightGray, padding : 15,  paddingVertical : 30,
+              borderRadius : 5, display : 'flex', gap :10, marginBottom : 20
+            }}>
                 <FontAwesome name='question-circle-o' size={15} color={Colors.myRed}/>
                 <Text style={{fontFamily : 'Railway3', fontSize : 15}}>How to register your restaurant?</Text>
                 <Ionicons name='chevron-forward-outline' size={15} style={{marginLeft : 'auto'}} color={Colors.myGray}/>
@@ -95,7 +112,7 @@ const FAQs = () => {
 
             {
                 show3 && (
-                    <View style={{marginTop : 20, backgroundColor : Colors.myLightGray, padding : 20, borderRadius : 5}}>
+                    <View style={{marginTop : 10, marginBottom:20, backgroundColor : Colors.myLightGray, padding : 20, borderRadius : 5}}>
                     <Text style={{fontSize : 15, fontFamily : 'Railway1', textAlign : 'left', lineHeight : 20}}>
                         Lorem ipsum dolor, sit amet consectetur adipisicing elit. dolore debitis. 
                         Nisi cupiditate nesciunt distinctio doloremque incidunt autem. Animi.
@@ -104,7 +121,11 @@ const FAQs = () => {
                 )
             }
 
-            <TouchableOpacity onPress={handleShow4} style={{display: 'flex', flexDirection : 'row', alignItems : 'center', gap : 10, marginTop : 30}}>
+            <TouchableOpacity onPress={handleShow4} style={{
+                flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', 
+                backgroundColor : Colors.myLightGray, padding : 15,  paddingVertical : 30,
+                borderRadius : 5, display : 'flex', gap :10, marginBottom : 20
+            }}>
                 <FontAwesome name='question-circle-o' size={15} color={Colors.myRed}/>
                 <Text style={{fontFamily : 'Railway3', fontSize : 15}}>How to become a grabber?</Text>
                 <Ionicons name='chevron-forward-outline' size={15} style={{marginLeft : 'auto'}} color={Colors.myGray}/>
@@ -113,7 +134,7 @@ const FAQs = () => {
 
             {
                 show4 && (
-                    <View style={{marginTop : 20, backgroundColor : Colors.myLightPink, padding : 20, borderRadius : 5}}>
+                    <View style={{marginTop : 10, marginBottom:20, backgroundColor : Colors.myLightPink, padding : 20, borderRadius : 5}}>
                     <Text style={{fontSize : 15, fontFamily : 'Railway1', textAlign : 'left', lineHeight : 20}}>
                         Lorem ipsum dolor, sit amet consectetur adipisicing elit. dolore debitis. 
                         Nisi cupiditate nesciunt distinctio doloremque incidunt autem. Animi.

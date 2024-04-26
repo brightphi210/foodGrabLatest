@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import Colors from '@/constants/Colors';
 import { Link, useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 
 const welcome_three = () => {
 
@@ -23,23 +24,22 @@ const welcome_three = () => {
   return (
     <SafeAreaView style={{flex : 1, backgroundColor :'gray'}}>
         <StatusBar style='dark'/>
-      <View style={styles.container}>
+      <Animated.View style={styles.container}
+             entering={FadeIn.duration(300).delay(300)}
+             exiting={FadeOut.duration(300).delay(300)}
+      >
         <Image source={require('../../assets/images/logimg.png')} style={styles.imgStyle}/>
 
         {/* ========= Text =============== */}
         
-        {/* <Link href={'/register'} asChild>         */}
           <TouchableOpacity style={styles.btnStyles1} onPress={()=>router.replace('/register')}>
               <Text style={{fontSize : 18, color : 'white', fontFamily : 'Railway2'}}>Get Started</Text>
             </TouchableOpacity>
-        {/* </Link> */}
 
-        {/* <Link href={'/login'} asChild >         */}
           <TouchableOpacity style={styles.btnStyles} onPress={setHasSeenScreen}>
               <Text style={{fontSize : 18, color : Colors.myGreen, fontFamily : 'Railway2'}}>Login</Text>
             </TouchableOpacity>
-        {/* </Link> */}
-      </View>
+      </Animated.View>
     </SafeAreaView>
   )
 }
@@ -64,16 +64,19 @@ const styles = StyleSheet.create({
 
 
   btnStyles1 :{
-    height : 50,
+    height : 60,
     backgroundColor : Colors.myRed,
     flexDirection : 'row',
     alignItems : 'center',
     paddingHorizontal : 20,
     marginHorizontal : 30,
     justifyContent : 'center',
-    borderRadius : 10,    
-    marginTop : 150, 
-    width : '95%'
+    borderRadius : 5,    
+    width : '95%',
+    position : 'absolute',
+    bottom : 150,
+    left : 0,
+    right : 0,
   },
 
   btnStyles :{
@@ -81,14 +84,14 @@ const styles = StyleSheet.create({
     bottom : 50,
     left : 0,
     right : 0,
-    height : 50,
+    height : 60,
     backgroundColor : 'white',
     flexDirection : 'row',
     alignItems : 'center',
     paddingHorizontal : 20,
     marginHorizontal : 30,
     justifyContent : 'center',
-    borderRadius : 10,   
+    borderRadius : 5,   
     borderColor : Colors.myGreen,
     borderWidth : 1,  
   }

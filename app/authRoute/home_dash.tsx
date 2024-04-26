@@ -34,8 +34,12 @@ const index = () => {
       <StatusBar style='dark'/>
         <DashHeader />
 
-        {/* <TouchableOpacity onPress={logout}>
+        {/* <TouchableOpacity onPress={deleteSeenScreen}>
           <Text style={{fontSize : 20, paddingTop : 20}}>Remove Screen</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={logout}>
+          <Text style={{fontSize : 20, paddingTop : 20}}>Logoutt Screen</Text>
         </TouchableOpacity> */}
         
         <View>

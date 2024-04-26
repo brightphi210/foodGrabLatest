@@ -354,7 +354,7 @@ const styles = StyleSheet.create({
     },
 
     inputStyles : {
-      padding : 7,
+      padding : 10,
       borderColor : Colors.myGray,
       borderWidth : 1,
       borderRadius : 5,

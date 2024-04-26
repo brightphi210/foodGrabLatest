@@ -8,6 +8,7 @@ import Modal from "react-native-modal";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useRouter } from 'expo-router'
 import BackHeaderAccount from '@/components/BackHeaderAccount'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 
 
@@ -107,163 +108,176 @@ const wallet = () => {
 
 
   return (
-    <RefreshControl refreshing={isRefressing} style={styles.container}>
-        
+
+    <SafeAreaView style={styles.container}>
         <StatusBar style='dark'/>
         <BackHeaderAccount />
-        <Text style={{fontFamily : 'Railway3', fontSize : 16}}>Wallet</Text>
+        <View style={{
+            justifyContent : 'center',
+            alignItems : 'center',
+            display : 'flex',
+            flex : 1
+        }}>
+            <Ionicons name='wallet-outline' size={50} color={Colors.myLightGreen}/>
+            <Text>Wallet Comming Soon</Text>
+        </View>
+    </SafeAreaView>
+    // <RefreshControl refreshing={isRefressing} style={styles.container}>
+    //     <Text style={{fontFamily : 'Railway3', fontSize : 16}}>Wallet</Text>
+        
+    //     <StatusBar style='dark'/>
 
-        <View style={styles.card}>
+    //     <View style={styles.card}>
 
-            <View>
-                <Text style={{fontFamily : 'Railway3', paddingBottom : 10, fontSize : 12}}>Available Balance</Text>
-                <Text style={{fontWeight : 'bold', fontSize : 25}}>N4,500.00</Text>
+    //         <View>
+    //             <Text style={{fontFamily : 'Railway3', paddingBottom : 10, fontSize : 12}}>Available Balance</Text>
+    //             <Text style={{fontWeight : 'bold', fontSize : 25}}>N4,500.00</Text>
                 
-                <TouchableOpacity style={{display : 'flex', flexDirection : 'row', alignItems : 'center', paddingTop : 30, gap : 5,}}>
-                    <AntDesign name='plus' size={15} style={{fontWeight : 'bold'}}/>
-                    <Text style={{fontFamily : 'Railway2', fontSize : 12}}>Add Fund</Text>
-                </TouchableOpacity>
-            </View>
+    //             <TouchableOpacity style={{display : 'flex', flexDirection : 'row', alignItems : 'center', paddingTop : 30, gap : 5,}}>
+    //                 <AntDesign name='plus' size={15} style={{fontWeight : 'bold'}}/>
+    //                 <Text style={{fontFamily : 'Railway2', fontSize : 12}}>Add Fund</Text>
+    //             </TouchableOpacity>
+    //         </View>
             
-            <TouchableOpacity style={{display : 'flex', 
-                    flexDirection : 'row', 
-                    alignItems : 'center', gap : 10, 
-                    backgroundColor : Colors.myGreen, 
-                    marginLeft : 'auto',
-                    padding : 10,
-                    borderRadius : 5,
-                }}>
-                <View>
-                    <Text style={{fontFamily : 'Railway3', color : 'white', fontSize : 10}}>Wema</Text>
-                    <Text style={{fontWeight : 'bold', color : 'white', fontSize : 10}}>9094422807</Text>
-                </View>
-                <Text style={{fontFamily : 'Railway3', color : 'white', fontSize : 11, }}><Ionicons name='copy-outline' color={'white'} size={11}/> Copy</Text>
-            </TouchableOpacity>
+    //         <TouchableOpacity style={{display : 'flex', 
+    //                 flexDirection : 'row', 
+    //                 alignItems : 'center', gap : 10, 
+    //                 backgroundColor : Colors.myGreen, 
+    //                 marginLeft : 'auto',
+    //                 padding : 10,
+    //                 borderRadius : 5,
+    //             }}>
+    //             <View>
+    //                 <Text style={{fontFamily : 'Railway3', color : 'white', fontSize : 10}}>Wema</Text>
+    //                 <Text style={{fontWeight : 'bold', color : 'white', fontSize : 10}}>9094422807</Text>
+    //             </View>
+    //             <Text style={{fontFamily : 'Railway3', color : 'white', fontSize : 11, }}><Ionicons name='copy-outline' color={'white'} size={11}/> Copy</Text>
+    //         </TouchableOpacity>
 
 
-            <View style={{position : 'absolute', right : -25, bottom : -40}}>
-                <Image source={require('../../../assets/images/walletLogo.png')} style={{width : 110, height : 110}}/>
-            </View>
-        </View>
+    //         <View style={{position : 'absolute', right : -25, bottom : -40}}>
+    //             <Image source={require('../../../assets/images/walletLogo.png')} style={{width : 110, height : 110}}/>
+    //         </View>
+    //     </View>
 
 
-        <View style={{marginTop : 30}}>
-            <View style={{backgroundColor : Colors.myLightGray, padding : 10, borderRadius : 5, marginBottom : 30}}>
-                <Text style={{fontFamily : 'Railway3', fontSize : 15}}>Bank Card</Text>
-            </View>
+    //     <View style={{marginTop : 30}}>
+    //         <View style={{backgroundColor : Colors.myLightGray, padding : 10, borderRadius : 5, marginBottom : 30}}>
+    //             <Text style={{fontFamily : 'Railway3', fontSize : 15}}>Bank Card</Text>
+    //         </View>
 
             
-            {
-                cardNumber === null ? (
-                    <TouchableOpacity onPress={showModal} style={{display : "flex", flexDirection : 'row', alignItems : 'center', gap : 10}}>
-                        <Ionicons name='add' size={15}/>
-                        <Text style={{fontFamily : 'Railway3'}}>Add a new debit card</Text>
-                    </TouchableOpacity>
+    //         {
+    //             cardNumber === null ? (
+    //                 <TouchableOpacity onPress={showModal} style={{display : "flex", flexDirection : 'row', alignItems : 'center', gap : 10}}>
+    //                     <Ionicons name='add' size={15}/>
+    //                     <Text style={{fontFamily : 'Railway3'}}>Add a new debit card</Text>
+    //                 </TouchableOpacity>
 
-                ) : (
+    //             ) : (
 
-                    <View 
+    //                 <View 
                          
-                        style={{display : "flex", flexDirection : 'row', alignItems : 'center', gap : 10, paddingHorizontal : 10}}>
+    //                     style={{display : "flex", flexDirection : 'row', alignItems : 'center', gap : 10, paddingHorizontal : 10}}>
 
-                        <TouchableOpacity onPress={showModal}>
-                            <View>
-                                {
-                                    trimCarNumber === null ? '' : (<Text style={{fontSize : 20}}>*** *** ***{trimCarNumber.slice(0, 4)}</Text>)
-                                }
-                                <Text style={{fontSize : 15, color : 'gray'}}>{cardMonth}/{cardYear}</Text>
-                            </View>
+    //                     <TouchableOpacity onPress={showModal}>
+    //                         <View>
+    //                             {
+    //                                 trimCarNumber === null ? '' : (<Text style={{fontSize : 20}}>*** *** ***{trimCarNumber.slice(0, 4)}</Text>)
+    //                             }
+    //                             <Text style={{fontSize : 15, color : 'gray'}}>{cardMonth}/{cardYear}</Text>
+    //                         </View>
 
-                        </TouchableOpacity>
+    //                     </TouchableOpacity>
 
-                        <TouchableOpacity style={{marginLeft : 'auto'}} onPress={deleteAll}>
-                            <FontAwesome name='trash' size={15} color={Colors.myRed} />
-                        </TouchableOpacity>
-                    </View>
-                )
-            }
+    //                     <TouchableOpacity style={{marginLeft : 'auto'}} onPress={deleteAll}>
+    //                         <FontAwesome name='trash' size={15} color={Colors.myRed} />
+    //                     </TouchableOpacity>
+    //                 </View>
+    //             )
+    //         }
 
 
 
-        </View>
+    //     </View>
 
     
-        {isModalOpen && (
+    //     {isModalOpen && (
 
-            <Modal 
-                isVisible={isModalOpen} backdropOpacity={0.30} 
-                animationIn={'slideInDown'} animationOut={'fadeOut'} 
-                animationInTiming={500} animationOutTiming={10}
+    //         <Modal 
+    //             isVisible={isModalOpen} backdropOpacity={0.30} 
+    //             animationIn={'slideInDown'} animationOut={'fadeOut'} 
+    //             animationInTiming={500} animationOutTiming={10}
                 
-            >
+    //         >
                 
-                <View style={styles.modalContainer}>
+    //             <View style={styles.modalContainer}>
 
-                    <TouchableOpacity style={{marginLeft : 'auto',}} onPress={hideModal}>
-                        <Ionicons name='close-circle-outline' size={20}/>
-                    </TouchableOpacity>
+    //                 <TouchableOpacity style={{marginLeft : 'auto',}} onPress={hideModal}>
+    //                     <Ionicons name='close-circle-outline' size={20}/>
+    //                 </TouchableOpacity>
                     
-                    <View style={{paddingBottom : 10,}}>
-                        <Text style={{fontFamily : 'Railway3', fontSize : 12, paddingBottom : 5}}>Card Number</Text>
-                        <TextInput 
-                            placeholder='Card Number' 
-                            style={styles.inputStyles}
-                            onChangeText={(e:any)=>{setCardNumber(e)}}
-                            value={cardNumber}
-                            keyboardType="numeric"
-                            maxLength={12}
+    //                 <View style={{paddingBottom : 10,}}>
+    //                     <Text style={{fontFamily : 'Railway3', fontSize : 12, paddingBottom : 5}}>Card Number</Text>
+    //                     <TextInput 
+    //                         placeholder='Card Number' 
+    //                         style={styles.inputStyles}
+    //                         onChangeText={(e:any)=>{setCardNumber(e)}}
+    //                         value={cardNumber}
+    //                         keyboardType="numeric"
+    //                         maxLength={12}
                             
-                        />
-                    </View>
+    //                     />
+    //                 </View>
 
 
-                    <View style={{paddingBottom : 10,}}>
-                        <Text style={{fontFamily : 'Railway3', fontSize : 12, paddingBottom : 5}}>Month</Text>
-                        <TextInput 
-                            placeholder='Month' 
-                            style={styles.inputStyles}
-                            onChangeText={(e:any)=>{setCardMonth(e)}}
-                            value={cardMonth}
-                            keyboardType="numeric"
-                            maxLength={2}
-                        />
-                    </View>
+    //                 <View style={{paddingBottom : 10,}}>
+    //                     <Text style={{fontFamily : 'Railway3', fontSize : 12, paddingBottom : 5}}>Month</Text>
+    //                     <TextInput 
+    //                         placeholder='Month' 
+    //                         style={styles.inputStyles}
+    //                         onChangeText={(e:any)=>{setCardMonth(e)}}
+    //                         value={cardMonth}
+    //                         keyboardType="numeric"
+    //                         maxLength={2}
+    //                     />
+    //                 </View>
 
 
-                    <View style={{paddingBottom : 10,}}>
-                        <Text style={{fontFamily : 'Railway3', fontSize : 12, paddingBottom : 5}}>Year</Text>
-                        <TextInput 
-                            placeholder='Year'
-                            style={styles.inputStyles}
-                            onChangeText={(e:any)=>{setCardYear(e)}}
-                            value={cardYear}
-                            keyboardType="numeric"
-                            maxLength={4}
-                        />
-                    </View>
+    //                 <View style={{paddingBottom : 10,}}>
+    //                     <Text style={{fontFamily : 'Railway3', fontSize : 12, paddingBottom : 5}}>Year</Text>
+    //                     <TextInput 
+    //                         placeholder='Year'
+    //                         style={styles.inputStyles}
+    //                         onChangeText={(e:any)=>{setCardYear(e)}}
+    //                         value={cardYear}
+    //                         keyboardType="numeric"
+    //                         maxLength={4}
+    //                     />
+    //                 </View>
 
-                    <View style={{paddingBottom : 10,}}>
-                        <Text style={{fontFamily : 'Railway3', fontSize : 12, paddingBottom : 5}}>CVV</Text>
-                        <TextInput 
-                            placeholder='CVV' 
-                            style={styles.inputStyles}
-                            onChangeText={(e:any)=>{setCardCVV(e)}}
-                            value={cardCVV}
-                            keyboardType="numeric"
-                            maxLength={3}
-                        />
-                    </View>
+    //                 <View style={{paddingBottom : 10,}}>
+    //                     <Text style={{fontFamily : 'Railway3', fontSize : 12, paddingBottom : 5}}>CVV</Text>
+    //                     <TextInput 
+    //                         placeholder='CVV' 
+    //                         style={styles.inputStyles}
+    //                         onChangeText={(e:any)=>{setCardCVV(e)}}
+    //                         value={cardCVV}
+    //                         keyboardType="numeric"
+    //                         maxLength={3}
+    //                     />
+    //                 </View>
 
 
-                    <TouchableOpacity onPress={storeData} style={{backgroundColor : Colors.myRed, padding : 10, borderRadius : 5,}}>
-                        <Text style={{textAlign : 'center', color : 'white', fontFamily : 'Railway2'}}>Save</Text>
-                    </TouchableOpacity>
-                </View>
+    //                 <TouchableOpacity onPress={storeData} style={{backgroundColor : Colors.myRed, padding : 10, borderRadius : 5,}}>
+    //                     <Text style={{textAlign : 'center', color : 'white', fontFamily : 'Railway2'}}>Save</Text>
+    //                 </TouchableOpacity>
+    //             </View>
 
-            </Modal>
-        )}
+    //         </Modal>
+    //     )}
         
-    </RefreshControl>
+    // </RefreshControl>
   )
 }
 
