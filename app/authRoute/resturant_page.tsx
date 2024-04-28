@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Pressable } from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Pressable, TextInput } from 'react-native'
 import React, {useState, useEffect, useContext} from 'react'
 import Colors from '@/constants/Colors';
 import { BASE_URL } from '@/Enpoints/Endpoint';
@@ -168,8 +168,8 @@ const resturantPage = () => {
       entering={BounceInDown.duration(300).delay(300)}
       exiting={FadeOut.duration(50).delay(50)}
     >
-          <Pressable onPress={handleBackPress} style={{paddingVertical: 10}}>
-            <Ionicons name='arrow-back' size={20} />
+          <Pressable onPress={handleBackPress} style={{paddingVertical: 20}}>
+            <Ionicons name='arrow-back' size={25} />
           </Pressable>
         <StatusBar style='dark'/>
 
@@ -183,7 +183,7 @@ const resturantPage = () => {
           </View>
           <Image source={{uri : singleShopData.backdropPic}}
               resizeMode='cover'
-              style={{width : '100%', height : 100,
+              style={{width : '100%', height : 110,
               borderRadius : 5
           }}
           />
@@ -225,6 +225,12 @@ const resturantPage = () => {
                   <Text style={styles.btnText1}>What’s New</Text>
               </TouchableOpacity>
 
+          </View>
+
+          <View style={{position : 'relative', paddingTop : 10, paddingBottom : 10}}>
+            <Ionicons name='search' size={15} style={{position : 'absolute', top : 25, left : 15}}/>
+            <TextInput placeholder='Search for your favourite food' style={styles.inputStyles}/>
+            {/* <Ionicons name='filter' size={15} style={{position : 'absolute', top : 25, right :15}}/> */}
           </View>
 
           <ScrollView style={{paddingVertical : 10, height : '60%',}} showsVerticalScrollIndicator ={false}>
@@ -327,7 +333,7 @@ const styles = StyleSheet.create({
         backgroundColor : 'white',
         flex : 1,
         paddingHorizontal : 20,
-        paddingTop : 30
+        paddingTop : 50
     },
 
 
@@ -392,7 +398,7 @@ const styles = StyleSheet.create({
     },
 
     btnStyles :{
-      height : 40,
+      height : 50,
       backgroundColor : Colors.myRed,
       flexDirection : 'row',
       alignItems : 'center',
@@ -409,7 +415,7 @@ const styles = StyleSheet.create({
 
 
   btnStylesOdd :{
-    height : 40,
+    height : 50,
     backgroundColor : 'pink',
     flexDirection : 'row',
     alignItems : 'center',

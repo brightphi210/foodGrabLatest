@@ -101,23 +101,28 @@ const order = () => {
         </View>
       </View>
 
-      <>
-          {orderDatas !== undefined && orderDatas.length === 0 && (
-            <View style={{ flex: 1, paddingTop : 150, justifyContent: 'center', alignItems: 'center', gap: 15 }}>
+      {isActive1 === true && (
 
-              <Image source={require("../../assets/images/Box.png")} 
-                style={{width : 80, height : 80}}
-              />
-  
-              <Text style={{ fontFamily: 'Railway1' }}>You don’t have an active order</Text>
-  
-                <TouchableOpacity style={styles.orderBtn} >
-                  <Text style={{color : 'white', fontSize : 12}}>Place an order now</Text>
-                </TouchableOpacity>
-            </View>  
-          )}
-        
+        <>
+            {orderDatas !== undefined && orderDatas.length === 0 && (
+              <View style={{ flex: 1, paddingTop : 150, justifyContent: 'center', alignItems: 'center', gap: 15 }}>
+
+                <Image source={require("../../assets/images/Box.png")} 
+                  style={{width : 80, height : 80}}
+                />
+    
+                <Text style={{ fontFamily: 'Railway1' }}>You don’t have an active order</Text>
+    
+                <Link href={'/(protected)/home'} asChild>
+                  <TouchableOpacity style={styles.orderBtn} >
+                    <Text style={{color : 'white', fontSize : 12}}>Place an order now</Text>
+                  </TouchableOpacity>
+                </Link>
+              </View>  
+            )}
+          
         </>
+      )}
 
       
       {isActive1 === true && (<>
@@ -199,13 +204,14 @@ const order = () => {
 
 
 
-      {isActive2 === true && (<>
+      {/* {isActive2 === true && (<>
         <ScrollView
             style={{ flex: 1, marginTop: 20 }}
             showsVerticalScrollIndicator={false}
           > 
 
-              <Animated.View style={styles.eachCartDiv} entering={FadeInLeft.duration(300).delay(200)} exiting={FadeOutRight.duration(300).delay(200)}>
+
+              <Animated.View style={styles.eachCartDiv} entering={FadeInLeft.duration(300).delay(200)}>
                 <View style={styles.eachCart}>
                   <View style={{ overflow: 'hidden', width: 70, height: 60, borderRadius: 5 }}>
                     <Image
@@ -263,7 +269,25 @@ const order = () => {
                   </View>
               </Animated.View>
           </ScrollView>
-      </>)}
+      </>)} */}
+
+
+        {isActive2 === true && (
+
+        <>
+            {orderDatas !== undefined && orderDatas.length === 0 && (
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', gap: 15 }}>
+
+                <Image source={require("../../assets/images/Box.png")} 
+                  style={{width : 80, height : 80}}
+                />
+
+                <Text style={{ fontFamily: 'Railway1' }}>No Completed Order Yet !!!</Text>
+              </View>  
+            )}
+          
+        </>
+        )}
 
 
     </SafeAreaView>

@@ -23,9 +23,9 @@ export default function TabLayout() {
 
   const [loaded, error] = useFonts({
     SpaceMono: require('../../assets/fonts/SpaceMono-Regular.ttf'),
-    Railway1: require('../../assets/fonts/Raleway-Regular.ttf'),
-    Railway2: require('../../assets/fonts/Raleway-Bold.ttf'),
-    Railway3: require('../../assets/fonts/Raleway-SemiBold.ttf'),
+    Railway1: require('../../assets/fonts/Poppins-Regular.ttf'),
+    Railway2: require('../../assets/fonts/Poppins-Bold.ttf'),
+    Railway3: require('../../assets/fonts/Poppins-Medium.ttf'),
     ...FontAwesome.font,
 
   });

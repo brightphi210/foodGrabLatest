@@ -16,11 +16,6 @@ const cart = () => {
 
 
   const {deleteItemFromCart, cartItems, getCartData, deleteAll} = useContext(AuthContext)
-
-  useEffect(() => {
-    getCartData();
-  },[]);
-
   
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter();  
@@ -36,9 +31,6 @@ const cart = () => {
   const handleProductPress2 = (cartItem : any) => {
     navigate.navigate('authRoute/proceed_checkout', { cartItem })
   };
-
-
-  // console.log(cartItems);
   
 
 

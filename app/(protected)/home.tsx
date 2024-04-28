@@ -82,14 +82,31 @@ const index = () => {
   };
 
 
+
   const [refreshing, setRefreshing] = React.useState(false);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
       setRefreshing(false);
-    }, 5000);
+    }, 2000);
   }, []);
+
+
+
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const handleIsFavorite = () => {
+    setIsFavorite(!isFavorite);
+  }
+
+  
+
+
+  console.log(shopData);
+  
+
+
 
   return (
     
@@ -115,7 +132,7 @@ const index = () => {
               </View>
 
               
-            <View style={{display : 'flex', flexDirection : 'row', gap : 10, paddingTop : 0, paddingHorizontal : 10}}>
+            <View style={{display : 'flex', flexDirection : 'row', gap : 10, paddingTop : 10, paddingHorizontal : 0}}>
               <TouchableOpacity style={show ? styles.btnStyle1 : styles.btnStyle} onPress={hideAndShowOne}>
                 <Ionicons name='fast-food' color={show ? Colors.btnGreen  : 'white' } size={15}/>
                 <Text style={show ? styles.btnText1 : styles.btnText}>Restaurant</Text>
@@ -133,141 +150,69 @@ const index = () => {
 
           { show ? 
             <View style={{paddingTop : 20, }} >
-              <Text style={{fontFamily : 'Railway2', fontSize : 17, paddingBottom : 20}}>Recommend Chef</Text>
-              <TouchableOpacity>
-                <View style={{display : 'flex', 
-                  flexDirection : 'row', gap : 10, 
-                  justifyContent : 'center', 
-                  alignItems : 'center', 
-                  borderBottomColor : Colors.myGray,
-                  borderBottomWidth : 1,
-                  paddingBottom : 15,
-                  marginBottom : 15,
-                }}>
+              <Text style={{fontFamily : 'Railway3', fontSize : 15, paddingBottom : 20}}>Recommend Chef</Text>
 
-                  <Image source={require('../../assets/images/prof1.png')}
-                    style={{width : 70, height : 70}}
-                  />
+              {isLoading || !shopData ? 
+                  
+                  (
+                  <ActivityIndicator style={{paddingTop : 150}} size={'large'}/> 
+                  // <Loader2 />
+                  )
 
-                  <View style={{width : '75%'}}>
-                    <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center'}}>
-                      <Text style={{fontFamily : 'Railway2', fontSize : 16}}>Chef Ogechi San</Text>
-                      <Text style={{fontSize : 15, marginLeft : 'auto'}}>5.0 (123)</Text>
-                    </View>
+                  : (
 
-                    <Text style={{fontFamily : 'Railway1', 
-                      fontSize : 12, color : 'gray', paddingVertical : 5,
-                      textAlign : 'justify'
-                    }}>
-                      Lorem ipsum dolor sit amet consectetur adipis icing elit. 
-                      Maxime mollitia,molestiae quas vel sint.
-                    </Text>
-                    <Text style={{fontFamily : 'Railway1', color : Colors.btnGreen}}>From N10,000 | Schedule Request</Text>
-                  </View>
+                    <>
+                    {shopData.map((item : any, index:any) => (
 
-                </View>
-              </TouchableOpacity>
+                      <>
+                      {item.type === 'CHEFF' && (
+                        
+                        <Animated.View key={index} entering={FadeInLeft.duration(300).delay(200)} exiting={FadeOutRight.duration(300).delay(200)}>
+                          <TouchableOpacity onPress={() => handleProductPress(item._id)}>
+                              <View style={{display : 'flex', 
+                                flexDirection : 'row', gap : 10, 
+                                justifyContent : 'center', 
+                                alignItems : 'center', 
+                                borderBottomColor : Colors.myGray,
+                                borderBottomWidth : 1,
+                                paddingBottom : 15,
+                                marginBottom : 15,
+                              }}>
 
-              <TouchableOpacity>
-                <View style={{display : 'flex', 
-                  flexDirection : 'row', gap : 10, 
-                  justifyContent : 'center', 
-                  alignItems : 'center', 
-                  borderBottomColor : Colors.myGray,
-                  borderBottomWidth : 1,
-                  paddingBottom : 15,
-                  marginBottom : 15,
-                }}>
+                                <View style={{width : 70, height : 70, overflow : 'hidden', borderRadius : 50}}>
+                                  <Image source={{uri : item.logo}}
+                                    style={{width : 80, height : 80}}
+                                  />
+                                </View>
 
-                  <Image source={require('../../assets/images/prof2.png')}
-                    style={{width : 70, height : 70}}
-                  />
+                                <View style={{width : '75%'}}>
+                                  <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center'}}>
+                                    <Text style={{fontFamily : 'Railway3', fontSize : 15}}>{item.shopName}</Text>
+                                    <Text style={{fontSize : 15, marginLeft : 'auto'}}>5.0 (123)</Text>
+                                  </View>
 
-                  <View style={{width : '75%'}}>
-                    <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center'}}>
-                      <Text style={{fontFamily : 'Railway2', fontSize : 16}}>Chef Ogechi San</Text>
-                      <Text style={{fontSize : 15, marginLeft : 'auto'}}>5.0 (123)</Text>
-                    </View>
+                                  <Text style={{fontFamily : 'Railway1', 
+                                    fontSize : 12, color : 'gray', paddingVertical : 5,
+                                    textAlign : 'justify'
+                                  }}>
+                                   {item.description}
+                                  </Text>
+                                </View>
 
-                    <Text style={{fontFamily : 'Railway1', 
-                      fontSize : 12, color : 'gray', paddingVertical : 5,textAlign : 'justify'
-                    }}>
-                      Lorem ipsum dolor sit amet consectetur adipis icing elit. 
-                      Maxime mollitia,molestiae quas vel sint.
-                    </Text>
-                    <Text style={{fontFamily : 'Railway1', color : Colors.btnGreen}}>From N10,000 | Schedule Request</Text>
-                  </View>
+                              </View>
+                            </TouchableOpacity>
+                        </Animated.View>
+                      )}
+                      </>
+                    ))}
+                    </>
+                  )}
 
-                </View>
-              </TouchableOpacity>
+  
 
-              <TouchableOpacity>
-                <View style={{display : 'flex', 
-                  flexDirection : 'row', gap : 10, 
-                  justifyContent : 'center', 
-                  alignItems : 'center', 
-                  borderBottomColor : Colors.myGray,
-                  borderBottomWidth : 1,
-                  paddingBottom : 15,
-                  marginBottom : 15,
-                }}>
-
-                  <Image source={require('../../assets/images/prof3.png')}
-                    style={{width : 70, height : 70}}
-                  />
-
-                  <View style={{width : '75%'}}>
-                    <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center'}}>
-                      <Text style={{fontFamily : 'Railway2', fontSize : 16}}>Chef Ogechi San</Text>
-                      <Text style={{fontSize : 15, marginLeft : 'auto'}}>5.0 (123)</Text>
-                    </View>
-
-                    <Text style={{fontFamily : 'Railway1', 
-                      fontSize : 12, color : 'gray', paddingVertical : 5, textAlign : 'justify'
-                    }}>
-                      Lorem ipsum dolor sit amet consectetur adipis icing elit. 
-                      Maxime mollitia,molestiae quas vel sint.
-                    </Text>
-                    <Text style={{fontFamily : 'Railway1', color : Colors.btnGreen}}>From N10,000 | Schedule Request</Text>
-                  </View>
-
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity>
-                <View style={{display : 'flex', 
-                  flexDirection : 'row', gap : 10, 
-                  justifyContent : 'center', 
-                  alignItems : 'center', 
-                  borderBottomColor : Colors.myGray,
-                  borderBottomWidth : 1,
-                  paddingBottom : 15,
-                  marginBottom : 15,
-                }}>
-
-                  <Image source={require('../../assets/images/prof2.png')}
-                    style={{width : 70, height : 70}}
-                  />
-
-                  <View style={{width : '75%'}}>
-                    <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center'}}>
-                      <Text style={{fontFamily : 'Railway2', fontSize : 16}}>Chef Ogechi San</Text>
-                      <Text style={{fontSize : 15, marginLeft : 'auto'}}>5.0 (123)</Text>
-                    </View>
-
-                    <Text style={{fontFamily : 'Railway1', 
-                      fontSize : 12, color : 'gray', paddingVertical : 5, textAlign : 'justify'
-                    }}>
-                      Lorem ipsum dolor sit amet consectetur adipis icing elit. 
-                      Maxime mollitia,molestiae quas vel sint.
-                    </Text>
-                    <Text style={{fontFamily : 'Railway1', color : Colors.btnGreen}}>From N10,000 | Schedule Request</Text>
-                  </View>
-
-                </View>
-              </TouchableOpacity>
-              
-            </View> :
+            </View> 
+            
+            :
                         
             <View style={{paddingTop : 20, }}>
               <Text style={{fontFamily : 'Railway3', fontSize : 15, paddingBottom : 10}}>Available Restaurants</Text>
@@ -278,16 +223,19 @@ const index = () => {
                   {isLoading || !shopData ? 
                   
                   (
-                  // <ActivityIndicator style={{paddingTop : 100}} size={'large'}/> 
-                  <Loader2 />
+                  <ActivityIndicator style={{paddingTop : 150}} size={'large'}/> 
+                  // <Loader2 />
                   )
 
                   : (
 
                     <>
                     {shopData.map((item : any, index:any) => (
+
+                      <>
+                      {item.type === 'RESTAURANT' && (
                         
-                        <Animated.View key={index} entering={FadeInLeft.duration(300).delay(200)} exiting={FadeOutRight.duration(300).delay(200)}>
+                        <Animated.View key={index} entering={FadeInLeft.duration(300).delay(200)}>
                         <Pressable style={styles.restImageDiv}  onPress={() => handleProductPress(item._id)}>
 
                           
@@ -297,21 +245,27 @@ const index = () => {
                           />
 
     
-                          <View style={{paddingHorizontal : 10, paddingVertical : 10}}>
-                            <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center', }}>
-                              <Text style={{fontFamily : 'Railway3'}}>{item.shopName}</Text>
-                              <Text style={{marginLeft : 'auto', fontFamily : 'Railway2'}}>5.0 (123)</Text>
+                          <View style={{paddingHorizontal : 10, paddingVertical : 5, display : 'flex', flexDirection : 'row', alignItems : 'center'}}>
+                            <View style={{display : 'flex', flexDirection : 'column'}}>
+                              <Text style={{fontFamily : 'Railway3', fontSize : 15}}>{item.shopName}</Text>
+                              <Text style={{fontFamily : 'Railway1', fontSize : 12}}>{item.description}</Text>
                             </View>
-    
-                            <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center', paddingTop : 10}}>
-                                <Text style={{fontFamily : 'Railway1'}}>From N1000 | 5 - 10 mins</Text>
-                                <TouchableOpacity style={{marginLeft : 'auto',}}>
-                                  <FontAwesome name='heart-o' color={Colors.btnGreen}  size={15}/>
-                                </TouchableOpacity>
-                            </View>
+                              <TouchableOpacity onPress={handleIsFavorite} style={{
+                                marginLeft : 'auto', padding : 10, 
+                                backgroundColor : Colors.myLightGray,
+                                borderRadius : 50
+
+                              }}>
+                                {isFavorite === false ? <FontAwesome name='heart-o' color={Colors.myRed}  size={15}/>
+                                : <FontAwesome name='heart' color={Colors.myRed}  size={15}/>
+                                }
+                              
+                              </TouchableOpacity>
                           </View>
                         </Pressable>
-                      </Animated.View>
+                        </Animated.View>
+                      )}
+                      </>
                     ))}
                     </>
                   )}
@@ -341,11 +295,10 @@ export default index
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor : 'white',
-        paddingHorizontal: 20,
-        paddingTop : 0,
-        // marginTop : 50
+      flex: 1,
+      backgroundColor : 'white',
+      paddingHorizontal: 20,
+      paddingTop : 0,
     },
 
     imageDIv : {
@@ -367,12 +320,12 @@ const styles = StyleSheet.create({
     backgroundColor : Colors.btnGreen,
     display : 'flex',
     flexDirection : 'row',
-    width : '50%',
+    width : '48%',
     alignItems : 'center',
     padding : 8,
     alignSelf : 'center',
     justifyContent : 'center',
-    borderRadius : 5,
+    borderRadius : 20,
     gap : 5
   },
 
@@ -390,14 +343,14 @@ const styles = StyleSheet.create({
     backgroundColor : 'white',
     display : 'flex',
     flexDirection : 'row',
-    width : '50%',
+    width : '48%',
     alignItems : 'center',
     borderColor : Colors.btnGreen,
     borderWidth : 1,
     padding : 8,
     textAlign : 'center',
     justifyContent : 'center',
-    borderRadius : 5,
+    borderRadius : 20,
     gap : 5
   },
 
@@ -411,7 +364,7 @@ const styles = StyleSheet.create({
 
   restImage : {
     width : '100%',
-    height : 100,
+    height : 150,
     borderTopRightRadius : 5,
     borderTopLeftRadius : 5,
   }

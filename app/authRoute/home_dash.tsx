@@ -36,13 +36,13 @@ const index = () => {
 
         {/* <TouchableOpacity onPress={deleteSeenScreen}>
           <Text style={{fontSize : 20, paddingTop : 20}}>Remove Screen</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
-        <TouchableOpacity onPress={logout}>
-          <Text style={{fontSize : 20, paddingTop : 20}}>Logoutt Screen</Text>
+        {/* <TouchableOpacity onPress={logout}>
+          <Text style={{fontSize : 20, paddingTop : 20}}>Logout Screen</Text>
         </TouchableOpacity> */}
         
-        <View>
+        <View style={{}}>
 
               <View style={{paddingVertical : 0, paddingBottom : 0, }}>
                 <Image source={require('../../assets/images/dashSec2.png')}
@@ -52,40 +52,26 @@ const index = () => {
               </View>
 
 
-              <ScrollView 
-                horizontal 
-                showsHorizontalScrollIndicator={false} 
-                style={{display : 'flex', gap : 10, flexDirection : 'row', height : 0}}
-              >
-                <View style={{
-                    display : 'flex', backgroundColor : Colors.myLightPink, 
-                    borderRadius : 100, flexDirection : 'row',
-                    padding : 5, paddingHorizontal : 20, gap : 10, height : 26,
-                    marginRight : 10, 
-                  }}
-                >
-                  <TouchableOpacity style={{display : 'flex', flexDirection : 'row', alignItems : 'center', gap : 5}}>
-                    <Ionicons name='wallet-outline' size={12}/>
-                    <Text style={{fontSize : 11, fontFamily : 'Railway1'}}>Food Grab Wallet coming soon</Text>
+              <View style={{display : 'flex', gap : 10, flexDirection : 'column', paddingTop : 20}}>
+
+                  <TouchableOpacity style={{padding : 15, backgroundColor : Colors.myLightGray, paddingLeft : 10}}>
+                    
+                    <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center', gap : 10, }}> 
+                      <Ionicons name='wallet-outline' size={20}/> 
+                      <Text>Food Grab Wallet coming soon</Text>
+                    </View>
                   </TouchableOpacity>
-                </View>
-
-                <View style={{
-                    display : 'flex', backgroundColor : Colors.myLightGray, 
-                    borderRadius : 100, flexDirection : 'row',
-                    padding : 5, paddingHorizontal : 20, gap : 10, height : 26,
-                    marginRight : 10, 
-                  }}
-                >
-                  <TouchableOpacity style={{display : 'flex', flexDirection : 'row', alignItems : 'center', gap : 5}}>
-                    <Ionicons name='fast-food-outline' size={12}/>
-                    <Text style={{fontSize : 11, fontFamily : 'Railway1'}}>Get the best food here</Text>
+                  <TouchableOpacity style={{padding : 15, backgroundColor : Colors.myLightGray, paddingLeft : 10}}>
+                    
+                    <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center', gap : 10, }}> 
+                      <Ionicons name='fast-food-outline' size={20}/> 
+                      <Text>Get Quality Food here  😊😊</Text>
+                    </View>
                   </TouchableOpacity>
-                </View>
 
-              </ScrollView>
+              </View>
 
-            <View style={{display: 'flex', paddingTop : 10, paddingHorizontal : 10, flexDirection : 'row', alignItems : 'center', justifyContent : 'center', gap : 10}}>
+            <View style={{display: 'flex', paddingTop : 20, paddingHorizontal : 10, flexDirection : 'row', alignItems : 'center', justifyContent : 'center', gap : 10}}>
               
               
 
