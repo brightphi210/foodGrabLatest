@@ -315,7 +315,6 @@ eachBtn : {
     borderWidth : 1,
     borderColor : Colors.myGray,
     padding : 13,
-    // paddingHorizontal : 20,
     borderRadius : 10,
     borderStyle : 'dashed'
 },
@@ -325,7 +324,6 @@ bottomBtns: {
     flexDirection : 'column',
     paddingTop : 30, 
     gap : 10,
-    paddingHorizontal : 10,
     marginBottom : 30
 },
 

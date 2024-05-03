@@ -4,13 +4,27 @@ import { StatusBar } from 'expo-status-bar';
 import Colors from '@/constants/Colors';
 import { Link, useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
+import Animated, { FadeIn, FadeOut,  useSharedValue, useAnimatedStyle, withRepeat, withSpring  } from 'react-native-reanimated';
 
 
 const welcome_one = () => {
 
+  const translateY = useSharedValue(0);
 
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateY: translateY.value }],
+    };
+  });
 
+  React.useEffect(() => {
+    const animation = withRepeat(
+      withSpring(-10, { stiffness: 150, damping: 150, mass: 1 }),
+      -1,
+      true
+    );
+    translateY.value = animation;
+  }, []);
     
 
   return (
@@ -20,7 +34,7 @@ const welcome_one = () => {
              entering={FadeIn.duration(300).delay(300)}
              exiting={FadeOut.duration(300).delay(300)}
       >
-        <Image source={require('../../assets/images/ride.png')} style={styles.imgStyle}/>
+        <Animated.Image source={require('../../assets/images/ride.png')} style={[styles.imgStyle, animatedStyle]}/>
 
         {/* ========= Text =============== */}
         <View style={styles.textDiv}>
@@ -74,7 +88,7 @@ const styles = StyleSheet.create({
     bottom : 50,
     left : 0,
     right : 0,
-    height : 60,
+    height : 50,
     backgroundColor : Colors.myRed,
     flexDirection : 'row',
     alignItems : 'center',

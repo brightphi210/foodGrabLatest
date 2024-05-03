@@ -39,6 +39,10 @@ const MainLayout = () => {
   },[]);
 
 
+  console.log(seenScreen);
+  
+
+
 
   const getVerifiedData = async () => {
     try {
@@ -76,7 +80,7 @@ const MainLayout = () => {
 
     else if(isAuthenticated && !inApp ){
       router.push('/authRoute/home_dash')
-      // router.replace('/home')
+      router.replace('/home')
       // router.replace('/register')
       // router.replace('/account')
       // router.replace('/carts')

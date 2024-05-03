@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Pressable, TextInput } from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Pressable, TextInput, RefreshControl } from 'react-native'
 import React, {useState, useEffect, useContext} from 'react'
 import Colors from '@/constants/Colors';
 import { BASE_URL } from '@/Enpoints/Endpoint';
@@ -162,16 +162,27 @@ const resturantPage = () => {
   };
 
 
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
 
   return (
     <Animated.View style={styles.container}   
       entering={BounceInDown.duration(300).delay(300)}
       exiting={FadeOut.duration(50).delay(50)}
     >
-          <Pressable onPress={handleBackPress} style={{paddingVertical: 20}}>
+          <Pressable onPress={handleBackPress} style={{paddingVertical: 10}}>
             <Ionicons name='arrow-back' size={25} />
           </Pressable>
         <StatusBar style='dark'/>
+
+
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
 
         {isLoading || singleShopData === null || singleShopData === undefined   ? 
           <Loader />
@@ -199,89 +210,90 @@ const resturantPage = () => {
               paddingBottom : 10,
           }}>
               <View style={{borderRightColor : Colors.myGray, borderRightWidth : 1, paddingRight : 20}}>
-                  <Text style={{fontFamily : 'Railway1', fontSize : 12, color : 'gray'}}>Preparation Time</Text>
-                  <Text style={{fontFamily : 'Railway3', }}>5-20 minutes</Text>
+                  <Text style={{fontFamily : 'Railway1', fontSize : 10, color : 'gray'}}>Preparation Time</Text>
+                  <Text style={{fontFamily : 'Railway3',  fontSize : 12}}>5-20 minutes</Text>
               </View>
 
               <View style={{borderRightColor : Colors.myGray, borderRightWidth : 1, paddingRight : 20}}>
-                  <Text style={{fontFamily : 'Railway1', fontSize : 12, color : 'gray'}}>Delivery Type</Text>
-                  <Text style={{fontFamily : 'Railway3', }}>Instant Delivery</Text>
+                  <Text style={{fontFamily : 'Railway1', fontSize : 10, color : 'gray'}}>Delivery Type</Text>
+                  <Text style={{fontFamily : 'Railway3', fontSize : 12}}>Instant Delivery</Text>
               </View>
 
               <View style={{}}>
-                  <Text style={{fontFamily : 'Railway1', fontSize : 12, color : 'gray'}}>Rating</Text>
-                  <Text style={{fontFamily : 'Railway3', }}>5.0 (123)</Text>
+                  <Text style={{fontFamily : 'Railway1', fontSize : 10, color : 'gray'}}>Rating</Text>
+                  <Text style={{fontFamily : 'Railway3', fontSize : 12}}>5.0 (123)</Text>
               </View>
-          </View>
+            </View>
 
-          <View style={{display : 'flex', flexDirection :'row', paddingVertical : 20, gap : 10}}>
+            <View style={{display : 'flex', flexDirection :'row', paddingVertical : 10, paddingTop:20, gap : 10}}>
 
-              <TouchableOpacity style={styles.btnStyle}>
-                  <Text style={styles.btnText}>All</Text>
-              </TouchableOpacity>
+                <TouchableOpacity style={styles.btnStyle}>
+                    <Text style={styles.btnText}>All</Text>
+                </TouchableOpacity>
 
 
-              <TouchableOpacity style={styles.btnStyle1}>
-                  <Text style={styles.btnText1}>What’s New</Text>
-              </TouchableOpacity>
+                <TouchableOpacity style={styles.btnStyle1}>
+                    <Text style={styles.btnText1}>What’s New</Text>
+                </TouchableOpacity>
 
-          </View>
+            </View>
 
-          <View style={{position : 'relative', paddingTop : 10, paddingBottom : 10}}>
-            <Ionicons name='search' size={15} style={{position : 'absolute', top : 25, left : 15}}/>
-            <TextInput placeholder='Search for your favourite food' style={styles.inputStyles}/>
-            {/* <Ionicons name='filter' size={15} style={{position : 'absolute', top : 25, right :15}}/> */}
-          </View>
+            <View style={{position : 'relative', paddingTop : 10, paddingBottom : 10}}>
+              <Ionicons name='search' size={15} style={{position : 'absolute', top : 25, left : 15}}/>
+              <TextInput placeholder='Search for your favourite food' style={styles.inputStyles}/>
+            </View>
 
-          <ScrollView style={{paddingVertical : 10, height : '60%',}} showsVerticalScrollIndicator ={false}>
+            <ScrollView style={{paddingVertical : 10, height : '45%',}} showsVerticalScrollIndicator ={false}>
 
-                {cuisines === undefined || cuisines === null ? <ActivityIndicator size={'large'}/> : (
-                  <View >
-                  {cuisines.map((eachCuisines:any, index:any)=>(
+                  {cuisines === undefined || cuisines === null ? <ActivityIndicator size={'large'}/> : (
+                    <View >
+                    {cuisines.map((eachCuisines:any, index:any)=>(
 
-                      <TouchableOpacity key={index}  onPress={()=>toggleItem(eachCuisines._id)} style={{
-                        display : 'flex', flexDirection : 'row', 
-                        alignItems : 'center', marginBottom : 20, 
-                        paddingBottom : 20, borderBottomColor : Colors.myGray,
-                        borderBottomWidth : 1,
-                      }}>
-                        <View style={{display : 'flex', 
-                            flexDirection : 'row', gap : 10, 
-                            justifyContent : 'center', 
-                            alignItems : 'center', 
+                        <TouchableOpacity key={index}  onPress={()=>toggleItem(eachCuisines._id)} style={{
+                          display : 'flex', flexDirection : 'row', 
+                          alignItems : 'center', marginBottom : 20, 
+                          paddingBottom : 20, borderBottomColor : Colors.myGray,
+                          borderBottomWidth : 1,
                         }}>
+                          <View style={{display : 'flex', 
+                              flexDirection : 'row', gap : 10, 
+                              justifyContent : 'center', 
+                              alignItems : 'center', 
+                          }}>
 
-                            <Image source={{uri: eachCuisines.thumbnail}}
-                            style={{width : 60, height : 50, borderRadius : 5}}
-                            />
+                              <Image source={{uri: eachCuisines.thumbnail}}
+                              style={{width : 60, height : 50, borderRadius : 5}}
+                              />
 
-                            <View style={{width : '75%'}}>
-                            <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center'}}>
-                                <Text style={{fontFamily : 'Railway2', fontSize : 12}}>{eachCuisines.name.toUpperCase()}</Text>
+                              <View style={{width : '75%'}}>
+                              <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center'}}>
+                                  <Text style={{fontFamily : 'Railway2', fontSize : 12}}>{eachCuisines.name.toUpperCase()}</Text>
+                              </View>
+
+                              <Text style={{fontFamily : 'Railway1', 
+                                  fontSize : 12, color : 'gray', paddingVertical : 3,
+                                  textAlign : 'justify'
+                              }}>
+                                  {eachCuisines.description}
+                              </Text>
+                              <Text style={{ color : Colors.btnGreen, fontSize : 10}}>From N{eachCuisines.price.toLocaleString()}</Text>
                             </View>
 
-                            <Text style={{fontFamily : 'Railway1', 
-                                fontSize : 12, color : 'gray', paddingVertical : 3,
-                                textAlign : 'justify'
-                            }}>
-                                {eachCuisines.description}
-                            </Text>
-                            <Text style={{ color : Colors.btnGreen, fontSize : 10}}>From N{eachCuisines.price.toLocaleString()}</Text>
                           </View>
 
-                        </View>
+                          <Checkbox 
+                            style={styles.checkbox} 
+                            value={selectedItems.includes(eachCuisines._id)}
+                            onValueChange={() => toggleItem(eachCuisines._id)}
+                          />
+                        </TouchableOpacity>
+                    ))}
+                    </View>
+                  )}
 
-                        <Checkbox 
-                          style={styles.checkbox} 
-                          value={selectedItems.includes(eachCuisines._id)}
-                          onValueChange={() => toggleItem(eachCuisines._id)}
-                        />
-                      </TouchableOpacity>
-                  ))}
-                  </View>
-                )}
+            </ScrollView>
 
-          </ScrollView>
+            
           </View>
         }
 
@@ -408,7 +420,7 @@ const styles = StyleSheet.create({
       borderRadius : 5,  
       marginHorizontal : 20,
       position : 'absolute',
-      bottom : 30,
+      bottom : 20,
       left : 0,
       right : 0,
   },
@@ -425,7 +437,7 @@ const styles = StyleSheet.create({
     borderRadius : 5,  
     marginHorizontal : 20,
     position : 'absolute',
-    bottom : 30,
+    bottom : 20,
     left : 0,
     right : 0,
   },

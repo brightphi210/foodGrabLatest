@@ -2,16 +2,15 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { StatusBar } from 'expo-status-bar'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import BackHeader from '@/components/BackHeader'
-import BackHeaderAccount from '@/components/BackHeaderAccount'
 import { Ionicons } from '@expo/vector-icons'
 import Colors from '@/constants/Colors'
+import NotificationHeader from '@/components/NotificationHeader'
 
 const notification = () => {
   return (
     <SafeAreaView style={styles.container}>
         <StatusBar style='dark'/>
-        <BackHeaderAccount />
+        <NotificationHeader />
         <Text style={{fontFamily : 'Railway3', fontSize : 15}}>Notification</Text>
 
         <View style={{justifyContent : 'center', alignItems : 'center', flex : 1}}>

@@ -41,7 +41,7 @@ const order = () => {
 
   const fetchOrderData = async () => {
     try {
-      const res = await fetch(`${BASE_URL}viewOrders`, {
+      const res = await fetch(`${BASE_URL}viewOrders/${userToken}`, {
         method: 'GET',
         headers: {
           "Authorization": `Bearer ${userToken}`,
@@ -135,7 +135,7 @@ const order = () => {
           > 
             {orderDatas && orderDatas.map((data:any, index :any)=>(
 
-              <Animated.View key={index} style={styles.eachCartDiv} entering={FadeInLeft.duration(300).delay(200)} exiting={FadeOutRight.duration(300).delay(200)}>
+              <Animated.View key={index} style={styles.eachCartDiv} entering={FadeInLeft.duration(300).delay(200)}>
                 <View style={styles.eachCart}>
                   <View style={{ overflow: 'hidden', width: 70, height: 60, borderRadius: 5 }}>
 
@@ -275,7 +275,6 @@ const order = () => {
         {isActive2 === true && (
 
         <>
-            {orderDatas !== undefined && orderDatas.length === 0 && (
               <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', gap: 15 }}>
 
                 <Image source={require("../../assets/images/Box.png")} 
@@ -284,7 +283,6 @@ const order = () => {
 
                 <Text style={{ fontFamily: 'Railway1' }}>No Completed Order Yet !!!</Text>
               </View>  
-            )}
           
         </>
         )}

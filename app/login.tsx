@@ -161,9 +161,9 @@ const register = () => {
 
                             <TouchableOpacity onPress={togglePasswordVisibility} style={styles.iconStyle}>
                                 {showPassword ? 
-                                    <Ionicons name='eye-off' size={20}/>
+                                    <Ionicons name='eye-off' size={30}/>
                                     :
-                                    <Ionicons name='eye' size={20} /> 
+                                    <Ionicons name='eye' size={30} /> 
                                 }
                             </TouchableOpacity>
                             
@@ -176,10 +176,11 @@ const register = () => {
                 <Text style={{fontSize : 15, fontFamily : 'Railway2', color : 'white'}}>{isLoading ? (<ActivityIndicator color={'white'} size={'large'}/>) : 'Signin'}</Text>
             </TouchableOpacity>
 
-            <Text style={{textAlign : 'center', paddingTop : 10, fontSize : 13, fontFamily : 'Railway3',}}>
-                Don’t have an account? 
-                <Link href={'/register'}><Text style={{color : Colors.myRed}}>Sign up</Text></Link>
-            </Text>
+            <View style={{display : 'flex', flexDirection : 'row', gap : 10, paddingTop : 20, alignItems : 'center', justifyContent : 'center'}}>
+                <Text style={{textAlign : 'center',  fontSize : 15, fontFamily : 'Railway3', }}>Don’t have an account? 
+                </Text>
+                <Link href={'/register'}><Text style={{color : Colors.myRed, fontSize : 15}}>Sign up</Text></Link>
+            </View>
         </ScrollView>
 
       </Animated.View>
@@ -255,6 +256,6 @@ const styles = StyleSheet.create({
     iconStyle : {
         position : 'absolute',
         top : 15,
-        right : 30,
+        right : 20,
     }
 })

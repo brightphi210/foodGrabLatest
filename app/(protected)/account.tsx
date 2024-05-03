@@ -13,7 +13,7 @@ const account = () => {
   const [image, setImage] = useState()
   const [isLoading, setIsLoading] = useState(true)
   const router = useNavigation<any>()
-  const { userData, logout,  getUserData, userDetails} = useContext(AuthContext)
+  const { userData, logout,  getUserData, userDetails, userToken} = useContext(AuthContext)
 
   const uploadImage = async () => {
     try {
@@ -46,6 +46,10 @@ const account = () => {
   useEffect(() => {
     getUserData();
   },[]);
+
+  console.log(userDetails);
+  console.log(userToken);
+
 
 
 
@@ -89,7 +93,7 @@ const account = () => {
               flexDirection: 'row', 
               alignItems: 'center', 
               justifyContent: 'space-between' ,
-              backgroundColor : Colors.myLightGray, padding : 15,  paddingVertical : 30,
+              backgroundColor : Colors.myLightGray, padding : 20,  paddingVertical : 20,
               borderRadius : 5
             }} onPress={()=> router.navigate('authRoute/(profile)/personal')}>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
@@ -116,7 +120,7 @@ const account = () => {
 
             <TouchableOpacity onPress={()=>router.navigate('authRoute/(profile)/support')}
               style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', 
-              backgroundColor : Colors.myLightGray, padding : 15,  paddingVertical : 30,
+              backgroundColor : Colors.myLightGray, padding : 20,  paddingVertical : 20,
               borderRadius : 5
               }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
@@ -130,7 +134,7 @@ const account = () => {
 
             <TouchableOpacity onPress={()=>router.navigate('authRoute/(profile)/FAQs')} 
               style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', 
-              backgroundColor : Colors.myLightGray, padding : 15,  paddingVertical : 30,
+              backgroundColor : Colors.myLightGray, padding : 20,  paddingVertical : 20,
               borderRadius : 5
               }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
@@ -142,7 +146,7 @@ const account = () => {
 
 
           <TouchableOpacity onPress={logout} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-            backgroundColor : Colors.myLightGray, padding : 15,  paddingVertical : 30,
+            backgroundColor : Colors.myLightGray, padding : 20,  paddingVertical : 20,
             borderRadius : 5
            }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>

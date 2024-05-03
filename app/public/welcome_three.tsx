@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import Colors from '@/constants/Colors';
 import { Link, useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
+import Animated, { FadeIn, FadeOut, useSharedValue, useAnimatedStyle, withRepeat, withSpring } from 'react-native-reanimated';
 
 const welcome_three = () => {
 
@@ -16,9 +16,32 @@ const welcome_three = () => {
   const setHasSeenScreen = async () => {
       await AsyncStorage.setItem('welcomeScreen', JSON.stringify(true));
       setHasSeenWelcomeScreen(true)
-      router.push('/login')
-
+      router.replace('/login')
   }
+
+  const setHasSeenScreen2 = async () => {
+    await AsyncStorage.setItem('welcomeScreen', JSON.stringify(true));
+    setHasSeenWelcomeScreen(true)
+    router.replace('/register')
+}
+
+
+  const translateY = useSharedValue(0);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateY: translateY.value }],
+    };
+  });
+
+  React.useEffect(() => {
+    const animation = withRepeat(
+      withSpring(-10, { stiffness: 150, damping: 150, mass: 1 }),
+      -1,
+      true
+    );
+    translateY.value = animation;
+  }, []);
 
 
   return (
@@ -28,11 +51,11 @@ const welcome_three = () => {
              entering={FadeIn.duration(300).delay(300)}
              exiting={FadeOut.duration(300).delay(300)}
       >
-        <Image source={require('../../assets/images/logimg.png')} style={styles.imgStyle}/>
+        <Animated.Image source={require('../../assets/images/logimg.png')} style={[styles.imgStyle, animatedStyle]}/>
 
         {/* ========= Text =============== */}
         
-          <TouchableOpacity style={styles.btnStyles1} onPress={()=>router.replace('/register')}>
+          <TouchableOpacity style={styles.btnStyles1}  onPress={setHasSeenScreen2}>
               <Text style={{fontSize : 18, color : 'white', fontFamily : 'Railway2'}}>Get Started</Text>
             </TouchableOpacity>
 
@@ -64,7 +87,7 @@ const styles = StyleSheet.create({
 
 
   btnStyles1 :{
-    height : 60,
+    height : 50,
     backgroundColor : Colors.myRed,
     flexDirection : 'row',
     alignItems : 'center',
@@ -84,7 +107,7 @@ const styles = StyleSheet.create({
     bottom : 50,
     left : 0,
     right : 0,
-    height : 60,
+    height : 50,
     backgroundColor : 'white',
     flexDirection : 'row',
     alignItems : 'center',
