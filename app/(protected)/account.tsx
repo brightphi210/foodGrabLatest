@@ -47,15 +47,6 @@ const account = () => {
     getUserData();
   },[]);
 
-  console.log(userDetails);
-  console.log(userToken);
-
-
-
-
-
-
-
   return (
     <SafeAreaView style={styles.container}>
       

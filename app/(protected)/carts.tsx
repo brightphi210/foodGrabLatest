@@ -161,7 +161,7 @@ const cart = () => {
                     </TouchableOpacity>
   
                     <TouchableOpacity onPress={() => deleteItemFromCart(index)} style={{marginLeft : 'auto'}}>
-                      <FontAwesome name='trash' size={15} color={Colors.myRed}  />
+                      <Ionicons name='trash' size={20} color={Colors.myRed}  />
                     </TouchableOpacity>
                   </View>
                 

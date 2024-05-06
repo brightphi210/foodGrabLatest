@@ -1,6 +1,6 @@
 import { ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigation, useRouter } from 'expo-router'
 import { FadeInLeft, FadeOutRight } from 'react-native-reanimated';
 import Animated from 'react-native-reanimated';
@@ -12,14 +12,19 @@ import { StatusBar } from 'expo-status-bar';
 import { BASE_URL } from '@/Enpoints/Endpoint';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import OrderLoader from '@/components/OrderLoader';
+import { AuthContext } from '@/context/AuthContext';
 
 const order = () => {
  
+
+  const {userDetails, getUserData} = useContext(AuthContext)
 
   const [userToken, setUserToken] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isActive1, setIsActive1] = useState(true);
   const [isActive2, setIsActive2] = useState(false);
+
+  
   const [orderDatas, setOrderData] = useState<any>()
   const [error, setError] = useState<any>(false)
 
@@ -39,9 +44,14 @@ const order = () => {
   }, []);
 
 
+  useEffect(() => {
+    getUserData();
+  },[]);
+
+
   const fetchOrderData = async () => {
     try {
-      const res = await fetch(`${BASE_URL}viewOrders/${userToken}`, {
+      const res = await fetch(`${BASE_URL}viewOrders?id=${userDetails._id}`, {
         method: 'GET',
         headers: {
           "Authorization": `Bearer ${userToken}`,

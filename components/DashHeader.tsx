@@ -37,15 +37,23 @@ const DashHeader = () => {
         
         <TouchableOpacity onPress={()=>router.replace('/(protected)/account')}>
           <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center', gap : 5}}>
-              <FontAwesome name='user-circle' size={20} color={Colors.myLightGreen}/>
+              <FontAwesome name='user-circle' size={18} color={Colors.myLightGreen}/>
               <Text style={{fontFamily : 'Railway3', fontSize : 15, paddingLeft : 5}}>{userDetails.fullname}</Text>
-              <Ionicons name='chevron-down' size={20}/>
+              <Ionicons name='chevron-down' size={18}/>
           </View>
         </TouchableOpacity>
 
-        <View style={{marginLeft : 'auto'}}>
-            <TouchableOpacity onPress={()=>router.push('/authRoute/notification')}>
-              <Ionicons name='notifications-outline' size={20}/>
+        <View style={{marginLeft : 'auto', display : 'flex', flexDirection : 'row', gap : 20}}>
+            {/* <TouchableOpacity onPress={()=>router.push('/authRoute/notification')} style={{backgroundColor : Colors.myLightGray,  
+              padding : 6, borderRadius : 50,  display : 'flex', justifyContent: 'center', alignItems : 'center',
+            }}>
+              <Ionicons name='search' size={20} color={Colors.myGreen}/>
+            </TouchableOpacity> */}
+
+            <TouchableOpacity onPress={()=>router.push('/authRoute/notification')} style={{backgroundColor : Colors.myLightGray,  
+              padding : 6, borderRadius : 50,  display : 'flex', justifyContent: 'center', alignItems : 'center',
+            }}>
+              <Ionicons name='notifications-outline' size={20} color={Colors.myGreen}/>
             </TouchableOpacity>
         </View>
    </SafeAreaView>

@@ -72,6 +72,7 @@ const resturantPage = () => {
   }, [userToken]);
 
 
+
   const navigate = useNavigation<any>()
   const handleProductPress = (cuisines : any) => {
     navigate.navigate('authRoute/order_page', { cuisines })
@@ -190,7 +191,7 @@ const resturantPage = () => {
           <View>
           <View style={{display : 'flex', flexDirection : 'row', paddingBottom : 10}}>
               <Text style={{ fontFamily : 'Railway2', fontSize : 17, }}>{singleShopData.shopName}</Text>
-              <Text style={{marginLeft : 'auto', fontFamily : 'Railway1'}}>Open till 06:300 pm</Text>
+              <Text style={{marginLeft : 'auto', fontFamily : 'Railway1', fontSize : 11}}>Open till 06:300 pm</Text>
           </View>
           <Image source={{uri : singleShopData.backdropPic}}
               resizeMode='cover'
@@ -221,11 +222,11 @@ const resturantPage = () => {
 
               <View style={{}}>
                   <Text style={{fontFamily : 'Railway1', fontSize : 10, color : 'gray'}}>Rating</Text>
-                  <Text style={{fontFamily : 'Railway3', fontSize : 12}}>5.0 (123)</Text>
+                  <Text style={{fontFamily : 'Railway3', fontSize : 12}}>{(singleShopData.rating)}.0</Text>
               </View>
             </View>
 
-            <View style={{display : 'flex', flexDirection :'row', paddingVertical : 10, paddingTop:20, gap : 10}}>
+            {/* <View style={{display : 'flex', flexDirection :'row', paddingVertical : 10, paddingTop:20, gap : 10}}>
 
                 <TouchableOpacity style={styles.btnStyle}>
                     <Text style={styles.btnText}>All</Text>
@@ -236,11 +237,16 @@ const resturantPage = () => {
                     <Text style={styles.btnText1}>What’s New</Text>
                 </TouchableOpacity>
 
-            </View>
+            </View> */}
 
             <View style={{position : 'relative', paddingTop : 10, paddingBottom : 10}}>
-              <Ionicons name='search' size={15} style={{position : 'absolute', top : 25, left : 15}}/>
-              <TextInput placeholder='Search for your favourite food' style={styles.inputStyles}/>
+              <Ionicons name='search' size={20} style={{position : 'absolute', top : 25, left : 20}}/>
+              <TextInput 
+                placeholder='Search for your favourite food' 
+                style={styles.inputStyles}
+                // value={query}
+                // onChangeText={handleChangeText}
+              />
             </View>
 
             <ScrollView style={{paddingVertical : 10, height : '45%',}} showsVerticalScrollIndicator ={false}>
@@ -356,7 +362,7 @@ const styles = StyleSheet.create({
         borderRadius : 5,
         fontSize : 15,
         position : 'relative',
-        paddingLeft : 40
+        paddingLeft : 50
     },
   
     btnStyle :{

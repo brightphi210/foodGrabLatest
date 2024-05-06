@@ -61,7 +61,7 @@ export default function TabLayout() {
                 name="home"
                 color={focused ? Colors.btnGreen : 'gray'}
               />
-              <Text style={{fontFamily : 'Railway3', paddingTop : 5, color : 'gray', fontSize : 12}}>Home</Text>
+              <Text style={{fontFamily : 'Railway3', paddingTop : 5, color : 'gray', fontSize : 9}}>Home</Text>
               {/* {focused ? (<FontAwesome name='circle' color={Colors.myLightGreen} style={{textAlign : 'center', paddingTop : 5}} size={8}/>) : ''} */}
             </View>
           ),
@@ -97,7 +97,7 @@ export default function TabLayout() {
                 name="basket-outline"
                 color={focused ? Colors.btnGreen : 'gray'}
               />
-              <Text style={{fontFamily : 'Railway3', paddingTop : 5, color : 'gray', fontSize : 12}}>My Carts</Text>
+              <Text style={{fontFamily : 'Railway3', paddingTop : 5, color : 'gray', fontSize : 9}}>My Carts</Text>
               {/* {focused ? (<FontAwesome name='circle' color={Colors.myLightGreen} style={{textAlign : 'center', paddingTop : 5}} size={8}/>) : ''} */}
             </View>
           ),
@@ -123,7 +123,7 @@ export default function TabLayout() {
                 name="bag-outline"
                 color={focused ? Colors.btnGreen : 'gray'}
               />
-              <Text style={{fontFamily : 'Railway3', paddingTop : 5, color : 'gray', fontSize : 12}}>My Orders</Text>
+              <Text style={{fontFamily : 'Railway3', paddingTop : 5, color : 'gray', fontSize : 9}}>My Orders</Text>
               
               {/* {focused ? (<FontAwesome name='circle' color={Colors.myLightGreen} style={{textAlign : 'center', paddingTop : 5}} size={8}/>) : ''} */}
             </View>
@@ -151,7 +151,7 @@ export default function TabLayout() {
                 name="user-circle"
                 color={focused ? Colors.btnGreen : 'gray'}
               />
-              <Text style={{fontFamily : 'Railway3', paddingTop : 5, color : 'gray', fontSize : 12}}>Account</Text>
+              <Text style={{fontFamily : 'Railway3', paddingTop : 5, color : 'gray', fontSize : 9}}>Account</Text>
             </View>
           ),
         }}

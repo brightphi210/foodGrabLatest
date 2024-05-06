@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView, ActivityIndicator, RefreshControl, Pressable } from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView, ActivityIndicator, RefreshControl, Pressable, Button } from 'react-native'
 import React, { useContext, useState, useEffect } from 'react'
 import Colors from '@/constants/Colors';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -14,7 +14,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader2 from '@/components/Loader2';
 import NetworkError from '@/components/NetworkError';
 import Animated, { FadeInLeft, FadeOutRight, SlideInDown, SlideInLeft, SlideInRight, SlideInUp, SlideOutDown, SlideOutRight } from "react-native-reanimated";
-
 
 
 const index = () => {
@@ -51,9 +50,11 @@ const index = () => {
 
   const [shopData, setShopData] = useState<any>([])
   const [error, setError] = useState<any>(false)
+  const [refreshing, setRefreshing] = useState(false);
 
   const fetchData = async () => {
     try {
+      setRefreshing(true)
       const res = await fetch(`${BASE_URL}shops`, {
         method: 'GET',
         headers: {
@@ -63,12 +64,14 @@ const index = () => {
       });
       const myData = await res.json();
       setIsLoading(false);
+      setRefreshing(false)
       setShopData(myData.data);
       
     } catch (error) {
       setIsLoading(false);
       console.log(error);
       setError(true);
+      setRefreshing(false)
 
     }
   };
@@ -77,20 +80,46 @@ const index = () => {
     fetchData();
   }, [userToken]);
 
-  const handleProductPress = (shopId : any) => {
-    navigate.navigate('authRoute/resturant_page', {shopId})
+
+
+  const [query, setQuery] = useState('')
+
+  const fetchDataSearch = async (searchQuery : any) => {
+    try {
+      setRefreshing(true)
+      const res = await fetch(`${BASE_URL}shops?search=${query}`, {
+        method: 'GET',
+        headers: {
+          "Authorization": `Bearer ${userToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      const myData = await res.json();
+      setIsLoading(false);
+      setRefreshing(false)
+      setShopData(myData.data);
+      
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error);
+      setError(true);
+      setRefreshing(false)
+
+    }
+  };
+
+
+  const handleChangeText = (text:any) => {
+    setQuery(text);
+    fetchDataSearch(text);
   };
 
 
 
-  const [refreshing, setRefreshing] = React.useState(false);
+  const handleProductPress = (shopId : any) => {
+    navigate.navigate('authRoute/resturant_page', {shopId})
+  };
 
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }, []);
 
 
 
@@ -107,22 +136,27 @@ const index = () => {
   
 
 
-
   return (
     
     <SafeAreaView style={styles.container}>
         <StatusBar style='dark'/>
 
         <DashHeader />
+
+
         <View style={{position : 'relative', paddingTop : 10, paddingBottom : 6}}>
           <Ionicons name='search' size={15} style={{position : 'absolute', top : 25, left : 15}}/>
-          <TextInput placeholder='Search for your favourite food' style={styles.inputStyles}/>
+          <TextInput 
+            placeholder='Search for your favourite food' 
+            style={styles.inputStyles}
+            value={query}
+            onChangeText={handleChangeText}
+          />
           <Ionicons name='filter' size={15} style={{position : 'absolute', top : 25, right :15}}/>
         </View>
-
-
+ 
         <ScrollView showsVerticalScrollIndicator={false} refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+          <RefreshControl refreshing={refreshing} onRefresh={fetchData} />}>
           <View>
               <View style={{paddingVertical : 0, paddingBottom : 0, }}>
                 <Image source={require('../../assets/images/dashSec2.png')}
@@ -231,40 +265,40 @@ const index = () => {
 
                     <>
                     {shopData.map((item : any, index:any) => (
-
+                      
                       <>
-                      {item.type === 'RESTAURANT' && (
-                        
-                        <Animated.View key={index} entering={FadeInLeft.duration(300).delay(200)}>
-                        <Pressable style={styles.restImageDiv}  onPress={() => handleProductPress(item._id)}>
+                          {item.type === 'RESTAURANT' && (
+                            
+                            <Animated.View key={index} entering={FadeInLeft.duration(300).delay(200)}>
+                            <Pressable style={styles.restImageDiv}  onPress={() => handleProductPress(item._id)}>
 
-                          
-                          <Image source={{uri : item.backdropPic}}
-                            resizeMode='cover'
-                            style={styles.restImage}
-                          />
-
-    
-                          <View style={{paddingHorizontal : 10, paddingVertical : 5, display : 'flex', flexDirection : 'row', alignItems : 'center'}}>
-                            <View style={{display : 'flex', flexDirection : 'column'}}>
-                              <Text style={{fontFamily : 'Railway3', fontSize : 15}}>{item.shopName}</Text>
-                              <Text style={{fontFamily : 'Railway1', fontSize : 12}}>{item.description}</Text>
-                            </View>
-                              <TouchableOpacity onPress={handleIsFavorite} style={{
-                                marginLeft : 'auto', padding : 10, 
-                                backgroundColor : Colors.myLightGray,
-                                borderRadius : 50
-
-                              }}>
-                                {isFavorite === false ? <FontAwesome name='heart-o' color={Colors.myRed}  size={15}/>
-                                : <FontAwesome name='heart' color={Colors.myRed}  size={15}/>
-                                }
                               
-                              </TouchableOpacity>
-                          </View>
-                        </Pressable>
-                        </Animated.View>
-                      )}
+                              <Image source={{uri : item.backdropPic}}
+                                resizeMode='cover'
+                                style={styles.restImage}
+                              />
+
+        
+                              <View style={{paddingHorizontal : 10, paddingVertical : 5, display : 'flex', flexDirection : 'row', alignItems : 'center'}}>
+                                <View style={{display : 'flex', flexDirection : 'column'}}>
+                                  <Text style={{fontFamily : 'Railway3', fontSize : 15}}>{item.shopName}</Text>
+                                  <Text style={{fontFamily : 'Railway1', fontSize : 12}}>{item.description}</Text>
+                                </View>
+                                  <TouchableOpacity onPress={handleIsFavorite} style={{
+                                    marginLeft : 'auto', padding : 10, 
+                                    backgroundColor : Colors.myLightGray,
+                                    borderRadius : 50
+
+                                  }}>
+                                    {isFavorite === false ? <FontAwesome name='heart-o' color={Colors.myRed}  size={15}/>
+                                    : <FontAwesome name='heart' color={Colors.myRed}  size={15}/>
+                                    }
+                                  
+                                  </TouchableOpacity>
+                              </View>
+                            </Pressable>
+                            </Animated.View>
+                          )}
                       </>
                     ))}
                     </>
