@@ -100,6 +100,8 @@ const register = () => {
             const data = response;
             
             await AsyncStorage.setItem('user', JSON.stringify(data.data));
+            await AsyncStorage.setItem('otp', JSON.stringify(true));
+
             setStatusMessage(response.data.mssg);
             setIsLoading(false)
             setIsModalOpen2(true)
@@ -113,8 +115,6 @@ const register = () => {
             alert('Signup failed!');
         }
     };
-
-
 
     
 

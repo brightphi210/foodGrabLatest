@@ -7,6 +7,7 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { AuthContext } from '@/context/AuthContext';
 import { BASE_URL } from '@/Enpoints/Endpoint';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const OTPVerifcation = () => 
   {
@@ -70,6 +71,7 @@ const OTPVerifcation = () =>
         }
       }
       const responseData = await response.json();
+      await AsyncStorage.setItem('otp', JSON.stringify(false));
 
       if(responseData.status === "SUCCESS") {
         navigation.replace('/login')

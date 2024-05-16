@@ -26,6 +26,11 @@ const index = () => {
       router.replace('/public/welcome_one');
     };
 
+    const deleteOTP = () => {
+      AsyncStorage.removeItem('otp');
+      router.replace('/public/welcome_one');
+    };
+
     
 
 
@@ -41,6 +46,11 @@ const index = () => {
         {/* <TouchableOpacity onPress={logout}>
           <Text style={{fontSize : 20, paddingTop : 20}}>Logout Screen</Text>
         </TouchableOpacity> */}
+
+        {/* <TouchableOpacity onPress={deleteOTP}>
+          <Text style={{fontSize : 20, paddingTop : 20}}>Remove OTP</Text>
+        </TouchableOpacity> */}
+        
         
         <View style={{}}>
 

@@ -15,8 +15,6 @@ export {
 } from 'expo-router';
 
 
-
-
 const MainLayout = () => {
 
   const {isAuthenticated} = useAuth()
@@ -24,6 +22,7 @@ const MainLayout = () => {
   const router = useRouter();
   let [seenScreen, setSeenScree] = useState<any>(false)
   let [verified, setVerified] = useState<any>(null)
+  let [seenOTP, setSeenOTP]= useState<any>(false)
 
   const getData = async () => {
     try {
@@ -39,11 +38,25 @@ const MainLayout = () => {
   },[]);
 
 
-  console.log(seenScreen);
+
+  const getOTP = async () => {
+    try {
+        const jsonValue = await AsyncStorage.getItem('otp');
+        setSeenOTP(jsonValue)
+    } catch (e) {
+      console.log(e)
+    }
+  };
+
+  useEffect(() => {
+    getOTP();
+  },[]);
+
+  console.log('This is has seen screen', seenScreen);
+  console.log('This is has seen OTP', seenOTP);
   
 
-
-
+  
   const getVerifiedData = async () => {
     try {
         const jsonValue = await AsyncStorage.getItem('data');
@@ -68,19 +81,17 @@ const MainLayout = () => {
     const inApp = segments[0] == '/(protected)'
 
 
-
-
     if((seenScreen === false || seenScreen === null) && isAuthenticated === false){
       router.replace('/public/welcome_one')
     }
 
-    // else if(verified !== 'VERIFIED' && (isAuthenticated === true || seenScreen !== null)){
-    //   router.replace('/otp_verification')
-    // }
+    else if(seenOTP === true || isAuthenticated === false && (seenScreen !== null || seenScreen === true)){
+      router.replace('/otp_verification')
+    }
 
     else if(isAuthenticated && !inApp ){
       router.push('/authRoute/home_dash')
-      router.replace('/home')
+      // router.replace('/home')
       // router.replace('/register')
       // router.replace('/account')
       // router.replace('/carts')

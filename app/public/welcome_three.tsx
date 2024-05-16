@@ -23,7 +23,7 @@ const welcome_three = () => {
     await AsyncStorage.setItem('welcomeScreen', JSON.stringify(true));
     setHasSeenWelcomeScreen(true)
     router.replace('/register')
-}
+  }
 
 
   const translateY = useSharedValue(0);

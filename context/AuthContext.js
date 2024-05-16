@@ -76,6 +76,10 @@ export const AuthProvider = ({ children }) => {
     router.replace('/login');
   };
 
+  const deleteAll = () => {
+    AsyncStorage.removeItem('cartItems');
+    router.replace('/carts');
+  }
 
   const deleteItemFromCart = async (itemIndex) => {
     try {
@@ -95,7 +99,7 @@ export const AuthProvider = ({ children }) => {
         userToken, isAuthenticated, 
         logout, getData, getCartData, 
         cartItems, setCartItems, userDetails2,getUserData2,
-        deleteItemFromCart, getUserData, userDetails
+        deleteItemFromCart, getUserData, userDetails, deleteAll
     }}>
       {children}
     </AuthContext.Provider>
