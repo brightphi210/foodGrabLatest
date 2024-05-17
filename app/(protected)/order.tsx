@@ -114,27 +114,6 @@ const order = () => {
       {isActive1 === true && (
 
         <>
-
-        <>
-            {orderDatas !== undefined && orderDatas.length === 0 && (
-              <View style={{ flex: 1, paddingTop : 150, justifyContent: 'center', alignItems: 'center', gap: 15 }}>
-
-                <Image source={require("../../assets/images/Box.png")} 
-                  style={{width : 80, height : 80}}
-                />
-    
-                <Text style={{ fontFamily: 'Railway1' }}>You don’t have an active order</Text>
-    
-                <Link href={'/(protected)/home'} asChild>
-                  <TouchableOpacity style={styles.orderBtn} >
-                    <Text style={{color : 'white', fontSize : 12}}>Place an order now</Text>
-                  </TouchableOpacity>
-                </Link>
-              </View>  
-            )}
-          
-        </>
-
           <>
           {orderDatas === undefined &&(
             <View style={{ flex: 1, paddingTop : 150, justifyContent: 'center', alignItems: 'center', gap: 15 }}>

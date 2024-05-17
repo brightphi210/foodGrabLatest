@@ -11,6 +11,8 @@ import { AntDesign } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router'
 import BackHeaderAccount from '@/components/BackHeaderAccount'
+import * as Linking from 'expo-linking';
+import * as WebBrowser from 'expo-web-browser';
 
 
 const support = () => {
@@ -92,9 +94,6 @@ const support = () => {
             setEmail('');
             setName('');
 
-
-
-
         } catch (error) {
             
         }
@@ -114,7 +113,17 @@ const support = () => {
             </View>
         </View>
 
-        <View style={styles.inputViews}>
+
+        <TouchableOpacity style={styles.btnStyles} onPress={() => Linking.openURL('https://wa.link/hpiqzo')}>
+                <Text style={{fontSize : 15, fontFamily : 'Railway2', color : 'white'}}>{isLoading ? (<ActivityIndicator color={'white'}/>) : 'Contact'}</Text>
+        </TouchableOpacity>
+
+
+        {/* <TouchableOpacity style={styles.btnStyles} onPress={() => WebBrowser.openBrowserAsync('https://wa.link/hpiqzo')}>
+                <Text style={{fontSize : 15, fontFamily : 'Railway2', color : 'white'}}>{isLoading ? (<ActivityIndicator color={'white'}/>) : 'Contact Here'}</Text>
+        </TouchableOpacity> */}
+
+        {/* <View style={styles.inputViews}>
 
            <TextInput 
                 placeholder='Enter Name: ' 
@@ -151,10 +160,10 @@ const support = () => {
             <TouchableOpacity style={styles.btnStyles} onPress={handleSend}>
                 <Text style={{fontSize : 15, fontFamily : 'Railway2', color : 'white'}}>{isLoading ? (<ActivityIndicator color={'white'}/>) : 'Send'}</Text>
             </TouchableOpacity>
-        </View>
+        </View> */}
 
 
-        <Modal                 
+        {/* <Modal                 
             isVisible={showModal} backdropOpacity={0.30} 
             animationIn={'slideInDown'} animationOut={'fadeOut'} 
             animationInTiming={500} animationOutTiming={10}
@@ -199,7 +208,7 @@ const support = () => {
                     </TouchableOpacity>
                 </View>
             </View>
-        </Modal>
+        </Modal> */}
         
 
 
