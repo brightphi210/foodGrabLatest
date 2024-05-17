@@ -31,8 +31,6 @@ const index = () => {
       router.replace('/public/welcome_one');
     };
 
-    
-
 
   return (
     <SafeAreaView style={styles.container}>

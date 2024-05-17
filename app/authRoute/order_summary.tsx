@@ -33,7 +33,7 @@ const order_summary = () => {
   const percentage = sumTotalPrice * 0.03
   const grandTotalPrice = (sumTotalPrice + percentage)
   
-// console.log('THis is the data ', cartItem);
+  // console.log('THis is the data ', cartItem);
 
   // Extracting required fields and saving into a new array
   const newArray = cartItem.map((item : any) => ({

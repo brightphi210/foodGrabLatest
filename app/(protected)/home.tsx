@@ -116,11 +116,21 @@ const index = () => {
 
 
 
+  const [isFound, setIsFound] = useState(true);
+
+  const handleSearch = () => {
+    const foundIndex = shopData.findIndex((item : any) => item === query);
+    setIsFound(foundIndex !== -1);
+  };
+
+  useEffect(()=>{
+    handleSearch();
+  },[])
+
+
   const handleProductPress = (shopId : any) => {
     navigate.navigate('authRoute/resturant_page', {shopId})
   };
-
-
 
 
   const [isFavorite, setIsFavorite] = useState(false);
@@ -128,11 +138,7 @@ const index = () => {
   const handleIsFavorite = () => {
     setIsFavorite(!isFavorite);
   }
-
-  
-
-
-  console.log(shopData);
+  console.log('This is the data', shopData);
   
 
 
@@ -242,6 +248,19 @@ const index = () => {
                     </>
                   )}
 
+                  {shopData !== undefined  && (
+                    <>
+                      {
+                        shopData.length === 0 && (
+                        <View style={{display : 'flex', paddingTop: 80, flexDirection : 'column', justifyContent : 'center', margin : 'auto'}}>
+                          <Ionicons name='notifications-circle' style={{textAlign : 'center'}} size={100} color={Colors.myGray}/>
+                          <Text style={{textAlign: 'center', color : Colors.myGray}}>Nothing Found</Text>
+                        </View>
+                        )
+                      }
+                    </>
+
+                  )}
   
 
             </View> 
@@ -254,62 +273,71 @@ const index = () => {
 
  
 
-                  {isLoading || !shopData ? 
+                  {shopData === undefined ? 
                   
                   (
                   <ActivityIndicator style={{paddingTop : 150}} size={'large'}/> 
-                  // <Loader2 />
                   )
 
                   : (
 
                     <>
-                    {shopData.map((item : any, index:any) => (
-                      
-                      <>
-                          {item.type === 'RESTAURANT' && (
-                            
-                            <Animated.View key={index} entering={FadeInLeft.duration(300).delay(200)}>
-                            <Pressable style={styles.restImageDiv}  onPress={() => handleProductPress(item._id)}>
-
+                      {shopData.map((item : any, index:any) => (
+                        <>
+                            {item.type === 'RESTAURANT' && (
                               
-                              <Image source={{uri : item.backdropPic}}
-                                resizeMode='cover'
-                                style={styles.restImage}
-                              />
+                              <Animated.View key={index} entering={FadeInLeft.duration(300).delay(200)}>
+                              <Pressable style={styles.restImageDiv}  onPress={() => handleProductPress(item._id)}>
 
-        
-                              <View style={{paddingHorizontal : 10, paddingVertical : 5, display : 'flex', flexDirection : 'row', alignItems : 'center'}}>
-                                <View style={{display : 'flex', flexDirection : 'column'}}>
-                                  <Text style={{fontFamily : 'Railway3', fontSize : 15}}>{item.shopName}</Text>
-                                  <Text style={{fontFamily : 'Railway1', fontSize : 12}}>{item.description}</Text>
+                                
+                                <Image source={{uri : item.backdropPic}}
+                                  resizeMode='cover'
+                                  style={styles.restImage}
+                                />
+
+          
+                                <View style={{paddingHorizontal : 10, paddingVertical : 5, display : 'flex', flexDirection : 'row', alignItems : 'center'}}>
+                                  <View style={{display : 'flex', flexDirection : 'column'}}>
+                                    <Text style={{fontFamily : 'Railway3', fontSize : 15}}>{item.shopName}</Text>
+                                    <Text style={{fontFamily : 'Railway1', fontSize : 12}}>{item.description}</Text>
+                                  </View>
+                                    <TouchableOpacity onPress={handleIsFavorite} style={{
+                                      marginLeft : 'auto', padding : 10, 
+                                      backgroundColor : Colors.myLightGray,
+                                      borderRadius : 50
+
+                                    }}>
+                                      {isFavorite === false ? <FontAwesome name='heart-o' color={Colors.myRed}  size={15}/>
+                                      : <FontAwesome name='heart' color={Colors.myRed}  size={15}/>
+                                      }
+                                    
+                                    </TouchableOpacity>
                                 </View>
-                                  <TouchableOpacity onPress={handleIsFavorite} style={{
-                                    marginLeft : 'auto', padding : 10, 
-                                    backgroundColor : Colors.myLightGray,
-                                    borderRadius : 50
-
-                                  }}>
-                                    {isFavorite === false ? <FontAwesome name='heart-o' color={Colors.myRed}  size={15}/>
-                                    : <FontAwesome name='heart' color={Colors.myRed}  size={15}/>
-                                    }
-                                  
-                                  </TouchableOpacity>
-                              </View>
-                            </Pressable>
-                            </Animated.View>
-                          )}
-                      </>
-                    ))}
+                              </Pressable>
+                              </Animated.View>
+                            )}
+                        </>
+                      ))}
                     </>
                   )}
-
-
 
                   {error === true && (
                     <NetworkError />
                   )}
 
+                  {shopData !== undefined  && (
+                    <>
+                      {
+                        shopData.length === 0 && (
+                        <View style={{display : 'flex', paddingTop: 80, flexDirection : 'column', justifyContent : 'center', margin : 'auto'}}>
+                          <Ionicons name='notifications-circle' style={{textAlign : 'center'}} size={100} color={Colors.myGray}/>
+                          <Text style={{textAlign: 'center', color : Colors.myGray}}>Nothing Found</Text>
+                        </View>
+                        )
+                      }
+                    </>
+
+                  )}
 
               </View>
             </View>
@@ -317,8 +345,6 @@ const index = () => {
           }
       </ScrollView>
       {/* </Animated.View> */}
-
-
 
     </SafeAreaView>
 

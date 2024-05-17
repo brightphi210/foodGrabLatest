@@ -23,15 +23,15 @@ const cart = () => {
   const navigate = useNavigation<any>()
     
 
-  const handleProductPress = (cartItem : any) => {
-    navigate.navigate('authRoute/order_summary', { cartItem })
-  };
-
-
+  
+  
   const handleProductPress2 = (cartItem : any) => {
     navigate.navigate('authRoute/proceed_checkout', { cartItem })
   };
   
+  const handleProductPress1 = (cartItem : any) => {
+    navigate.navigate('authRoute/order_summary', { cartItem })
+  };
 
 
 
@@ -98,9 +98,9 @@ const cart = () => {
             {cartItem && (<>
   
               
-              <Animated.View style={styles.eachCartDiv} key={index} entering={FadeInLeft.duration(300).delay(200)} exiting={FadeOutRight.duration(300).delay(200)}>
+              <Animated.View style={styles.eachCartDiv}  key={index} entering={FadeInLeft.duration(300).delay(200)} exiting={FadeOutRight.duration(300).delay(200)}>
                 
-                  <View style={styles.eachCart} key={index}>
+                  <View style={styles.eachCart}>
                     <View style={{overflow : 'hidden', width : 70, height : 60, borderRadius : 5}}>
   
                     {cartItem && (
@@ -145,13 +145,15 @@ const cart = () => {
                     
                   </View>
   
-                  <View style={styles.checkOutDiv}>
-                    <TouchableOpacity style={styles.checkOutBtn} onPress={()=> handleProductPress(cartItem)}>
-                      <Text style={{fontFamily : 'Railway2', color : 'white', fontSize : 12}}>Checkout</Text>
+                  <View style={styles.checkOutDiv} >
+
+                    <TouchableOpacity onPress={()=> handleProductPress1(cartItem)} style={styles.checkOutBtn} >
+                      <View>
+                        <Text style={{fontFamily : 'Railway2', color : 'white', fontSize : 12}}>Checkout</Text>
+                      </View>
                     </TouchableOpacity>
   
                     <TouchableOpacity onPress={()=> handleProductPress2(cartItem)} >
-  
                       <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center', gap : 5}}>
                         <Text style={{fontFamily : 'Railway3', fontSize : 12, }}>
                             Edit Selection 

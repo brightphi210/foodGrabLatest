@@ -109,7 +109,6 @@ const register = () => {
                 navigation.replace('/otp_verification')
             }
 
-
         } catch (err) {
             console.error(err);
             alert('Signup failed!');
@@ -117,8 +116,6 @@ const register = () => {
     };
 
     
-
-
   return (
     <SafeAreaView style={{flex : 1, backgroundColor : Colors.myRed,}}>
         <StatusBar style='light'/>

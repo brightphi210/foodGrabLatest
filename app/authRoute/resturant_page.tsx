@@ -172,6 +172,33 @@ const resturantPage = () => {
     }, 2000);
   }, []);
 
+
+  
+  const [query, setQuery] = useState('')
+  console.log(cuisines)
+
+  // const handleChangeText = (text:any) => {
+  //   setQuery(text.toLowerCase()); // Ensure case-insensitive search
+  //   const newData = cuisines.filter((item :any) => {
+  //     const lowercaseItemName = item.name.toLowerCase();
+  //     return lowercaseItemName.includes(text.toLowerCase());
+  //   });
+  //   setFilteredData(newData);
+  // };
+
+
+  const filteredProducts = cuisines.filter((cuisine : any) =>
+    cuisine.name.toLowerCase().includes(query.toLowerCase())
+  );
+  
+
+  console.log('This is Filtered Data', cuisines.length);
+  
+
+
+
+
+
   return (
     <Animated.View style={styles.container}   
       entering={BounceInDown.duration(300).delay(300)}
@@ -244,57 +271,74 @@ const resturantPage = () => {
               <TextInput 
                 placeholder='Search for your favourite food' 
                 style={styles.inputStyles}
-                // value={query}
-                // onChangeText={handleChangeText}
+                value={query}
+                onChangeText={setQuery}
               />
             </View>
 
             <ScrollView style={{paddingVertical : 10, height : '45%',}} showsVerticalScrollIndicator ={false}>
 
                   {cuisines === undefined || cuisines === null ? <ActivityIndicator size={'large'}/> : (
-                    <View >
-                    {cuisines.map((eachCuisines:any, index:any)=>(
+                    <>
 
-                        <TouchableOpacity key={index}  onPress={()=>toggleItem(eachCuisines._id)} style={{
-                          display : 'flex', flexDirection : 'row', 
-                          alignItems : 'center', marginBottom : 20, 
-                          paddingBottom : 20, borderBottomColor : Colors.myGray,
-                          borderBottomWidth : 1,
-                        }}>
-                          <View style={{display : 'flex', 
-                              flexDirection : 'row', gap : 10, 
-                              justifyContent : 'center', 
-                              alignItems : 'center', 
+                      <View >
+                      {filteredProducts?.map((eachCuisines:any, index:any)=>(
+
+                          <TouchableOpacity key={index}  onPress={()=>toggleItem(eachCuisines._id)} style={{
+                            display : 'flex', flexDirection : 'row', 
+                            alignItems : 'center', marginBottom : 20, 
+                            paddingBottom : 20, borderBottomColor : Colors.myGray,
+                            borderBottomWidth : 1,
                           }}>
+                            <View style={{display : 'flex', 
+                                flexDirection : 'row', gap : 10, 
+                                justifyContent : 'center', 
+                                alignItems : 'center', 
+                            }}>
 
-                              <Image source={{uri: eachCuisines.thumbnail}}
-                              style={{width : 60, height : 50, borderRadius : 5}}
-                              />
+                                <Image source={{uri: eachCuisines.thumbnail}}
+                                style={{width : 60, height : 50, borderRadius : 5}}
+                                />
 
-                              <View style={{width : '75%'}}>
-                              <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center'}}>
-                                  <Text style={{fontFamily : 'Railway2', fontSize : 12}}>{eachCuisines.name.toUpperCase()}</Text>
+                                <View style={{width : '75%'}}>
+                                <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center'}}>
+                                    <Text style={{fontFamily : 'Railway2', fontSize : 12}}>{eachCuisines.name.toUpperCase()}</Text>
+                                </View>
+
+                                <Text style={{fontFamily : 'Railway1', 
+                                    fontSize : 12, color : 'gray', paddingVertical : 3,
+                                    textAlign : 'justify'
+                                }}>
+                                    {eachCuisines.description}
+                                </Text>
+                                <Text style={{ color : Colors.btnGreen, fontSize : 10}}>From N{eachCuisines.price.toLocaleString()}</Text>
                               </View>
 
-                              <Text style={{fontFamily : 'Railway1', 
-                                  fontSize : 12, color : 'gray', paddingVertical : 3,
-                                  textAlign : 'justify'
-                              }}>
-                                  {eachCuisines.description}
-                              </Text>
-                              <Text style={{ color : Colors.btnGreen, fontSize : 10}}>From N{eachCuisines.price.toLocaleString()}</Text>
                             </View>
 
-                          </View>
+                            <Checkbox 
+                              style={styles.checkbox} 
+                              value={selectedItems.includes(eachCuisines._id)}
+                              onValueChange={() => toggleItem(eachCuisines._id)}
+                            />
+                          </TouchableOpacity>
 
-                          <Checkbox 
-                            style={styles.checkbox} 
-                            value={selectedItems.includes(eachCuisines._id)}
-                            onValueChange={() => toggleItem(eachCuisines._id)}
-                          />
-                        </TouchableOpacity>
-                    ))}
-                    </View>
+
+
+                      ))}
+                      </View>
+                      <>
+                      {
+                        filteredProducts.length === 0 && (
+                        <View style={{display : 'flex', paddingTop: 80, flexDirection : 'column', justifyContent : 'center', margin : 'auto'}}>
+                          <Ionicons name='notifications-circle' style={{textAlign : 'center'}} size={100} color={Colors.myGray}/>
+                          <Text style={{textAlign: 'center', color : Colors.myGray}}>Nothing Found</Text>
+                        </View>
+                        )
+                      }
+                    </>
+
+                    </>
                   )}
 
             </ScrollView>

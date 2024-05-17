@@ -91,7 +91,7 @@ const order = () => {
   };
 
 
-  // console.log('This is the list orders', orderDatas)
+  console.log('This is the list orders', orderDatas)
 
   return (
     <SafeAreaView style={styles.container}>
@@ -114,6 +114,8 @@ const order = () => {
       {isActive1 === true && (
 
         <>
+
+        <>
             {orderDatas !== undefined && orderDatas.length === 0 && (
               <View style={{ flex: 1, paddingTop : 150, justifyContent: 'center', alignItems: 'center', gap: 15 }}>
 
@@ -132,13 +134,36 @@ const order = () => {
             )}
           
         </>
+
+          <>
+          {orderDatas === undefined &&(
+            <View style={{ flex: 1, paddingTop : 150, justifyContent: 'center', alignItems: 'center', gap: 15 }}>
+
+              <Image source={require("../../assets/images/Box.png")} 
+                style={{width : 80, height : 80}}
+              />
+
+              <Text style={{ fontFamily: 'Railway1' }}>You don’t have an active order</Text>
+
+              <Link href={'/(protected)/home'} asChild>
+                <TouchableOpacity style={styles.orderBtn} >
+                  <Text style={{color : 'white', fontSize : 12}}>Place an order now</Text>
+                </TouchableOpacity>
+              </Link>
+            </View>  
+          )}
+
+          </>
+        </>
       )}
 
       
       {isActive1 === true && (<>
-        {isLoading || orderDatas === undefined  ?
+        {isLoading ?
             
-          <ActivityIndicator size={'large'} style={{flex : 1, justifyContent : 'center', alignItems : 'center'}}/> :
+          <ActivityIndicator size={'large'} style={{flex : 1, justifyContent : 'center', alignItems : 'center'}}/> 
+          
+          :
           <ScrollView
             style={{ flex: 1, marginTop: 20 }}
             showsVerticalScrollIndicator={false}

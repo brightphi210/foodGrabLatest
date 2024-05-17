@@ -52,8 +52,8 @@ const MainLayout = () => {
     getOTP();
   },[]);
 
-  console.log('This is has seen screen', seenScreen);
-  console.log('This is has seen OTP', seenOTP);
+  // console.log('This is has seen screen', typeof(seenOTP));
+  // console.log('This is has seen OTP', seenOTP);
   
 
   
@@ -85,9 +85,6 @@ const MainLayout = () => {
       router.replace('/public/welcome_one')
     }
 
-    else if(seenOTP === true || isAuthenticated === false && (seenScreen !== null || seenScreen === true)){
-      router.replace('/otp_verification')
-    }
 
     else if(isAuthenticated && !inApp ){
       router.push('/authRoute/home_dash')
@@ -107,9 +104,14 @@ const MainLayout = () => {
       // router.replace('/public/welcome_one')
       // router.replace('/public/welcome_one')
       // router.replace('/otp_verification')
-    }else if(isAuthenticated == false ){
-      router.replace('/login')
-
+    }
+    
+    if (isAuthenticated === false) {
+      if (seenOTP === 'true') {
+        router.replace('/otp_verification');
+      } else {
+        router.replace('/login');
+      }
     }
   }, [isAuthenticated])
 
