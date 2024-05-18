@@ -32,6 +32,12 @@ const index = () => {
     };
 
 
+    const deleteCarts = () => {
+      AsyncStorage.removeItem('cartItems');
+      router.replace('/public/welcome_one');
+    };
+
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style='dark'/>
@@ -48,6 +54,12 @@ const index = () => {
         {/* <TouchableOpacity onPress={deleteOTP}>
           <Text style={{fontSize : 20, paddingTop : 20}}>Remove OTP</Text>
         </TouchableOpacity> */}
+        
+        {/* <TouchableOpacity onPress={deleteCarts}>
+          <Text style={{fontSize : 20, paddingTop : 20}}>Remove OTP</Text>
+        </TouchableOpacity> */}
+        
+
         
         
         <View style={{}}>

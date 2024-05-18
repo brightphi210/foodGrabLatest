@@ -53,10 +53,11 @@ const cart = () => {
             borderRadius : 100,
             paddingHorizontal : 7,
             paddingVertical : 3,
+            paddingBottom : 0,
             paddingTop: 0 
 
           }}>
-            <Text style={{ fontFamily : 'Railway1',  fontSize : 13, color : 'white', }}>{cartItems.length}</Text>
+            <Text style={{ fontFamily : 'Railway1',  fontSize : 12, color : 'white', }}>{cartItems.length}</Text>
           </View>
         }
       </View>

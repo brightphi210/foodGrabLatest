@@ -76,9 +76,10 @@ export const AuthProvider = ({ children }) => {
     router.replace('/login');
   };
 
-  const deleteAll = () => {
-    AsyncStorage.removeItem('cartItems');
-    router.replace('/carts');
+  const deleteAll = async () => {
+    const updatedCartItems = []; // Clear all items
+    setCartItems(updatedCartItems);
+    await AsyncStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
   }
 
   const deleteItemFromCart = async (itemIndex) => {

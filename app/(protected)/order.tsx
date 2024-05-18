@@ -204,7 +204,7 @@ const order = () => {
                         padding: 10, paddingHorizontal: 20, 
                         width: '100%', borderRadius: 5, marginTop: 10
                       }} onPress={()=> handleOrderPress(data)}>
-                        <Text style={{ fontFamily: 'Railway3', color: 'black' }}>See Details</Text>
+                        <Text style={{ fontFamily: 'Railway3', color: 'black', fontSize : 12 }}>See Details</Text>
                       </TouchableOpacity>
                   </View>
               </Animated.View>

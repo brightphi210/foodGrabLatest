@@ -24,14 +24,14 @@ const order_summary = () => {
   };
 
 
-
+  const [deliveryFee, setDeliveryFee] = useState(50)
   const [shopId, setShopId] = useState(cartItem[0].shopId);
   const userEmail = userDetails.email;
   const [subTotal, setSubTotal] = useState(null)
   const sumTotalPrice = cartItem.reduce((total:any, product:any) => total + (product.price * product.quantity), 0);
   const newTotalPrice = sumTotalPrice.toLocaleString()
-  const percentage = sumTotalPrice * 0.03
-  const grandTotalPrice = (sumTotalPrice + percentage)
+  const percentage = (sumTotalPrice * 0.03 )
+  const grandTotalPrice = (sumTotalPrice + percentage + deliveryFee)
   
   // console.log('THis is the data ', cartItem);
 
@@ -168,7 +168,7 @@ const order_summary = () => {
 
           <View style={styles.paymentDiv}>
             <Text style={{fontFamily : 'Railway1', fontSize : 13, color : 'gray'}}>Delivery Fee</Text>
-            <Text style={{marginLeft : 'auto', fontWeight : '500', fontSize : 13}}>&#8358;3,700.00</Text>
+            <Text style={{marginLeft : 'auto', fontWeight : '500', fontSize : 13}}>&#8358; {deliveryFee}</Text>
           </View>
 
           <View style={styles.paymentDiv}> 
