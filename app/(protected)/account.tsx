@@ -7,13 +7,15 @@ import { Link, useNavigation, useRouter } from "expo-router"
 import Colors from '@/constants/Colors';
 import { AuthContext } from '@/context/AuthContext';
 import { StatusBar } from 'expo-status-bar';
-import Animated, { FadeIn, FadeInDown, FadeOut, FadeOutDown, SlideInLeft, SlideOutRight } from 'react-native-reanimated';
+import Animated, { FadeIn, FadeInDown, FadeInLeft, FadeOut, FadeOutDown, SlideInLeft, SlideOutRight } from 'react-native-reanimated';
+import { BASE_URL } from '@/Enpoints/Endpoint';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const account = () => {
   const [image, setImage] = useState()
   const [isLoading, setIsLoading] = useState(true)
   const router = useNavigation<any>()
-  const { userData, logout,  getUserData, userDetails, userToken} = useContext(AuthContext)
+  const { userData, logout,  getUserData, userDetails} = useContext(AuthContext)
 
   const uploadImage = async () => {
     try {
@@ -47,6 +49,54 @@ const account = () => {
     getUserData();
   },[]);
 
+
+  const [userToken, setUserToken] = useState(null);
+
+  const getData = async () => {
+    try {
+      const storedToken = await AsyncStorage.getItem('token');
+      if (storedToken) {
+        setUserToken(JSON.parse(storedToken));
+      } 
+    } catch (e) {
+      console.error('Error retrieving authentication data:', e);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const [orderDatas, setOrderData] = useState<any>([])
+  const [error, setError] = useState<any>(false)
+  const fetchOrderData = async () => {
+    try {
+      const res = await fetch(`${BASE_URL}viewOrders?id=${userDetails._id}`, {
+        method: 'GET',
+        headers: {
+          "Authorization": `Bearer ${userToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      const myData = await res.json();
+      setOrderData(myData.data);
+      
+    } catch (error) {
+      console.log(error);
+      setError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchOrderData();
+  }, [userToken]);
+
+
+  // console.log(orderDatas.length);
+  
+
   return (
     <SafeAreaView style={styles.container}>
       
@@ -54,7 +104,7 @@ const account = () => {
       {/* {isLoading && <ActivityIndicator size={'large'}/>} */}
 
       <Animated.View style={{ flex: 1, marginTop: 30, alignItems: 'center' }}
-        entering={FadeIn.duration(500).delay(500)}
+        entering={FadeInLeft.duration(400).delay(400)}
         exiting={FadeOutDown.duration(500).delay(500)}
       >
         <View style={styles.avatarContainer}>
@@ -67,14 +117,25 @@ const account = () => {
             <Image source={require('../../assets/images/defaultProf.png')} style={styles.image} />
             )}
           </View>
-          <TouchableOpacity style={styles.editButton} onPress={() => uploadImage()}>
+          {/* <TouchableOpacity style={styles.editButton} onPress={() => uploadImage()}>
             <MaterialCommunityIcons name="camera-outline" size={15} color="#fff" />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         <View style={{ marginTop: 10, gap: 10,  }}>
           <Text style={{ fontFamily: "Railway2", fontSize: 15, fontWeight: "600", color: "#1D2739" ,textAlign : 'center' }}>{userDetails.fullname}</Text>
-          <Text style={{ textAlign: 'center', color: Colors.myRed, fontSize : 13  }}>10 <Text style={{ color: Colors.myGreen, fontFamily : 'Railway3' }}>Successful Order </Text></Text>
+          
+          <View style={{display : 'flex', gap : 5, flexDirection : 'row'}}>
+
+            {orderDatas === undefined ? (<ActivityIndicator size={'small'} style={{ paddingRight : 10}} color={Colors.myRed}/>) : (
+              <>
+                <Text style={{fontWeight : '600', fontSize : 13,}}>{orderDatas.length}</Text>
+              </>
+            )}
+
+            
+             <Text style={{ color: Colors.myGreen, fontFamily : 'Railway3' }}>Successful Order </Text>
+            </View>
         </View>
 
         <View style={{ width: "100%", marginTop: 50, flexDirection: 'column', gap: 25, }}>
@@ -89,7 +150,7 @@ const account = () => {
             }} onPress={()=> router.navigate('authRoute/(profile)/personal')}>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
                 <MaterialIcons name="perm-contact-cal" size={15} color={Colors.myRed} />
-                <Text style={{ fontSize: 13, color: "#606060", fontFamily : 'Railway3'}}>Personal Information</Text>
+                <Text style={{ fontSize: 13, color: "#606060", fontFamily : 'Railway3'}}>Personal Info</Text>
               </View>
               <MaterialIcons name="arrow-forward-ios" size={13} color={Colors.btnGreen} />
             </TouchableOpacity>
@@ -161,16 +222,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     paddingHorizontal: 20,
-    paddingTop: 30,
+    paddingTop: 50,
   },
   avatarContainer: {
     alignItems: "center",
     position: "relative"
   },
   image: {
-    borderRadius: 50,
-    width: 70,
-    height: 70,
+    borderRadius: 100,
+    width: 120,
+    height: 120,
     borderColor: Colors.myRed,
     borderWidth: 1
   },

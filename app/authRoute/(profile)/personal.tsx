@@ -77,11 +77,11 @@ const personal = () => {
             </View>
 
 
-            <View style={{paddingBottom : 20, position : 'relative'}}>
+            {/* <View style={{paddingBottom : 20, position : 'relative'}}>
                 <Text style={{fontFamily : 'Railway3', fontSize : 13, paddingBottom : 5}}>Phone Number</Text>
                 <TextInput placeholder='Phone Number' style={styles.inputStyles}/>
                 <Text style={{position : 'absolute', right : 20, top: "60%", fontSize : 10, fontFamily : 'Railway3', color : Colors.btnGreen}}>{userDetails.emailVerificationStatus}</Text>
-            </View>
+            </View> */}
 
 
             <View style={{paddingBottom : 20, position : 'relative'}}>

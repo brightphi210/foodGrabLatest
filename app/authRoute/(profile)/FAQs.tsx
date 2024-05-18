@@ -57,7 +57,7 @@ const FAQs = () => {
                 
             }}>
                 <FontAwesome name='question-circle-o' size={20} color={Colors.myRed}/>
-                <Text style={{fontFamily : 'Railway3', fontSize : 15}}>How do food grab work</Text>
+                <Text style={{fontFamily : 'Railway3', fontSize : 15}}>How does <Text style={{color : Colors.myRed}}>Food Grab</Text> works ?</Text>
                 <Ionicons name='chevron-forward-outline' size={20} style={{marginLeft : 'auto'}} color={Colors.myGray}/>
             </TouchableOpacity>
 
@@ -82,7 +82,7 @@ const FAQs = () => {
                 
             }}>
                 <FontAwesome name='question-circle-o' size={20} color={Colors.myRed}/>
-                <Text style={{fontFamily : 'Railway3', fontSize : 15}}>What is delivery fee?</Text>
+                <Text style={{fontFamily : 'Railway3', fontSize : 15}}>How much is the delivery fee?</Text>
                 <Ionicons name='chevron-forward-outline' size={20} style={{marginLeft : 'auto'}} color={Colors.myGray}/>
             </TouchableOpacity>
 
@@ -104,8 +104,8 @@ const FAQs = () => {
               backgroundColor : Colors.myLightGray, padding : 15,  paddingVertical : 30,
               borderRadius : 5, display : 'flex', gap :10, marginBottom : 20
             }}>
-                <FontAwesome name='question-circle-o' size={15} color={Colors.myRed}/>
-                <Text style={{fontFamily : 'Railway3', fontSize : 15}}>How to register your restaurant?</Text>
+                <FontAwesome name='question-circle-o' size={20} color={Colors.myRed}/>
+                <Text style={{fontFamily : 'Railway3', fontSize : 15}}>How to place order</Text>
                 <Ionicons name='chevron-forward-outline' size={15} style={{marginLeft : 'auto'}} color={Colors.myGray}/>
             </TouchableOpacity>
 
@@ -126,7 +126,7 @@ const FAQs = () => {
                 backgroundColor : Colors.myLightGray, padding : 15,  paddingVertical : 30,
                 borderRadius : 5, display : 'flex', gap :10, marginBottom : 20
             }}>
-                <FontAwesome name='question-circle-o' size={15} color={Colors.myRed}/>
+                <FontAwesome name='question-circle-o' size={20} color={Colors.myRed}/>
                 <Text style={{fontFamily : 'Railway3', fontSize : 15}}>How to become a grabber?</Text>
                 <Ionicons name='chevron-forward-outline' size={15} style={{marginLeft : 'auto'}} color={Colors.myGray}/>
             </TouchableOpacity>

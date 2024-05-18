@@ -25,7 +25,7 @@ const order = () => {
   const [isActive2, setIsActive2] = useState(false);
 
   
-  const [orderDatas, setOrderData] = useState<any>()
+  const [orderDatas, setOrderData] = useState<any>([])
   const [error, setError] = useState<any>(false)
 
   const getData = async () => {
@@ -115,30 +115,31 @@ const order = () => {
 
         <>
           <>
-          {orderDatas === undefined &&(
-            <View style={{ flex: 1, paddingTop : 150, justifyContent: 'center', alignItems: 'center', gap: 15 }}>
+            {orderDatas !== undefined && (<>
+              {orderDatas.legnth === 0 &&(
+                  <View style={{ flex: 1, paddingTop : 150, justifyContent: 'center', alignItems: 'center', gap: 15 }}>
 
-              <Image source={require("../../assets/images/Box.png")} 
-                style={{width : 80, height : 80}}
-              />
+                    <Image source={require("../../assets/images/Box.png")} 
+                      style={{width : 80, height : 80}}
+                    />
 
-              <Text style={{ fontFamily: 'Railway1' }}>You don’t have an active order</Text>
+                    <Text style={{ fontFamily: 'Railway1' }}>You don’t have an active order</Text>
 
-              <Link href={'/(protected)/home'} asChild>
-                <TouchableOpacity style={styles.orderBtn} >
-                  <Text style={{color : 'white', fontSize : 12}}>Place an order now</Text>
-                </TouchableOpacity>
-              </Link>
-            </View>  
-          )}
-
+                    <Link href={'/(protected)/home'} asChild>
+                      <TouchableOpacity style={styles.orderBtn} >
+                        <Text style={{color : 'white', fontSize : 12}}>Place an order now</Text>
+                      </TouchableOpacity>
+                    </Link>
+                  </View>  
+                )}
+            </>)}
           </>
         </>
       )}
 
       
       {isActive1 === true && (<>
-        {isLoading ?
+        {isLoading || orderDatas === undefined ?
             
           <ActivityIndicator size={'large'} style={{flex : 1, justifyContent : 'center', alignItems : 'center'}}/> 
           
@@ -347,12 +348,14 @@ const styles = StyleSheet.create({
 
   activeText: {
     color: "white",
-    fontFamily: 'Railway3'
+    fontFamily: 'Railway3',
+    fontSize: 11,
   },
   
   inActiveText: {
     color: "black",
-    fontFamily: 'Railway3'
+    fontFamily: 'Railway3',
+    fontSize: 11,
   },
 
   orderBtn: {

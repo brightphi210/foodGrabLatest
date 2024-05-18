@@ -148,7 +148,7 @@ const order_summary = () => {
         <View style={{paddingTop : 10}}>
           <Text style={{fontFamily : 'Railway1', fontSize : 11, color : 'grey', paddingBottom : 5}}>Delivery Address</Text>
           <View style={{borderColor : Colors.myGray, borderWidth : 1, padding : 10, borderRadius : 5}}>
-            <TextInput placeholder='Enter Address'/>
+            <TextInput placeholder='Enter Delivery Address . . . '/>
           </View>
         </View>
 
@@ -199,16 +199,16 @@ const order_summary = () => {
                 payment_options: 'card'
             }}
             customButton={(props : any) => (
-                <Pressable style={styles.eachBottomBtn} onPress={props.onPress} disabled={props.disabled}>
+                <TouchableOpacity style={styles.eachBottomBtn} onPress={props.onPress} disabled={props.disabled}>
                     <Text style={{fontFamily : 'Railway2', fontSize : 15, color : 'white'}}>Make Payment</Text>
-                </Pressable>
+                </TouchableOpacity>
 
             )}
         />
 
-          <Pressable style={styles.eachBottomBtn2} onPress={handleBackPress}>
+          <TouchableOpacity style={styles.eachBottomBtn2} onPress={handleBackPress}>
               <Text style={{fontFamily : 'Railway2', fontSize : 13, color : Colors.myRed}}>Cancel Order</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
 

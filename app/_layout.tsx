@@ -81,12 +81,12 @@ const MainLayout = () => {
     const inApp = segments[0] == '/(protected)'
 
 
-    if((seenScreen === false || seenScreen === null) && isAuthenticated === false){
-      router.replace('/public/welcome_one')
-    }
+    // if((seenScreen === false || seenScreen === null) && isAuthenticated === false){
+    //   router.replace('/public/welcome_one')
+    // }
 
 
-    else if(isAuthenticated && !inApp ){
+    if(isAuthenticated && !inApp ){
       router.push('/authRoute/home_dash')
       // router.replace('/home')
       // router.replace('/register')
@@ -109,7 +109,13 @@ const MainLayout = () => {
     if (isAuthenticated === false) {
       if (seenOTP === 'true') {
         router.replace('/otp_verification');
-      } else {
+      } 
+
+      else if(seenScreen === false || seenScreen === null){
+        router.replace('/public/welcome_one')
+      }
+      
+      else {
         router.replace('/login');
       }
     }

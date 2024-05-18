@@ -87,7 +87,26 @@ const OTPVerifcation = () =>
     }
   }
 
-  console.log("This is user data: ", email);
+  const [userDetails, setUserDetails] = useState<any>({})
+
+  const getData = async () => {
+      try {
+        const jsonValue = await AsyncStorage.getItem('data');
+        const newJsonValue = (jsonValue != null ? JSON.parse(jsonValue) : null)
+
+        return setUserDetails(newJsonValue.data);
+      } catch (e) {
+        console.log(e)
+      }
+  };
+
+  useEffect(() => {
+      getData();
+  },[]);
+
+
+  console.log(userDetails.email);
+  
   
 
 
@@ -96,9 +115,9 @@ const OTPVerifcation = () =>
       <StatusBar style='dark'/>
       <View style={styles.container}>
           <Text style={{fontFamily : 'Railway2', fontSize : 17}}>OTP Verification</Text>
-          <Text style={{width : '98%', paddingTop : 10, fontFamily : 'Railway1'}}>
-            Thank you for signing up, Enter the 4-digit that we 
-            have sent via the phone number +234 728-1047-820
+          <Text style={{width : '98%', paddingTop : 10, fontFamily : 'Railway1', fontSize : 12, lineHeight : 25}}>
+            Thank you for signing up, Enter the 4-digit that was 
+            sent to this mail: <Text style={{fontSize : 13, fontWeight : '800', color : Colors.btnGreen}}>{userDetails.email}</Text>
           </Text>
 
           <View style={styles.OTPDiv}>
@@ -120,9 +139,29 @@ const OTPVerifcation = () =>
           </TouchableOpacity>
 
 
-          <View style={{display : 'flex', flexDirection : 'row', paddingTop : 30, gap : 5, alignSelf : 'center'}}>
-            <Text style={{fontFamily : 'Railway1', textAlign : 'center', fontSize : 15}}>Didn’t receive a code? </Text>
-            <Text style={{color : Colors.myRed, fontFamily : 'Railway3'}}>Resend code</Text>
+          <View style={{display : 'flex', flexDirection : 'row', paddingTop : 30, gap : 10}}>
+
+            <TouchableOpacity onPress={()=>navigation.replace('/register')}>
+              <Text style={{
+                  fontFamily : 'Railway1', 
+                  textAlign : 'center', fontSize : 15, 
+                  textTransform : 'uppercase', 
+                  textDecorationLine : 'underline'
+                }}>SignUp 
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={()=>navigation.replace('/login')}>
+            <Text style={{
+              color : Colors.myRed, 
+              fontFamily : 'Railway3', 
+              textTransform : 'uppercase', 
+              textDecorationLine : 'underline'
+              }}>Login
+            </Text>
+            </TouchableOpacity>
+
+
           </View>
       </View>
 

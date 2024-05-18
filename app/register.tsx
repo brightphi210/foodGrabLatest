@@ -259,7 +259,7 @@ const register = () => {
                                 />
 
                                 <TouchableOpacity onPress={togglePasswordVisibility1} style={styles.iconStyle}>
-                                    {showPassword1 ? <Ionicons name='eye-off' size={30} /> : <Ionicons name='eye' size={30} />}
+                                    {showPassword1 ? <Ionicons name='eye-off' size={20} /> : <Ionicons name='eye' size={20} />}
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -356,13 +356,13 @@ const styles = StyleSheet.create({
         borderColor : Colors.myGray,
         borderWidth : 1,
         borderRadius : 5,
-        fontSize : 13,
+        fontSize : 12,
         position : 'relative',
         fontFamily : 'Railway3'
     },
 
     btnStyles :{
-        height : 60,
+        height : 50,
         backgroundColor : Colors.myRed,
         flexDirection : 'row',
         alignItems : 'center',
