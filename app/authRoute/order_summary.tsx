@@ -24,7 +24,7 @@ const order_summary = () => {
   };
 
 
-  const [deliveryFee, setDeliveryFee] = useState(50)
+  const [deliveryFee, setDeliveryFee] = useState(100)
   const [shopId, setShopId] = useState(cartItem[0].shopId);
   const userEmail = userDetails.email;
   const [subTotal, setSubTotal] = useState(null)

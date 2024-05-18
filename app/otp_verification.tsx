@@ -91,7 +91,7 @@ const OTPVerifcation = () =>
 
   const getData = async () => {
       try {
-        const jsonValue = await AsyncStorage.getItem('data');
+        const jsonValue = await AsyncStorage.getItem('user');
         const newJsonValue = (jsonValue != null ? JSON.parse(jsonValue) : null)
 
         return setUserDetails(newJsonValue.data);

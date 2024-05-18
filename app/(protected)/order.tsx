@@ -93,6 +93,10 @@ const order = () => {
 
   console.log('This is the list orders', orderDatas)
 
+  if(orderDatas === undefined){
+    setOrderData(orderDatas !== undefined)
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style='dark'/>
@@ -116,7 +120,7 @@ const order = () => {
         <>
           <>
             {orderDatas !== undefined && (<>
-              {orderDatas.legnth === 0 &&(
+              {orderDatas.legnth === 0 || orderDatas === false &&(
                   <View style={{ flex: 1, paddingTop : 150, justifyContent: 'center', alignItems: 'center', gap: 15 }}>
 
                     <Image source={require("../../assets/images/Box.png")} 
@@ -142,14 +146,12 @@ const order = () => {
         {isLoading || orderDatas === undefined ?
             
           <ActivityIndicator size={'large'} style={{flex : 1, justifyContent : 'center', alignItems : 'center'}}/> 
-          
           :
           <ScrollView
             style={{ flex: 1, marginTop: 20 }}
             showsVerticalScrollIndicator={false}
           > 
             {orderDatas && orderDatas.map((data:any, index :any)=>(
-
               <Animated.View key={index} style={styles.eachCartDiv} entering={FadeInLeft.duration(300).delay(200)}>
                 <View style={styles.eachCart}>
                   <View style={{ overflow: 'hidden', width: 70, height: 60, borderRadius: 5 }}>
@@ -160,7 +162,6 @@ const order = () => {
                       style={{ width: 80, height: 60, }}
                     />
                   ))}
-    
                   </View>
 
                   <View style={styles.cartRight}>
