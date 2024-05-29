@@ -205,7 +205,7 @@ const index = () => {
                     {shopData.map((item : any, index:any) => (
 
                       <>
-                      {item.type === 'CHEFF' && (
+                      {item.type === 'CHEF' && (
                         
                         <Animated.View key={index} entering={FadeInLeft.duration(300).delay(200)} exiting={FadeOutRight.duration(300).delay(200)}>
                           <TouchableOpacity onPress={() => handleProductPress(item._id)}>

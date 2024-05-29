@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView, Pressable } from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView, Pressable, ActivityIndicator } from 'react-native'
 import React, {useContext, useEffect, useState} from 'react'
 import Colors from '@/constants/Colors';
 import { Link, useRouter } from 'expo-router'
@@ -65,9 +65,10 @@ const order_summary = () => {
     tx_ref: string;
   }
 
+  const [isLoading, setIsLoading] = useState(false)
   const handleOnRedirect = async (data: RedirectParams) => {
+    setIsLoading(true)
     if(data.status === 'successful'){
-
       try {
   
         const response = await fetch(`${BASE_URL}checkout`, {
@@ -91,6 +92,8 @@ const order_summary = () => {
     
         console.log('POST request successful:', responseData);
         router.replace('/authRoute/order_status')
+
+        setIsLoading(false)
     
       } catch (error) {
         console.error('POST request error:', error);
@@ -200,7 +203,8 @@ const order_summary = () => {
             }}
             customButton={(props : any) => (
                 <TouchableOpacity style={styles.eachBottomBtn} onPress={props.onPress} disabled={props.disabled}>
-                    <Text style={{fontFamily : 'Railway2', fontSize : 15, color : 'white'}}>Make Payment</Text>
+                    <Text style={{fontFamily : 'Railway2', fontSize : 15, color : 'white'}}>
+                      {isLoading === true ? <ActivityIndicator size={'small'} /> : 'Make Payment'}</Text>
                 </TouchableOpacity>
 
             )}
