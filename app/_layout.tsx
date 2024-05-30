@@ -52,7 +52,6 @@ const MainLayout = () => {
     getOTP();
   },[]);
 
-  // console.log('This is has seen screen', typeof(seenOTP));
   // console.log('This is has seen OTP', seenOTP);
   
 
