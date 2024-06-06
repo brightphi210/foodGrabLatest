@@ -83,13 +83,15 @@ export default function TabLayout() {
           title: "",
           tabBarIcon: ({ focused }) => (
             <View style={{position : 'relative'}}>
-
-              { cartItems.length === 0 ? '' : (
+              
+              {cartItems.selectedItemsToAdd !== undefined && (<View>
+              { cartItems.selectedItemsToAdd.length === 0 ? '' : (
                 <FontAwesome name='circle' 
                   size={6} color={'red'} 
                   style={{position : 'absolute', right : -5, top : 2,}}
                 />
               )}
+              </View>)}
 
               <Ionicons
                 size={focused ? 30 : 25}

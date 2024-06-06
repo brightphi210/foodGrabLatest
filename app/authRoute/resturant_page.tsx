@@ -14,12 +14,14 @@ import { useRouter } from 'expo-router';
 import Modal from 'react-native-modal';
 import { Ionicons } from '@expo/vector-icons';
 import Animated, { SlideInDown, SlideOutDown, SlideInLeft, BounceIn, BounceInDown, BounceOutDown, FadeOut } from "react-native-reanimated";
+import ImageResizer from 'react-native-image-resizer';
 
 
 const resturantPage = () => {
 
     const route = useRoute<any>();
     const { shopId } : any = route.params;
+    
     const [singleShopData, setSingleShopData] = useState<any>({})
     const [cuisines, setCuisines] = useState<any>([])
     const [isLoading, setIsLoading] = useState(false)
@@ -43,6 +45,7 @@ const resturantPage = () => {
 
 
   const fetchData = async () => {
+    
     
     setIsLoading(true)
     try {
@@ -99,11 +102,19 @@ const resturantPage = () => {
   const [showModal2, setShowModal2] = useState<any>(false)
 
 
+  let resturantName : any
+  if(singleShopData){
+    resturantName = singleShopData.shopName
+    console.log(resturantName);
+    
+  }
+
+
   // ============== ADD TO CART =====================
   const addToCart = async () => {
     let selectedItemsToAdd = cuisines.filter((item :any) => selectedItems.includes(item._id));
    
-    let existingCartItems = [];
+    let existingCartItems :any = [];
     try {
       const storedItems = await AsyncStorage.getItem('cartItems');
       if (storedItems) {
@@ -115,20 +126,20 @@ const resturantPage = () => {
     }
     
     
-
-
-    const updatedCartItems = [...existingCartItems, selectedItemsToAdd];
+        const updatedCartItems = [...existingCartItems, {resturantName, selectedItemsToAdd}];
+        
+        try {
+          await AsyncStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
+        } catch (error) {
+          console.error('Error saving cart items to AsyncStorage:', error);
+        }
+        setCartItems(updatedCartItems);
+        setMessage( 'Items added to cart')
+        setShowModal2(true);
+        setSelectedItems([]);
+      };
     
-    try {
-      await AsyncStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
-    } catch (error) {
-      console.error('Error saving cart items to AsyncStorage:', error);
-    }
-    setCartItems(updatedCartItems);
-    setMessage( 'Items added to cart')
-    setShowModal2(true);
-    setSelectedItems([]);
-  };
+    
 
 
   // ===================== AM GETTING THE STORED DATA FROM ASYNSTORAGE ==========
@@ -175,7 +186,7 @@ const resturantPage = () => {
 
   
   const [query, setQuery] = useState('')
-  console.log(cuisines)
+  // console.log(shopId)
 
   // const handleChangeText = (text:any) => {
   //   setQuery(text.toLowerCase()); // Ensure case-insensitive search
@@ -216,16 +227,17 @@ const resturantPage = () => {
           <Loader />
           :
           <View>
-          <View style={{display : 'flex', flexDirection : 'row', paddingBottom : 10}}>
-              <Text style={{ fontFamily : 'Railway2', fontSize : 17, }}>{singleShopData.shopName}</Text>
-              <Text style={{marginLeft : 'auto', fontFamily : 'Railway1', fontSize : 11}}>Open till 06:300 pm</Text>
-          </View>
-          <Image source={{uri : singleShopData.backdropPic}}
-              resizeMode='cover'
-              style={{width : '100%', height : 110,
-              borderRadius : 5
-          }}
-          />
+            <View style={{display : 'flex', flexDirection : 'row', paddingBottom : 10}}>
+                <Text style={{ fontFamily : 'Railway2', fontSize : 17, }}>{singleShopData.shopName}</Text>
+                <Text style={{marginLeft : 'auto', fontFamily : 'Railway1', fontSize : 11}}>Open till 06:300 pm</Text>
+            </View>
+            <View style={{backgroundColor : Colors.myLightGray, borderRadius : 10}}>
+              <Image source={{uri : singleShopData.backdropPic}}
+                  resizeMode='cover'
+                  style={{width : '100%', height : 110,
+                  borderRadius : 5
+              }}/>
+            </View>
 
 
           <View style={{display :'flex', 

@@ -58,6 +58,7 @@ const order = () => {
           'Content-Type': 'application/json',
         },
       });
+
       const myData = await res.json();
       setOrderData(myData.data);
       
@@ -73,6 +74,11 @@ const order = () => {
     fetchOrderData();
   }, [userToken]);
 
+
+  if(orderDatas === undefined){
+    fetchOrderData();
+    // setOrderData(orderDatas !== undefined)
+  }
 
 
   const handleIsActive1 = () =>{
@@ -91,11 +97,11 @@ const order = () => {
   };
 
 
-  console.log('This is the list orders', orderDatas)
+  // console.log('This is the list orders', orderDatas)
 
-  if(orderDatas === undefined){
-    setOrderData(orderDatas !== undefined)
-  }
+  // if(orderDatas === undefined){
+  //   setOrderData(orderDatas !== undefined)
+  // }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -119,8 +125,8 @@ const order = () => {
 
         <>
           <>
-            {orderDatas !== undefined && (<>
-              {orderDatas.legnth === 0 || orderDatas === false &&(
+            {orderDatas === undefined && (<>
+              {/* {orderDatas.legnth === 0 || orderDatas === undefined &&( */}
                   <View style={{ flex: 1, paddingTop : 150, justifyContent: 'center', alignItems: 'center', gap: 15 }}>
 
                     <Image source={require("../../assets/images/Box.png")} 
@@ -135,7 +141,7 @@ const order = () => {
                       </TouchableOpacity>
                     </Link>
                   </View>  
-                )}
+                {/* )} */}
             </>)}
           </>
         </>
@@ -143,7 +149,7 @@ const order = () => {
 
       
       {isActive1 === true && (<>
-        {isLoading || orderDatas === undefined ?
+        {isLoading ?
             
           <ActivityIndicator size={'large'} style={{flex : 1, justifyContent : 'center', alignItems : 'center'}}/> 
           :

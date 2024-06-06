@@ -82,6 +82,11 @@ export const AuthProvider = ({ children }) => {
     await AsyncStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
   }
 
+
+  // useEffect(()=>{
+  //   deleteAll()
+  // },[])
+
   const deleteItemFromCart = async (itemIndex) => {
     try {
         const updatedCartItems = [...cartItems];          

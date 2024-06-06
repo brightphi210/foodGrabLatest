@@ -13,7 +13,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const account = () => {
   const [image, setImage] = useState()
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
   const router = useNavigation<any>()
   const { userData, logout,  getUserData, userDetails} = useContext(AuthContext)
 
@@ -70,21 +70,25 @@ const account = () => {
   const [orderDatas, setOrderData] = useState<any>([])
   const [error, setError] = useState<any>(false)
   const fetchOrderData = async () => {
+    setIsLoading(true);
     try {
       const res = await fetch(`${BASE_URL}viewOrders?id=${userDetails._id}`, {
         method: 'GET',
         headers: {
           "Authorization": `Bearer ${userToken}`,
           'Content-Type': 'application/json',
-        },
-      });
-      const myData = await res.json();
-      setOrderData(myData.data);
-      
-    } catch (error) {
-      console.log(error);
-      setError(true);
-    } finally {
+          },
+        });
+        setIsLoading(false);
+        const myData = await res.json();
+        setOrderData(myData.data);
+        
+      } catch (error) {
+        setIsLoading(false);
+        console.log(error);
+        setError(true);
+      } finally {
+      setIsLoading(false);
       setIsLoading(false);
     }
   };
@@ -94,7 +98,7 @@ const account = () => {
   }, [userToken]);
 
 
-  // console.log(orderDatas.length);
+  console.log(orderDatas);
   
 
   return (
@@ -127,11 +131,16 @@ const account = () => {
           
           <View style={{display : 'flex', gap : 5, flexDirection : 'row'}}>
 
-            {orderDatas === undefined ? (<ActivityIndicator size={'small'} style={{ paddingRight : 10}} color={Colors.myRed}/>) : (
+            {isLoading && (<ActivityIndicator size={'small'} style={{ paddingRight : 10}} color={Colors.myRed}/>) }
+
+            {
+              orderDatas === undefined || orderDatas.length === 0 ? <Text>0</Text> :
+           
+            
               <>
                 <Text style={{fontWeight : '600', fontSize : 13,}}>{orderDatas.length}</Text>
               </>
-            )}
+            }
 
             
              <Text style={{ color: Colors.myGreen, fontFamily : 'Railway3' }}>Successful Order </Text>

@@ -34,6 +34,9 @@ const cart = () => {
   };
 
 
+  console.log('This is the cart item', cartItems);
+  
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -43,7 +46,7 @@ const cart = () => {
       <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center'}}>
         <Text style={{paddingLeft : 20, fontFamily : 'Railway2', paddingTop : 30, fontSize : 15}}>My Cart</Text>
 
-        {cartItems !== null &&
+        {cartItems.selectedItemsToAdd !== null &&
           <View style={{
             backgroundColor : Colors.myRed,  
             marginLeft : 'auto', marginTop : 30, 
@@ -62,7 +65,7 @@ const cart = () => {
         }
       </View>
 
-      {cartItems.length === 0   ? (
+      {cartItems?.length === 0   ? (
 
         <View style={styles.container2}>
 
@@ -96,7 +99,7 @@ const cart = () => {
 
           {cartItems.map((cartItem : any, index : any) =>(<>
           
-            {cartItem && (<>
+            {cartItem.selectedItemsToAdd && (<>
   
               
               <Animated.View style={styles.eachCartDiv}  key={index} entering={FadeInLeft.duration(300).delay(200)} exiting={FadeOutRight.duration(300).delay(200)}>
@@ -106,7 +109,7 @@ const cart = () => {
   
                     {cartItem && (
                       <>
-                        {cartItem.slice(0, 1).map((item:any) => (
+                        {cartItem.selectedItemsToAdd.slice(0, 1).map((item:any) => (
   
                           <Image 
                             source={{uri : item.thumbnail}}
@@ -121,9 +124,9 @@ const cart = () => {
                       <View  style={{ display : 'flex', flexDirection : 'row', alignItems : 'center', width : 'auto', gap : 10}}>
                         <View style={{display : 'flex', flexDirection : 'row', gap : 3}}>
   
-                          {cartItem && (
+                          {cartItem.selectedItemsToAdd && (
                             <>
-                              {cartItem.slice(0, 2).map((item:any) => (
+                              {cartItem.selectedItemsToAdd.slice(0, 2).map((item:any) => (
                                 <View key={item.id} >
                                     <Text style={{fontFamily : 'Railway2', fontSize : 12}}>{item.name.toUpperCase()}, </Text> 
                                 </View>
@@ -133,7 +136,7 @@ const cart = () => {
   
   
                           <View>
-                            {cartItem.length > 2 && <Text >. . . </Text>}
+                            {cartItem.selectedItemsToAdd.length > 2 && <Text >. . . </Text>}
                           </View>
                         </View>
                         
@@ -141,7 +144,7 @@ const cart = () => {
                           <Text style={{  fontSize : 12, color : 'gray'}}>{cartItem.length} Items</Text>
                         </View>
                       </View>
-                      <Text style={{ fontFamily: 'Railway1', fontSize: 12, paddingVertical: 6, color: Colors.myGreen }}>Chiken Republic</Text>
+                      <Text style={{ fontFamily: 'Railway1', fontSize: 12, paddingVertical: 6, color: Colors.myGreen }}>{cartItem.resturantName}</Text>
                     </View>
                     
                   </View>
@@ -154,7 +157,7 @@ const cart = () => {
                       </View>
                     </TouchableOpacity>
   
-                    <TouchableOpacity onPress={()=> handleProductPress2(cartItem)} >
+                    <TouchableOpacity onPress={()=> handleProductPress2(cartItem.selectedItemsToAdd)} >
                       <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center', gap : 5}}>
                         <Text style={{fontFamily : 'Railway3', fontSize : 12, }}>
                             Edit Selection 

@@ -139,6 +139,7 @@ const index = () => {
     setIsFavorite(!isFavorite);
   }
   console.log('This is the data', shopData);
+
   
 
 
@@ -192,76 +193,73 @@ const index = () => {
             <View style={{paddingTop : 20, }} >
               <Text style={{fontFamily : 'Railway3', fontSize : 15, paddingBottom : 20}}>Recommend Chef</Text>
 
-              {isLoading || !shopData ? 
+                  {isLoading ? 
                   
-                  (
-                  <ActivityIndicator style={{paddingTop : 150}} size={'large'}/> 
-                  // <Loader2 />
-                  )
+                    (
+                    <ActivityIndicator style={{paddingTop : 150}} size={'large'}/> 
+                    )
 
-                  : (
+                    : (
 
                     <>
-                    {shopData.map((item : any, index:any) => (
+                      {shopData && (
 
-                      <>
-                      {item.type === 'CHEF' && (
-                        
-                        <Animated.View key={index} entering={FadeInLeft.duration(300).delay(200)} exiting={FadeOutRight.duration(300).delay(200)}>
-                          <TouchableOpacity onPress={() => handleProductPress(item._id)}>
-                              <View style={{display : 'flex', 
-                                flexDirection : 'row', gap : 10, 
-                                justifyContent : 'center', 
-                                alignItems : 'center', 
-                                borderBottomColor : Colors.myGray,
-                                borderBottomWidth : 1,
-                                paddingBottom : 15,
-                                marginBottom : 15,
-                              }}>
+                        <>
+                        {shopData.map((item : any, index:any) => (
 
-                                <View style={{width : 70, height : 70, overflow : 'hidden', borderRadius : 50}}>
-                                  <Image source={{uri : item.logo}}
-                                    style={{width : 80, height : 80}}
-                                  />
-                                </View>
-
-                                <View style={{width : '75%'}}>
-                                  <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center'}}>
-                                    <Text style={{fontFamily : 'Railway3', fontSize : 15}}>{item.shopName}</Text>
-                                    <Text style={{fontSize : 15, marginLeft : 'auto'}}>5.0 (123)</Text>
-                                  </View>
-
-                                  <Text style={{fontFamily : 'Railway1', 
-                                    fontSize : 12, color : 'gray', paddingVertical : 5,
-                                    textAlign : 'justify'
+                          <>
+                          {item.type === 'CHEF' && (
+                            
+                            <Animated.View key={index} entering={FadeInLeft.duration(300).delay(200)} exiting={FadeOutRight.duration(300).delay(200)}>
+                              <TouchableOpacity onPress={() => handleProductPress(item._id)}>
+                                  <View style={{display : 'flex', 
+                                    flexDirection : 'row', gap : 10, 
+                                    justifyContent : 'center', 
+                                    alignItems : 'center', 
+                                    borderBottomColor : Colors.myGray,
+                                    borderBottomWidth : 1,
+                                    paddingBottom : 15,
+                                    marginBottom : 15,
                                   }}>
-                                   {item.description}
-                                  </Text>
-                                </View>
 
-                              </View>
-                            </TouchableOpacity>
-                        </Animated.View>
+                                    <View style={{width : 70, height : 70, overflow : 'hidden', borderRadius : 50, backgroundColor : Colors.myLightGray}}>
+                                      <Image source={{uri : item.logo}}
+                                        style={{width : 80, height : 80}}
+                                      />
+                                    </View>
+
+                                    <View style={{width : '75%'}}>
+                                      <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center'}}>
+                                        <Text style={{fontFamily : 'Railway3', fontSize : 15}}>{item.shopName}</Text>
+                                        <Text style={{fontSize : 15, marginLeft : 'auto'}}>5.0 (123)</Text>
+                                      </View>
+
+                                      <Text style={{fontFamily : 'Railway1', 
+                                        fontSize : 12, color : 'gray', paddingVertical : 5,
+                                        textAlign : 'justify'
+                                      }}>
+                                      {item.description}
+                                      </Text>
+                                    </View>
+
+                                  </View>
+                                </TouchableOpacity>
+                            </Animated.View>
+                          )}
+                          </>
+                        ))}
+                        </>
+
                       )}
-                      </>
-                    ))}
                     </>
                   )}
 
-                  {shopData !== undefined  && (
-                    <>
-                      {
-                        shopData.length === 0 && (
-                        <View style={{display : 'flex', paddingTop: 80, flexDirection : 'column', justifyContent : 'center', margin : 'auto'}}>
-                          <Ionicons name='notifications-circle' style={{textAlign : 'center'}} size={100} color={Colors.myGray}/>
-                          <Text style={{textAlign: 'center', color : Colors.myGray}}>Nothing Found</Text>
-                        </View>
-                        )
-                      }
-                    </>
-
+                  {shopData === undefined || shopData.length === 0  && (
+                    <View style={{display : 'flex', paddingTop: 80, flexDirection : 'column', justifyContent : 'center', margin : 'auto'}}>
+                      <Ionicons name='notifications-circle' style={{textAlign : 'center'}} size={100} color={Colors.myGray}/>
+                      <Text style={{textAlign: 'center', color : Colors.myGray}}>Nothing Found</Text>
+                    </View>
                   )}
-  
 
             </View> 
             
@@ -273,7 +271,7 @@ const index = () => {
 
  
 
-                  {shopData === undefined ? 
+                  {isLoading ? 
                   
                   (
                   <ActivityIndicator style={{paddingTop : 150}} size={'large'}/> 
@@ -281,64 +279,58 @@ const index = () => {
 
                   : (
 
+
                     <>
-                      {shopData.map((item : any, index:any) => (
+                      {shopData && ( 
+
                         <>
-                            {item.type === 'RESTAURANT' && (
-                              
-                              <Animated.View key={index} entering={FadeInLeft.duration(300).delay(200)}>
-                              <Pressable style={styles.restImageDiv}  onPress={() => handleProductPress(item._id)}>
+                          {shopData.map((item : any, index:any) => (
+                            <>
+                                {item.type === 'RESTAURANT' && (
+                                  
+                                  <Animated.View key={index} entering={FadeInLeft.duration(300).delay(200)}>
+                                  <Pressable style={styles.restImageDiv}  onPress={() => handleProductPress(item._id)}>
 
-                                
-                                <Image source={{uri : item.backdropPic}}
-                                  resizeMode='cover'
-                                  style={styles.restImage}
-                                />
-
-          
-                                <View style={{paddingHorizontal : 10, paddingVertical : 5, display : 'flex', flexDirection : 'row', alignItems : 'center'}}>
-                                  <View style={{display : 'flex', flexDirection : 'column'}}>
-                                    <Text style={{fontFamily : 'Railway3', fontSize : 15}}>{item.shopName}</Text>
-                                    <Text style={{fontFamily : 'Railway1', fontSize : 12}}>{item.description}</Text>
-                                  </View>
-                                    <TouchableOpacity onPress={handleIsFavorite} style={{
-                                      marginLeft : 'auto', padding : 10, 
-                                      backgroundColor : Colors.myLightGray,
-                                      borderRadius : 50
-
-                                    }}>
-                                      {isFavorite === false ? <FontAwesome name='heart-o' color={Colors.myRed}  size={15}/>
-                                      : <FontAwesome name='heart' color={Colors.myRed}  size={15}/>
-                                      }
                                     
-                                    </TouchableOpacity>
-                                </View>
-                              </Pressable>
-                              </Animated.View>
-                            )}
+                                    <View>
+                                      <Image source={{uri : item.backdropPic}}
+                                        resizeMode='cover'
+                                        style={styles.restImage}
+                                      />
+                                    </View>
+
+              
+                                    <View style={{paddingHorizontal : 10, paddingVertical : 5, backgroundColor:'white', display : 'flex', flexDirection : 'row', alignItems : 'center'}}>
+                                      <View style={{display : 'flex', flexDirection : 'column'}}>
+                                        <Text style={{fontFamily : 'Railway3', fontSize : 15}}>{item.shopName}</Text>
+                                        <Text style={{fontFamily : 'Railway1', fontSize : 12}}>{item.description}</Text>
+                                      </View>
+                                        <TouchableOpacity onPress={handleIsFavorite} style={{
+                                          marginLeft : 'auto', padding : 10, 
+                                          backgroundColor : Colors.myLightGray,
+                                          borderRadius : 50
+
+                                        }}>
+                                          {isFavorite === false ? <FontAwesome name='heart-o' color={Colors.myRed}  size={15}/>
+                                          : <FontAwesome name='heart' color={Colors.myRed}  size={15}/>
+                                          }
+                                        
+                                        </TouchableOpacity>
+                                    </View>
+                                  </Pressable>
+                                  </Animated.View>
+                                )}
+                            </>
+                          ))}
                         </>
-                      ))}
+                      )}
+
                     </>
                   )}
 
                   {error === true && (
                     <NetworkError />
                   )}
-
-                  {shopData !== undefined  && (
-                    <>
-                      {
-                        shopData.length === 0 && (
-                        <View style={{display : 'flex', paddingTop: 80, flexDirection : 'column', justifyContent : 'center', margin : 'auto'}}>
-                          <Ionicons name='notifications-circle' style={{textAlign : 'center'}} size={100} color={Colors.myGray}/>
-                          <Text style={{textAlign: 'center', color : Colors.myGray}}>Nothing Found</Text>
-                        </View>
-                        )
-                      }
-                    </>
-
-                  )}
-
               </View>
             </View>
 
@@ -418,7 +410,8 @@ const styles = StyleSheet.create({
     borderColor : Colors.myLightGray,
     borderWidth : 1,
     borderRadius : 5,
-    marginBottom : 20
+    marginBottom : 20,
+    backgroundColor : Colors.myLightGray
   },
 
 

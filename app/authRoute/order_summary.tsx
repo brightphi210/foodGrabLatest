@@ -25,10 +25,10 @@ const order_summary = () => {
 
 
   const [deliveryFee, setDeliveryFee] = useState(100)
-  const [shopId, setShopId] = useState(cartItem[0].shopId);
+  const [shopId, setShopId] = useState(cartItem.selectedItemsToAdd[0].shopId);
   const userEmail = userDetails.email;
   const [subTotal, setSubTotal] = useState(null)
-  const sumTotalPrice = cartItem.reduce((total:any, product:any) => total + (product.price * product.quantity), 0);
+  const sumTotalPrice = cartItem.selectedItemsToAdd.reduce((total:any, product:any) => total + (product.price * product.quantity), 0);
   const newTotalPrice = sumTotalPrice.toLocaleString()
   const percentage = (sumTotalPrice * 0.03 )
   const grandTotalPrice = (sumTotalPrice + percentage + deliveryFee)
@@ -36,7 +36,7 @@ const order_summary = () => {
   // console.log('THis is the data ', cartItem);
 
   // Extracting required fields and saving into a new array
-  const newArray = cartItem.map((item : any) => ({
+  const newArray = cartItem.selectedItemsToAdd.map((item : any) => ({
     cuisineId: item._id,
     name: item.name,
     price: item.price,
@@ -47,7 +47,7 @@ const order_summary = () => {
 
   const [finalData, setFinalData] = useState({
     "shopId" : shopId,
-    "items" : newArray
+    "items" : newArray,
   })
 
 
@@ -127,7 +127,7 @@ const order_summary = () => {
           <Text style={{fontFamily : 'Railway3', fontSize : 13}}>Order Summary</Text>
         </View>
 
-        {cartItem.map((item : any, index: any) =>(
+        {cartItem.selectedItemsToAdd.map((item : any, index: any) =>(
 
         <View key={index} style={{display : 'flex', flexDirection : 'row', borderBottomWidth : 1, borderBottomColor : Colors.myGray, paddingVertical : 20}}>
           <View style={{display : 'flex', flexDirection : 'row', gap : 10}}>
@@ -137,7 +137,7 @@ const order_summary = () => {
 
             <View>
               <Text style={{fontFamily : 'Railway2', fontSize : 13}}>{item.name.toUpperCase()}</Text>
-              <Text style={{fontFamily : 'Railway3', color : Colors.myLightGreen, fontSize : 11, paddingTop : 6}}>Kilimajaro - Big Tree</Text>
+              <Text style={{fontFamily : 'Railway3', color : Colors.myLightGreen, fontSize : 11, paddingTop : 6}}>{cartItem.resturantName}</Text>
             </View>
           </View>
 
