@@ -48,6 +48,11 @@ const index = () => {
     getData();
   }, []);
 
+  if(userToken === undefined){
+    getData()
+  }
+
+
   const [shopData, setShopData] = useState<any>([])
   const [error, setError] = useState<any>(false)
   const [refreshing, setRefreshing] = useState(false);
@@ -75,6 +80,7 @@ const index = () => {
 
     }
   };
+
 
   useEffect(() => {
     fetchData();
@@ -138,7 +144,9 @@ const index = () => {
   const handleIsFavorite = () => {
     setIsFavorite(!isFavorite);
   }
-  console.log('This is the data', shopData);
+  console.log('This is the data', typeof(shopData));
+
+
 
   
 

@@ -45,8 +45,7 @@ const order_details = () => {
             <Text style={{fontSize : 15, fontFamily : 'Railway2'}}>Order details</Text>
 
             <View style={{marginLeft : 'auto', display : 'flex', flexDirection : 'row', alignItems : 'center', gap : 5 }}>
-                <Text style={{fontFamily : 'Railway1', fontSize : 11}}>Arrives between</Text>
-                <Text style={{ fontSize : 15}}>12:30 pm</Text>
+                <Text style={{fontFamily : 'Railway1', fontSize : 11}}>Arrives soon</Text>
             </View>
         </View>
 
@@ -142,10 +141,13 @@ const order_details = () => {
                                         flexDirection : 'column', 
                                         paddingBottom : 20
                                     }}>
-                                    <Text style={{ fontSize : 13}}>Kilimajaro - Big Tree</Text>
+
+                                        <View style={{display : 'flex', flexDirection : 'row', alignItems:'center', gap : 10}}>
+                                            <FontAwesome name='home' />
+                                            <Text style={{ fontSize : 13}}>{data.shopId.shopName}</Text>
+                                        </View>
                                 </View>
                             </View>
-
                         </View>
                     </>
                 )}

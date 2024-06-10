@@ -13,11 +13,14 @@ import { BASE_URL } from '@/Enpoints/Endpoint';
 
 
 const order_summary = () => {
-  const { getData, getUserData, userDetails, userToken  } = useContext(AuthContext)  
+  const { getData, getUserData, userDetails, userToken, deleteAll  } = useContext(AuthContext)  
   const route = useRoute();
   const { cartItem } : any = route.params;
   const navigate = useNavigation()
   const router = useRouter()
+
+const [address, setAddress] = useState('')
+
 
   const handleBackPress = () => {
     router.replace('/carts'); 
@@ -41,7 +44,8 @@ const order_summary = () => {
     name: item.name,
     price: item.price,
     quantity: item.quantity,
-    cuisineImage : item.thumbnail
+    cuisineImage : item.thumbnail,
+    address: address
   }));
 
 
@@ -113,6 +117,10 @@ const order_summary = () => {
   };
 
 
+
+// console.log(address);
+
+
   return (
     <Animated.View style={styles.container}
     entering={FadeIn.duration(200).delay(200)}
@@ -150,8 +158,12 @@ const order_summary = () => {
 
         <View style={{paddingTop : 10}}>
           <Text style={{fontFamily : 'Railway1', fontSize : 11, color : 'grey', paddingBottom : 5}}>Delivery Address</Text>
-          <View style={{borderColor : Colors.myGray, borderWidth : 1, padding : 10, borderRadius : 5}}>
-            <TextInput placeholder='Enter Delivery Address . . . '/>
+          <View style={{borderColor : Colors.myRed, borderWidth : 1, padding : 10, borderRadius : 5}}>
+            <TextInput 
+              placeholder='Enter Delivery Address . . . '
+              value={address}
+              onChangeText={setAddress}
+            />
           </View>
         </View>
 

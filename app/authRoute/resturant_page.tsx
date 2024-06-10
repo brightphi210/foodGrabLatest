@@ -308,9 +308,11 @@ const resturantPage = () => {
                                 alignItems : 'center', 
                             }}>
 
-                                <Image source={{uri: eachCuisines.thumbnail}}
+                              <View style={{backgroundColor : Colors.myLightGray}}>
+                              <Image source={{uri: eachCuisines.thumbnail}}
                                 style={{width : 60, height : 50, borderRadius : 5}}
                                 />
+                              </View>
 
                                 <View style={{width : '75%'}}>
                                 <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center'}}>

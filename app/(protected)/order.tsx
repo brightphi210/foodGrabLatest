@@ -77,7 +77,6 @@ const order = () => {
 
   if(orderDatas === undefined){
     fetchOrderData();
-    // setOrderData(orderDatas !== undefined)
   }
 
 
@@ -187,20 +186,19 @@ const order = () => {
                             </View>
 
                       </View>
-
-                      <Text style={{ fontFamily: 'Railway2', fontSize: 12, paddingVertical: 6, color: "#54804D", fontWeight: "600" }}>Kilimajaro - Big Tree</Text>
-                      <Text style={{ fontFamily: 'Railway3', fontSize: 13, color: 'gray', fontWeight: "600" }}>&#8358;{data.totalPrice.toLocaleString()}</Text>
+                      
+                      <View style={{display : 'flex', flexDirection : 'row', marginVertical : 4, width : 'auto', alignItems : 'center', gap:10}}>
+                        <Text style={{ fontFamily: 'Railway3', fontSize: 13, color: 'gray', fontWeight: "600" }}>&#8358;{data.totalPrice.toLocaleString()}</Text>
+                        <View style={{
+                            borderRadius : 20, 
+                            backgroundColor : Colors.myLightPink, 
+                            padding : 5, paddingHorizontal : 10, 
+                          }}>
+                          <Text style={{fontSize : 8}}>{data.requestStatus}. .</Text>
+                        </View>
+                      </View>
                     
                     </View>
-                  </View>
-
-                  <View style={{
-                      marginLeft : 'auto', 
-                      borderRadius : 3, 
-                      backgroundColor : Colors.myLightPink, 
-                      padding : 5, paddingHorizontal : 10
-                    }}>
-                    <Text style={{fontSize : 10}}>{data.requestStatus.toLowerCase()}. .</Text>
                   </View>
                 </View>
 
@@ -391,7 +389,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     gap: 10,
-    alignItems: 'flex-start',
+    alignItems: 'center',
     marginBottom: 5
 
   },
