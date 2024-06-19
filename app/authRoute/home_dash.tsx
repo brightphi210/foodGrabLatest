@@ -1,5 +1,5 @@
 import { SafeAreaView, StyleSheet, Text, View, Image, TouchableOpacity, TouchableNativeFeedback, ScrollView } from 'react-native'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Colors from '@/constants/Colors';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import DashHeader from '@/components/DashHeader';
@@ -32,10 +32,9 @@ const index = () => {
     };
 
 
-    const deleteCarts = () => {
-      AsyncStorage.removeItem('cartItems');
-      router.replace('/public/welcome_one');
-    };
+    // useEffect(()=>{
+    //   deleteSeenScreen()
+    // },[])
 
 
   return (
@@ -55,10 +54,6 @@ const index = () => {
           <Text style={{fontSize : 20, paddingTop : 20}}>Remove OTP</Text>
         </TouchableOpacity> */}
         
-        {/* <TouchableOpacity onPress={deleteCarts}>
-          <Text style={{fontSize : 20, paddingTop : 20}}>Remove OTP</Text>
-        </TouchableOpacity> */}
-        
 
         
         
@@ -71,18 +66,17 @@ const index = () => {
                 />
               </View>
 
-
               <View style={{display : 'flex', gap : 10, flexDirection : 'column', paddingTop : 20}}>
 
                   <TouchableOpacity style={{padding : 15, backgroundColor : Colors.myLightGray, paddingLeft : 10}}>
-                    
                     <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center', gap : 10, }}> 
                       <Ionicons name='wallet-outline' size={20}/> 
                       <Text>Food Grab Wallet coming soon</Text>
                     </View>
                   </TouchableOpacity>
+
+
                   <TouchableOpacity style={{padding : 15, backgroundColor : Colors.myLightGray, paddingLeft : 10}}>
-                    
                     <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center', gap : 10, }}> 
                       <Ionicons name='fast-food-outline' size={20}/> 
                       <Text>Get Quality Food here  😊😊</Text>
@@ -93,14 +87,12 @@ const index = () => {
 
             <View style={{display: 'flex', paddingTop : 20, paddingHorizontal : 10, flexDirection : 'row', alignItems : 'center', justifyContent : 'center', gap : 10}}>
               
-              
-
-                <TouchableOpacity  onPress={handlePress} style={styles.imageDIvBorder}>
-                    <Image source={require('../../assets/images/foodSearch.png')}
-                      style={{width : 130, height : 90, alignSelf : 'center'}}
-                    />
-                    <Text style={{textAlign : 'center', fontFamily : 'Railway2', fontSize : 15}}>Food</Text>
-                </TouchableOpacity>
+              <TouchableOpacity  onPress={handlePress} style={styles.imageDIvBorder}>
+                  <Image source={require('../../assets/images/foodSearch.png')}
+                    style={{width : 130, height : 90, alignSelf : 'center'}}
+                  />
+                  <Text style={{textAlign : 'center', fontFamily : 'Railway2', fontSize : 15}}>Food</Text>
+              </TouchableOpacity>
 
               <TouchableOpacity  onPress={handlePress} style={styles.imageDIvBorder}>
                   <Image source={require('../../assets/images/storeSearch.png')}
@@ -108,8 +100,8 @@ const index = () => {
                   />
                   <Text style={{textAlign : 'center', fontFamily : 'Railway2', fontSize : 15,}}>Restaurant</Text>
               </TouchableOpacity>
+
             </View>
-            
 
             <TouchableOpacity  onPress={handlePress} >
                 <View style={styles.imageDIvBorder2}>
