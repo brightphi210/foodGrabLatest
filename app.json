@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "foodGrabNew",
-    "slug": "foodGrabNew",
+    "slug": "foodgrab",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -42,8 +42,9 @@
         "origin": false
       },
       "eas": {
-        "projectId": "f1b5bdad-ec6d-446b-9834-a4b1eeacb563"
+        "projectId": "27316463-f8a0-4080-a5a7-bec507b6b754"
       }
-    }
+    },
+    "owner": "bosskings"
   }
 }
