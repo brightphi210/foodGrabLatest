@@ -374,8 +374,13 @@ const styles = StyleSheet.create({
 
     iconStyle : {
         position : 'absolute',
-        top : 15,
-        right : 30,
+        top : 0,
+        right : 0,
+        // backgroundColor: Colors.myGray,
+        width : 70,
+        height : 60,
+        justifyContent : 'center',
+        alignItems : 'center',
     },
 
 

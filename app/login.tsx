@@ -158,6 +158,7 @@ const register = () => {
                                 onChangeText={setPassword}
                                 secureTextEntry={!showPassword}
                             />
+                            
 
                             <TouchableOpacity onPress={togglePasswordVisibility} style={styles.iconStyle}>
                                 {showPassword ? 
@@ -255,7 +256,12 @@ const styles = StyleSheet.create({
 
     iconStyle : {
         position : 'absolute',
-        top : 20,
-        right : 20,
+        top : 0,
+        right : 0,
+        // backgroundColor: Colors.myGray,
+        width : 70,
+        height : 60,
+        justifyContent : 'center',
+        alignItems : 'center',
     }
 })

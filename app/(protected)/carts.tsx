@@ -51,16 +51,15 @@ const cart = () => {
             backgroundColor : Colors.myRed,  
             marginLeft : 'auto', marginTop : 30, 
             marginRight : 20, display : 'flex', flexDirection : 'column',
-            justifyContent : 'center',
-            alignItems : 'center',
-            borderRadius : 100,
-            paddingHorizontal : 7,
-            paddingVertical : 3,
-            paddingBottom : 0,
-            paddingTop: 0 
+            width : 30,
+            height : 30, 
+            borderRadius : 100, 
+            justifyContent : 'center', 
+            alignItems : 'center', 
+            padding : 5,
 
           }}>
-            <Text style={{ fontFamily : 'Railway1',  fontSize : 12, color : 'white', }}>{cartItems.length}</Text>
+            <Text style={{ fontFamily : 'Railway1',  fontSize : 13, color : 'white', }}>{cartItems.length}</Text>
           </View>
         }
       </View>
@@ -86,15 +85,19 @@ const cart = () => {
 
         <ScrollView style={styles.container3} showsVerticalScrollIndicator={false}>
 
-          <View style={{display : 'flex', flexDirection : 'row', paddingBottom : 10}}>
-          <TouchableOpacity onPress={()=>setShowModal2(true)} 
-                style={{backgroundColor : Colors.myLightGray, 
-                  padding : 5, paddingHorizontal : 20, 
-                  borderRadius : 5, 
-                  
-                }}>
-                <Text style={{fontFamily : 'Railway3', fontSize : 12, }}>Clear cart</Text>
-          </TouchableOpacity>
+          <View style={{
+              display : 'flex', 
+              flexDirection : 'row', 
+              paddingBottom : 10
+          }}>
+            <TouchableOpacity onPress={()=>setShowModal2(true)} 
+                  style={{backgroundColor : Colors.myLightGray, 
+                    padding : 10, paddingHorizontal : 20, 
+                    borderRadius : 20, 
+                    
+                  }}>
+                  <Text style={{fontFamily : 'Railway3', fontSize : 12, fontWeight : 'bold'}}>Clear cart</Text>
+            </TouchableOpacity>
           </View>
 
           {cartItems.map((cartItem : any, index : any) =>(<>
@@ -105,7 +108,7 @@ const cart = () => {
               <Animated.View style={styles.eachCartDiv}  key={index} entering={FadeInLeft.duration(300).delay(200)} exiting={FadeOutRight.duration(300).delay(200)}>
                 
                   <View style={styles.eachCart}>
-                    <View style={{overflow : 'hidden', width : 70, height : 60, borderRadius : 5}}>
+                    <View style={{overflow : 'hidden', width : 50, height : 50, borderRadius : 30}}>
   
                     {cartItem && (
                       <>
@@ -113,7 +116,7 @@ const cart = () => {
   
                           <Image 
                             source={{uri : item.thumbnail}}
-                            style={{width : 70, height : 70, }}
+                            style={{width : 50, height : 50, objectFit : 'cover'}}
                           />
                         ))}
                       </>
@@ -126,26 +129,34 @@ const cart = () => {
   
                           {cartItem.selectedItemsToAdd && (
                             <>
-                              {cartItem.selectedItemsToAdd.slice(0, 2).map((item:any) => (
+                              {cartItem.selectedItemsToAdd.slice(0, 1).map((item:any) => (
                                 <View key={item.id} >
-                                    <Text style={{fontFamily : 'Railway2', fontSize : 12}}>{item.name.toUpperCase()}, </Text> 
+                                    <Text style={{fontFamily : 'Railway2', fontSize : 12, marginLeft :'auto'}}>{item.name.toUpperCase()}</Text> 
                                 </View>
                               ))}
                             </>
                           )}
-  
-  
-                          <View>
-                            {cartItem.selectedItemsToAdd.length > 2 && <Text >. . . </Text>}
-                          </View>
                         </View>
                         
                         <View style={{marginLeft : 'auto',}}>
-                          <Text style={{  fontSize : 12, color : 'gray'}}>{cartItem.length} Items</Text>
+                          <Text style={{  fontSize : 10, color : 'gray'}}>{cartItem.length}{cartItem.selectedItemsToAdd.length} Items</Text>
                         </View>
                       </View>
-                      <Text style={{ fontFamily: 'Railway1', fontSize: 12, paddingVertical: 6, color: Colors.myGreen }}>{cartItem.resturantName}</Text>
+                      <Text style={{ fontFamily: 'Railway1', fontSize: 10, paddingVertical: 3, color: Colors.myGreen }}>{cartItem.resturantName}</Text>
                     </View>
+
+                    <TouchableOpacity onPress={() => deleteItemFromCart(index)} style={{
+                      marginLeft : 'auto', 
+                      backgroundColor : Colors.myLightGray,
+                      width : 40,
+                      height : 40, 
+                      borderRadius : 100, 
+                      justifyContent : 'center', 
+                      alignItems : 'center', 
+                      padding : 5,
+                    }}>
+                      <FontAwesome name='trash' size={15} color={Colors.myRed}  />
+                  </TouchableOpacity>
                     
                   </View>
   
@@ -157,19 +168,16 @@ const cart = () => {
                       </View>
                     </TouchableOpacity>
   
-                    <TouchableOpacity onPress={()=> handleProductPress2(cartItem.selectedItemsToAdd)} >
-                      <View style={{display : 'flex', flexDirection : 'row', alignItems : 'center', gap : 5}}>
-                        <Text style={{fontFamily : 'Railway3', fontSize : 12, }}>
+                    <TouchableOpacity onPress={()=> handleProductPress2(cartItem.selectedItemsToAdd)} style={styles.checkOutBtn2}>
+                        <Text style={{fontFamily : 'Railway3', fontSize : 12,}}>
                             Edit Selection 
                         </Text>
-                        <AntDesign name='edit' size={10}/>
-                      </View>
+                        <AntDesign name='edit' size={15}/>
                     </TouchableOpacity>
-  
-                    <TouchableOpacity onPress={() => deleteItemFromCart(index)} style={{marginLeft : 'auto'}}>
-                      <Ionicons name='trash' size={20} color={Colors.myRed}  />
-                    </TouchableOpacity>
+
                   </View>
+
+
                 
               </Animated.View>
             </>)}
@@ -275,19 +283,36 @@ cartRight : {
 checkOutDiv : {
   display : 'flex',
   flexDirection : 'row',
-  alignItems : 'center',
-  gap : 20 
+  width : '100%',
+  gap : 10 
 },
 
 checkOutBtn : {
-  height : 25,
+  height : 40,
   backgroundColor : Colors.myLightGreen,
   flexDirection : 'row',
   alignItems : 'center',
   paddingHorizontal : 20,
   justifyContent : 'center',
-  borderRadius : 3,  
+  borderRadius : 5,  
   marginTop : 5,
+  width : '45%',
+},
+
+checkOutBtn2 : {
+  height : 40,
+  backgroundColor : 'white',
+  display : 'flex',
+  flexDirection : 'row',
+  alignItems : 'center',
+  paddingHorizontal : 20,
+  justifyContent : 'center',
+  borderRadius : 5,  
+  marginTop : 5,
+  width : '50%',
+  borderColor : Colors.myGray,
+  borderWidth : 1,
+  gap : 10
 },
 
 

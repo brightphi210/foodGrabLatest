@@ -308,9 +308,9 @@ const resturantPage = () => {
                                 alignItems : 'center', 
                             }}>
 
-                              <View style={{backgroundColor : Colors.myLightGray}}>
+                              <View style={{backgroundColor : Colors.myLightGray, width : 60, height : 60, borderRadius : 30,}}>
                               <Image source={{uri: eachCuisines.thumbnail}}
-                                style={{width : 60, height : 50, borderRadius : 5}}
+                                style={{width : 60, height : 60, borderRadius : 30, objectFit : 'cover'}}
                                 />
                               </View>
 

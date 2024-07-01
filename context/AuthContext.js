@@ -93,7 +93,7 @@ export const AuthProvider = ({ children }) => {
         updatedCartItems.splice(itemIndex, 1);
         setCartItems(updatedCartItems);
         await AsyncStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
-    } catch (e) {
+    } catch (e) { 
         console.log(e);
     }
   };  

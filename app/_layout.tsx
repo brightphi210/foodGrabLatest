@@ -90,7 +90,7 @@ const MainLayout = () => {
       // router.replace('/home')
       // router.replace('/register')
       // router.replace('/account')
-      // router.replace('/carts')
+      router.replace('/carts')
       // router.replace('/order')
       // router.replace('/authRoute/(profile)/personal')
       // router.replace('/authRoute/(profile)/wallet')

@@ -61,9 +61,18 @@ const proceed_checkout = () => {
 
         <View style={styles.viewSelction}>
             <Text style={{fontSize : 15, fontFamily : 'Railway2'}}>View Selection</Text>
-            <TouchableOpacity >
-                <FontAwesome name='trash' color={Colors.myRed} size={15}/>
-            </TouchableOpacity>
+            <TouchableOpacity  style={{
+                      marginLeft : 'auto', 
+                      backgroundColor : Colors.myLightGray,
+                      width : 40,
+                      height : 40, 
+                      borderRadius : 100, 
+                      justifyContent : 'center', 
+                      alignItems : 'center', 
+                      padding : 5,
+                    }}>
+                      <FontAwesome name='trash' size={20} color={Colors.myRed}  />
+                  </TouchableOpacity>
         </View>
 
         <View >
@@ -77,15 +86,36 @@ const proceed_checkout = () => {
                         
                     <View style={styles.iconDiv}>
 
-                        <Pressable onPress={()=>decrementQuantity(index)}>
-                            <AntDesign name='minus' size={15} />
-                        </Pressable>
+                        <TouchableOpacity onPress={()=>decrementQuantity(index)} style={{
+                            marginLeft : 'auto', 
+                            backgroundColor : Colors.myLightGray,
+                            width : 40,
+                            height : 40, 
+                            borderRadius : 100, 
+                            justifyContent : 'center', 
+                            alignItems : 'center', 
+                            padding : 5,
+                        }}>
+                            <FontAwesome name='minus' size={15} />
+                        </TouchableOpacity>
 
-                        <Text style={{ fontSize : 15}}>{item.quantity}</Text>
 
-                        <Pressable onPress={()=>incrementQuantity(index)}>
-                            <AntDesign name='plus' size={15} />
-                        </Pressable>
+                        <Text style={{ fontSize : 15, fontWeight : '600'}}>{item.quantity}</Text>
+
+          
+
+                        <TouchableOpacity onPress={()=>incrementQuantity(index)} style={{
+                            marginLeft : 'auto', 
+                            backgroundColor : Colors.myLightGray,
+                            width : 40,
+                            height : 40, 
+                            borderRadius : 100, 
+                            justifyContent : 'center', 
+                            alignItems : 'center', 
+                            padding : 5,
+                        }}>
+                            <FontAwesome name='plus' size={15}  />
+                        </TouchableOpacity>
 
                     </View>
 
