@@ -159,59 +159,57 @@ const order = () => {
             {orderDatas && orderDatas.map((data:any, index :any)=>(
               <Animated.View key={index} style={styles.eachCartDiv} entering={FadeInLeft.duration(300).delay(200)}>
                 <View style={styles.eachCart}>
-                  <View style={{ overflow: 'hidden', width: 70, height: 60, borderRadius: 5 }}>
+                  <View style={{ overflow: 'hidden', width: 50, height: 50, borderRadius: 100 }}>
 
                   {data.items.slice(0, 1).map((item:any) => (
                       <Image
                       source={{uri: item.cuisineImage}}
-                      style={{ width: 80, height: 60, }}
+                      style={{ width: 50, height: 50, objectFit : 'cover'}}
                     />
                   ))}
                   </View>
 
+
                   <View style={styles.cartRight}>
-                    <View>
-
-                      <View style={{display : 'flex', flexDirection : 'row', gap : 3}}>
-
-                            {data.items.slice(0, 2).map((item:any) => (
-                              <View key={item.id} >
-                                  <Text style={{fontFamily : 'Railway2', fontSize : 11}}>{item.name.toUpperCase()}, </Text> 
-                              </View>
-                            ))}
-
-
-                            <View>
-                              {data.items.length > 2 && <Text >. . </Text>}
+                    <View >
+                      <View >
+                          {data.items.slice(0, 1).map((item:any) => (
+                            <View key={item.id} >
+                                <Text style={{fontFamily : 'Railway2', fontSize : 11}}>{item.name.toUpperCase()}</Text> 
                             </View>
-
+                          ))}
+        
+                          <View style={{display : 'flex', flexDirection : 'row', marginVertical : 4, width : 'auto', alignItems : 'center', gap:10}}>
+                            <Text style={{ fontFamily: 'Railway3', fontSize: 13, color: 'gray', fontWeight: "600" }}>&#8358;{data.totalPrice.toLocaleString()}</Text>
+                          </View>
                       </View>
-                      
-                      <View style={{display : 'flex', flexDirection : 'row', marginVertical : 4, width : 'auto', alignItems : 'center', gap:10}}>
-                        <Text style={{ fontFamily: 'Railway3', fontSize: 13, color: 'gray', fontWeight: "600" }}>&#8358;{data.totalPrice.toLocaleString()}</Text>
-                        <View style={{
-                            borderRadius : 20, 
-                            backgroundColor : Colors.myLightPink, 
-                            padding : 5, paddingHorizontal : 10, 
-                          }}>
-                          <Text style={{fontSize : 8}}>{data.requestStatus}. .</Text>
-                        </View>
-                      </View>
-                    
                     </View>
+
                   </View>
+
+                  <View style={{
+                      borderRadius : 5, 
+                      backgroundColor : Colors.myLightPink, 
+                      padding : 5, paddingHorizontal : 10,
+                      marginLeft : 'auto'
+                    }}>
+                    <Text style={{fontSize : 8}}>{data.requestStatus}. .</Text>
+                  </View>
+
                 </View>
+
 
                   <View>
                       <TouchableOpacity  style={{
                         alignItems: "center", 
-                        backgroundColor: Colors.myLightGray, 
+                        backgroundColor: Colors.myGreen, 
                         padding: 10, paddingHorizontal: 20, 
                         width: '100%', borderRadius: 5, marginTop: 10
                       }} onPress={()=> handleOrderPress(data)}>
-                        <Text style={{ fontFamily: 'Railway3', color: 'black', fontSize : 12 }}>See Details</Text>
+                        <Text style={{ fontFamily: 'Railway3', color: 'white', fontSize : 12 }}>See Details</Text>
                       </TouchableOpacity>
                   </View>
+
               </Animated.View>
             ))}
 
@@ -318,7 +316,7 @@ export default order
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: Colors.myLightGray,
     paddingHorizontal: 20,
     paddingTop: 0,
   },
@@ -378,10 +376,13 @@ const styles = StyleSheet.create({
 
 
   eachCartDiv: {
-    borderColor: Colors.myGray,
+    shadowColor : Colors.myGray,
+    elevation: 5,
+    borderColor : Colors.myLightGray,
+    backgroundColor : 'white',
     borderWidth: 1,
-    padding: 10,
-    borderRadius: 5,
+    padding: 15,
+    borderRadius: 10,
     marginBottom : 20
   },
 
@@ -394,13 +395,16 @@ const styles = StyleSheet.create({
 
   },
 
-  cartRight: {},
+  cartRight: {
+    display : 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
 
   checkOutDiv: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
     gap: 10
   },
 

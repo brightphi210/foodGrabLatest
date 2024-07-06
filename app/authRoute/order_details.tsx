@@ -20,10 +20,10 @@ const order_details = () => {
       router.replace('/order'); 
     };
     
-    const [status, setStatus] = useState('processing');
+    // const [status, setStatus] = useState('processing');
     // const [status, setStatus] = useState('packaging');
     // const [status, setStatus] = useState('intransit');
-    // const [status, setStatus] = useState('delivered');
+    const [status, setStatus] = useState('delivered');
     
     console.log('THis is the data, ', data);
     

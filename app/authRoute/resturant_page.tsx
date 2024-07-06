@@ -303,15 +303,15 @@ const resturantPage = () => {
                             borderBottomWidth : 1,
                           }}>
                             <View style={{display : 'flex', 
-                                flexDirection : 'row', gap : 10, 
+                                flexDirection : 'row', gap : 20, 
                                 justifyContent : 'center', 
                                 alignItems : 'center', 
                             }}>
 
-                              <View style={{backgroundColor : Colors.myLightGray, width : 60, height : 60, borderRadius : 30,}}>
-                              <Image source={{uri: eachCuisines.thumbnail}}
-                                style={{width : 60, height : 60, borderRadius : 30, objectFit : 'cover'}}
-                                />
+                              <View style={{backgroundColor : Colors.myLightGray, width : 60, height : 60, borderRadius : 50,}}>
+                                <Image source={{uri: eachCuisines.thumbnail}}
+                                  style={{width : 60, height : 60, borderRadius : 50, objectFit : 'cover'}}
+                                  />
                               </View>
 
                                 <View style={{width : '75%'}}>
@@ -320,7 +320,7 @@ const resturantPage = () => {
                                 </View>
 
                                 <Text style={{fontFamily : 'Railway1', 
-                                    fontSize : 12, color : 'gray', paddingVertical : 3,
+                                    fontSize : 10, color : 'gray', paddingVertical : 1,
                                     textAlign : 'justify'
                                 }}>
                                     {eachCuisines.description}
@@ -469,8 +469,8 @@ const styles = StyleSheet.create({
       borderRadius : 100,
       borderColor : Colors.myLightGreen,
       borderWidth : 1,
-      width : 17,
-      height : 17
+      width : 22,
+      height : 22
     },
 
     btnStyles :{

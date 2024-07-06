@@ -26,6 +26,7 @@ const [address, setAddress] = useState('')
     router.replace('/carts'); 
   };
 
+  
 
   const [deliveryFee, setDeliveryFee] = useState(100)
   const [shopId, setShopId] = useState(cartItem.selectedItemsToAdd[0].shopId);
@@ -138,20 +139,19 @@ const [address, setAddress] = useState('')
         {cartItem.selectedItemsToAdd.map((item : any, index: any) =>(
 
         <View key={index} style={{display : 'flex', flexDirection : 'row', borderBottomWidth : 1, borderBottomColor : Colors.myGray, paddingVertical : 20}}>
-          <View style={{display : 'flex', flexDirection : 'row', gap : 10}}>
-            <View style={{width : 50, height : 40, overflow : 'hidden', borderRadius : 5}}>
+          <View style={{display : 'flex', flexDirection : 'row', gap : 20}}>
+            <View style={{width : 50, height : 50, overflow : 'hidden', borderRadius : 30}}>
               <Image source={{uri: item.thumbnail}} style={{width  : 60, height : 60}}/>
             </View>
 
             <View>
               <Text style={{fontFamily : 'Railway2', fontSize : 13}}>{item.name.toUpperCase()}</Text>
-              <Text style={{fontFamily : 'Railway3', color : Colors.myLightGreen, fontSize : 11, paddingTop : 6}}>{cartItem.resturantName}</Text>
+              <Text style={{fontFamily : 'Railway3', color : Colors.myLightGreen, fontSize : 11, paddingTop : 3}}>{cartItem.resturantName}</Text>
             </View>
           </View>
 
           <View style={{marginLeft : 'auto',}}>
             <Text style={{ color : 'gray', fontSize : 12}}>{item.quantity} Items</Text>
-            <Text style={{ color : 'gray', fontFamily : 'Railway1', fontSize : 12}}>View Selection</Text>
           </View>
         </View>
         ))}

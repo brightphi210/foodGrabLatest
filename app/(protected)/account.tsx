@@ -108,8 +108,8 @@ const account = () => {
       {/* {isLoading && <ActivityIndicator size={'large'}/>} */}
 
       <Animated.View style={{ flex: 1, marginTop: 30, alignItems: 'center' }}
-        entering={FadeInLeft.duration(400).delay(400)}
-        exiting={FadeOutDown.duration(500).delay(500)}
+        // entering={FadeInLeft.duration(400).delay(400)}
+        // exiting={FadeOutDown.duration(500).delay(500)}
       >
         <View style={styles.avatarContainer}>
 

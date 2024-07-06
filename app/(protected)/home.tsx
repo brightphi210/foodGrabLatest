@@ -218,7 +218,7 @@ const index = () => {
                           <>
                           {item.type === 'CHEF' && (
                             
-                            <Animated.View key={index} entering={FadeInLeft.duration(300).delay(200)} exiting={FadeOutRight.duration(300).delay(200)}>
+                            <Animated.View key={index} >
                               <TouchableOpacity onPress={() => handleProductPress(item._id)}>
                                   <View style={{display : 'flex', 
                                     flexDirection : 'row', gap : 10, 
@@ -296,7 +296,7 @@ const index = () => {
                             <>
                                 {item.type === 'RESTAURANT' && (
                                   
-                                  <Animated.View key={index} entering={FadeInLeft.duration(300).delay(200)}>
+                                  <Animated.View key={index} >
                                   <Pressable style={styles.restImageDiv}  onPress={() => handleProductPress(item._id)}>
 
                                     

@@ -8,6 +8,7 @@ import { Slot } from 'expo-router';
 import { useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import BottomSheetModalProvider from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetModalProvider';
 
 
 export {
@@ -90,8 +91,8 @@ const MainLayout = () => {
       // router.replace('/home')
       // router.replace('/register')
       // router.replace('/account')
-      router.replace('/carts')
-      // router.replace('/order')
+      // router.replace('/carts')
+      router.replace('/order')
       // router.replace('/authRoute/(profile)/personal')
       // router.replace('/authRoute/(profile)/wallet')
       // router.replace('/authRoute/(profile)/FAQs')
@@ -122,7 +123,7 @@ const MainLayout = () => {
 
 
   return (
-    <Slot />
+      <Slot />
   );
 }
 
