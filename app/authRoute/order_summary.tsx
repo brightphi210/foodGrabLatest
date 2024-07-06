@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, ScrollView, Pressable, ActivityIndicator } from 'react-native'
+import { StyleSheet, Text, View, Platform, Image, TouchableOpacity, TextInput, ScrollView, Pressable, ActivityIndicator } from 'react-native'
 import React, {useContext, useEffect, useState} from 'react'
 import Colors from '@/constants/Colors';
 import { Link, useRouter } from 'expo-router'
@@ -12,6 +12,11 @@ import { AuthContext } from '@/context/AuthContext';
 import { BASE_URL } from '@/Enpoints/Endpoint';
 
 
+import * as Location from 'expo-location';
+
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+
+
 const order_summary = () => {
   const { getData, getUserData, userDetails, userToken, deleteAll  } = useContext(AuthContext)  
   const route = useRoute();
@@ -19,14 +24,36 @@ const order_summary = () => {
   const navigate = useNavigation()
   const router = useRouter()
 
-const [address, setAddress] = useState('')
+  const [address, setAddress] = useState('')
+  const [errorMsg, setErrorMsg] = useState<any>(null);
+  const [location, setLocation] = useState<any>(null);
 
+
+  useEffect(() => {
+    (async () => {
+      
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    })();
+  }, []);
+
+
+  let text = 'Waiting..';
+  if (errorMsg) {
+    text = errorMsg;
+  } else if (location) {
+    text = JSON.stringify(location);
+  }
 
   const handleBackPress = () => {
     router.replace('/carts'); 
   };
-
-  
 
   const [deliveryFee, setDeliveryFee] = useState(100)
   const [shopId, setShopId] = useState(cartItem.selectedItemsToAdd[0].shopId);
@@ -131,7 +158,20 @@ const [address, setAddress] = useState('')
       <BackHeader />
       <Text style={{fontFamily : 'Railway2', fontSize : 15, paddingBottom : 20}}>Checkout</Text>
 
-      <ScrollView  showsVerticalScrollIndicator={false}>
+        <GooglePlacesAutocomplete
+            placeholder='Search'
+            renderDescription={row => row.description}
+            onPress={(data, details = null) => { 
+              console.log(data, details);
+            }}
+            
+            query={{
+              key: 'AIzaSyAD_HE0HLanDTrdLSmj4L3SnVfhNIFHBm4',
+              language: 'en',
+            }}
+          />
+
+      {/* <ScrollView  showsVerticalScrollIndicator={false}>
         <View style={styles.grayBG}>
           <Text style={{fontFamily : 'Railway3', fontSize : 13}}>Order Summary</Text>
         </View>
@@ -166,6 +206,8 @@ const [address, setAddress] = useState('')
             />
           </View>
         </View>
+ 
+
 
         <View style={styles.grayBG}>
           <Text style={{fontFamily : 'Railway3', fontSize : 13}}>Payment Summary</Text>
@@ -228,7 +270,7 @@ const [address, setAddress] = useState('')
         </View>
 
 
-      </ScrollView>
+      </ScrollView> */}
     </Animated.View>
   )
 }

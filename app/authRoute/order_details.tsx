@@ -20,12 +20,12 @@ const order_details = () => {
       router.replace('/order'); 
     };
     
-    // const [status, setStatus] = useState('processing');
+    const [status, setStatus] = useState('processing');
     // const [status, setStatus] = useState('packaging');
     // const [status, setStatus] = useState('intransit');
-    const [status, setStatus] = useState('delivered');
+    // const [status, setStatus] = useState('delivered');
     
-    console.log('THis is the data, ', data);
+    console.log('THis is the data, ', data.requestStatus);
     
 
   return (
@@ -91,7 +91,7 @@ const order_details = () => {
 
             <View>
 
-                {status === 'processing' && (
+                {data.requestStatus === 'PROCESSING' && (
                     <>
                         <View style={{
                                 borderBottomColor : Colors.myGray, 
