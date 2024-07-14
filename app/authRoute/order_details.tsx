@@ -20,7 +20,7 @@ const order_details = () => {
       router.replace('/order'); 
     };
     
-    const [status, setStatus] = useState('processing');
+    const [status, setStatus] = useState(data.requestStatus);
     // const [status, setStatus] = useState('packaging');
     // const [status, setStatus] = useState('intransit');
     // const [status, setStatus] = useState('delivered');
@@ -67,14 +67,14 @@ const order_details = () => {
                 <Text>-  -  -  -</Text>
 
                 <View>
-                    <Text style={{textAlign : 'center'}}><FontAwesome name='shopping-basket' size={20} color={status === 'packaging' ? Colors.myLightGreen : ''}/></Text>
+                    <Text style={{textAlign : 'center'}}><FontAwesome name='shopping-basket' size={20} color={status === 'PACKAGED' ? Colors.myLightGreen : ''}/></Text>
                     <Text style={{fontSize : 10, fontFamily: 'Railway1', paddingTop : 5}}>Packaged</Text>
                 </View>
 
                 <Text>-  -  -  -</Text>
 
                 <View>
-                    <Text style={{textAlign : 'center'}}><FontAwesome name='motorcycle' size={20} color={status === 'intransit' ? Colors.myLightGreen : ''}/></Text>
+                    <Text style={{textAlign : 'center'}}><FontAwesome name='motorcycle' size={20} color={status === 'IN-TRANSIT' ? Colors.myLightGreen : ''}/></Text>
                     <Text style={{fontSize : 10, fontFamily: 'Railway1', paddingTop : 5}}>In-transit</Text>
                 </View>
 
@@ -82,7 +82,7 @@ const order_details = () => {
                 <Text>-  -  -  -</Text>
 
                 <View>
-                    <Text style={{textAlign : 'center'}}><Ionicons name='checkmark-circle-outline' size={20} color={status === 'delivered' ? Colors.myLightGreen : ''}/></Text>
+                    <Text style={{textAlign : 'center'}}><Ionicons name='checkmark-circle-outline' size={20} color={status === 'DELIVERED' ? Colors.myLightGreen : ''}/></Text>
                     <Text style={{fontSize : 10, fontFamily: 'Railway1', paddingTop : 5}}>Delivered</Text>
                 </View>
             </View>
@@ -153,7 +153,7 @@ const order_details = () => {
                 )}
 
 
-                {status === 'packaging' && (
+                {status === 'PACKAGED' && (
                     <>
                         <View style={{ paddingTop : 150, justifyContent :'center', alignItems: 'center', display : 'flex'}}>
                             <Image source={require('../../assets/images/packed.png')} style={{width : 300, height : 300}}/>
@@ -162,7 +162,7 @@ const order_details = () => {
                 )}
 
 
-                {status === 'intransit' && (
+                {status === 'IN-TRANSIT' && (
                     <>
                         <View style={{ paddingTop : 150, justifyContent :'center', alignItems: 'center', display : 'flex'}}>
                             <Image source={require('../../assets/images/transit.png')} style={{width : 270, height : 250}}/>
@@ -171,7 +171,7 @@ const order_details = () => {
                 )}
 
 
-                {status === 'delivered' && (
+                {status === 'DELIVERED' && (
                     <>
                         <View style={{ paddingTop : 100, justifyContent :'center', alignItems: 'center', display : 'flex'}}>
                             <Image source={require('../../assets/images/thanks.png')} style={{width : 150, height : 150}}/>

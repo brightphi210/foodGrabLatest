@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View, Platform, Image, TouchableOpacity, TextInput, ScrollView, Pressable, ActivityIndicator } from 'react-native'
+// import { ScrollView } from 'react-native-virtualized-view'
 import React, {useContext, useEffect, useState} from 'react'
 import Colors from '@/constants/Colors';
 import { Link, useRouter } from 'expo-router'
@@ -146,7 +147,7 @@ const order_summary = () => {
 
 
 
-// console.log(address);
+console.log(address);
 
 
   return (
@@ -159,19 +160,40 @@ const order_summary = () => {
       <Text style={{fontFamily : 'Railway2', fontSize : 15, paddingBottom : 20}}>Checkout</Text>
 
         <GooglePlacesAutocomplete
-            placeholder='Search'
-            renderDescription={row => row.description}
-            onPress={(data, details = null) => { 
-              console.log(data, details);
-            }}
-            
-            query={{
-              key: 'AIzaSyAD_HE0HLanDTrdLSmj4L3SnVfhNIFHBm4',
-              language: 'en',
-            }}
-          />
+          placeholder='Enter address'
+          renderDescription={row => row.description}
+          onPress={(data, details = null) => { 
+            console.log(data, details);
+            setAddress(data.description);
+          }}
 
-      {/* <ScrollView  showsVerticalScrollIndicator={false}>
+          styles={{
+            container : {
+              position : 'absolute',
+              top : 130,
+              left : 0,
+              right : 0,
+              zIndex : 100,
+            },
+
+            textInput: {
+              height: 50,
+              borderRadius: 5,
+              borderWidth: 1,
+              borderColor: Colors.myRed,
+              fontSize: 15,
+              paddingHorizontal: 15,
+              marginHorizontal: 15
+            },
+          }}
+          
+          query={{
+            key: 'AIzaSyA_HnIpk-nlGgMh-G1Evi-WX2T_wwqTmGs',
+            language: 'en',
+          }}
+        />
+
+      <ScrollView style={styles.scrollView}  showsVerticalScrollIndicator={false}>
         <View style={styles.grayBG}>
           <Text style={{fontFamily : 'Railway3', fontSize : 13}}>Order Summary</Text>
         </View>
@@ -196,7 +218,7 @@ const order_summary = () => {
         </View>
         ))}
 
-        <View style={{paddingTop : 10}}>
+        {/* <View style={{paddingTop : 10}}>
           <Text style={{fontFamily : 'Railway1', fontSize : 11, color : 'grey', paddingBottom : 5}}>Delivery Address</Text>
           <View style={{borderColor : Colors.myRed, borderWidth : 1, padding : 10, borderRadius : 5}}>
             <TextInput 
@@ -205,9 +227,7 @@ const order_summary = () => {
               onChangeText={setAddress}
             />
           </View>
-        </View>
- 
-
+        </View> */}
 
         <View style={styles.grayBG}>
           <Text style={{fontFamily : 'Railway3', fontSize : 13}}>Payment Summary</Text>
@@ -270,7 +290,7 @@ const order_summary = () => {
         </View>
 
 
-      </ScrollView> */}
+      </ScrollView>
     </Animated.View>
   )
 }
@@ -281,7 +301,13 @@ const styles = StyleSheet.create({
   container : {
     flex : 1,
     backgroundColor : 'white',
-    paddingHorizontal : 20
+    paddingHorizontal : 20,
+    position :'relative',
+  },
+
+  scrollView : {
+    paddingVertical : 50
+
   },
 
   grayBG : {
@@ -402,6 +428,7 @@ eachBottomBtn2 : {
     borderColor : Colors.myRed, 
     borderWidth : 1,
     marginTop : 10,
+    marginBottom: 50,
     borderRadius : 5,
 }
 })
