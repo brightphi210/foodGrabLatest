@@ -29,10 +29,11 @@ const order_summary = () => {
   const [errorMsg, setErrorMsg] = useState<any>(null);
   const [location, setLocation] = useState<any>(null);
 
+  const [isLoadingLoc, setIsLoadingLoc] = useState(false);
 
   useEffect(() => {
     (async () => {
-      
+      setIsLoadingLoc(true);
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
         setErrorMsg('Permission to access location was denied');
@@ -41,9 +42,21 @@ const order_summary = () => {
 
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location);
+      setIsLoadingLoc(false);
     })();
   }, []);
 
+
+  
+  // const newLocation = {
+  //   type : "",
+  //   coordinates : {
+  //     lat:  JSON.parse(location['coords']['latitude']),
+  //     long: location['coords']['longitude'],
+  //   }
+  // }
+  console.log(location);
+  
 
   let text = 'Waiting..';
   if (errorMsg) {
@@ -74,13 +87,14 @@ const order_summary = () => {
     price: item.price,
     quantity: item.quantity,
     cuisineImage : item.thumbnail,
-    address: address
   }));
 
 
   const [finalData, setFinalData] = useState({
     "shopId" : shopId,
     "items" : newArray,
+    "deliveryAddress": address.toString(),
+    // "deliveryCoordinate" : newLocation
   })
 
 
@@ -117,7 +131,9 @@ const order_summary = () => {
           if (response.status === 400) {
             throw new Error('Bad request. Please check your data.');
           } else {
+            console.log(response);
             throw new Error(`API request failed with status ${response.status}`);
+            
           }
         }
     
@@ -147,7 +163,7 @@ const order_summary = () => {
 
 
 
-console.log(address);
+console.log();
 
 
   return (
@@ -193,104 +209,111 @@ console.log(address);
           }}
         />
 
-      <ScrollView style={styles.scrollView}  showsVerticalScrollIndicator={false}>
-        <View style={styles.grayBG}>
-          <Text style={{fontFamily : 'Railway3', fontSize : 13}}>Order Summary</Text>
-        </View>
 
-        {cartItem.selectedItemsToAdd.map((item : any, index: any) =>(
+        {isLoadingLoc === true ? <>
+        <ActivityIndicator size="large" color={Colors.myRed} style={{position : 'absolute', top : '50%', left : '50%' }}/>
+        </> : 
 
-        <View key={index} style={{display : 'flex', flexDirection : 'row', borderBottomWidth : 1, borderBottomColor : Colors.myGray, paddingVertical : 20}}>
-          <View style={{display : 'flex', flexDirection : 'row', gap : 20}}>
-            <View style={{width : 50, height : 50, overflow : 'hidden', borderRadius : 30}}>
-              <Image source={{uri: item.thumbnail}} style={{width  : 60, height : 60}}/>
-            </View>
-
-            <View>
-              <Text style={{fontFamily : 'Railway2', fontSize : 13}}>{item.name.toUpperCase()}</Text>
-              <Text style={{fontFamily : 'Railway3', color : Colors.myLightGreen, fontSize : 11, paddingTop : 3}}>{cartItem.resturantName}</Text>
-            </View>
+        <ScrollView style={styles.scrollView}  showsVerticalScrollIndicator={false}>
+          <View style={styles.grayBG}>
+            <Text style={{fontFamily : 'Railway3', fontSize : 13}}>Order Summary</Text>
           </View>
 
-          <View style={{marginLeft : 'auto',}}>
-            <Text style={{ color : 'gray', fontSize : 12}}>{item.quantity} Items</Text>
-          </View>
-        </View>
-        ))}
+          {cartItem.selectedItemsToAdd.map((item : any, index: any) =>(
 
-        {/* <View style={{paddingTop : 10}}>
-          <Text style={{fontFamily : 'Railway1', fontSize : 11, color : 'grey', paddingBottom : 5}}>Delivery Address</Text>
-          <View style={{borderColor : Colors.myRed, borderWidth : 1, padding : 10, borderRadius : 5}}>
-            <TextInput 
-              placeholder='Enter Delivery Address . . . '
-              value={address}
-              onChangeText={setAddress}
-            />
-          </View>
-        </View> */}
-
-        <View style={styles.grayBG}>
-          <Text style={{fontFamily : 'Railway3', fontSize : 13}}>Payment Summary</Text>
-        </View>
-
-        <View style={{paddingTop : 10}}>
-          <View style={styles.paymentDiv}>
-            {cartItem && (
-              <View>
-                  <Text style={{fontSize : 13, color : 'gray'}}>Sub-Total {cartItem.length} (Items)</Text>
+          <View key={index} style={{display : 'flex', flexDirection : 'row', borderBottomWidth : 1, borderBottomColor : Colors.myGray, paddingVertical : 20}}>
+            <View style={{display : 'flex', flexDirection : 'row', gap : 20}}>
+              <View style={{width : 50, height : 50, overflow : 'hidden', borderRadius : 30}}>
+                <Image source={{uri: item.thumbnail}} style={{width  : 60, height : 60}}/>
               </View>
-            )}
-            <Text style={{marginLeft : 'auto', fontWeight : '500', fontSize : 13}}>&#8358;{newTotalPrice}</Text>
+
+              <View>
+                <Text style={{fontFamily : 'Railway2', fontSize : 13}}>{item.name.toUpperCase()}</Text>
+                <Text style={{fontFamily : 'Railway3', color : Colors.myLightGreen, fontSize : 11, paddingTop : 3}}>{cartItem.resturantName}</Text>
+              </View>
+            </View>
+
+            <View style={{marginLeft : 'auto',}}>
+              <Text style={{ color : 'gray', fontSize : 12}}>{item.quantity} Items</Text>
+            </View>
+          </View>
+          ))}
+
+          {/* <View style={{paddingTop : 10}}>
+            <Text style={{fontFamily : 'Railway1', fontSize : 11, color : 'grey', paddingBottom : 5}}>Delivery Address</Text>
+            <View style={{borderColor : Colors.myRed, borderWidth : 1, padding : 10, borderRadius : 5}}>
+              <TextInput 
+                placeholder='Enter Delivery Address . . . '
+                value={address}
+                onChangeText={setAddress}
+              />
+            </View>
+          </View> */}
+
+          <View style={styles.grayBG}>
+            <Text style={{fontFamily : 'Railway3', fontSize : 13}}>Payment Summary</Text>
           </View>
 
-          <View style={styles.paymentDiv}>
-            <Text style={{fontFamily : 'Railway1', fontSize : 13, color : 'gray'}}>Delivery Fee</Text>
-            <Text style={{marginLeft : 'auto', fontWeight : '500', fontSize : 13}}>&#8358; {deliveryFee}</Text>
+          <View style={{paddingTop : 10}}>
+            <View style={styles.paymentDiv}>
+              {cartItem && (
+                <View>
+                    <Text style={{fontSize : 13, color : 'gray'}}>Sub-Total {cartItem.length} (Items)</Text>
+                </View>
+              )}
+              <Text style={{marginLeft : 'auto', fontWeight : '500', fontSize : 13}}>&#8358;{newTotalPrice}</Text>
+            </View>
+
+            <View style={styles.paymentDiv}>
+              <Text style={{fontFamily : 'Railway1', fontSize : 13, color : 'gray'}}>Delivery Fee</Text>
+              <Text style={{marginLeft : 'auto', fontWeight : '500', fontSize : 13}}>&#8358; {deliveryFee}</Text>
+            </View>
+
+            <View style={styles.paymentDiv}> 
+              <Text style={{fontFamily : 'Railway1', fontSize : 13, color : 'gray'}}>Booking Fee</Text>
+              <Text style={{marginLeft : 'auto', fontWeight : '500', fontSize : 13}}>&#8358;{percentage}</Text>
+            </View>
+
+            <View style={styles.paymentDiv}>
+              <Text style={{fontFamily : 'Railway3', color : Colors.myRed}}>Total</Text>
+              <Text style={{marginLeft : 'auto', fontWeight : '500', fontSize : 13, color : Colors.myRed}}>&#8358;{grandTotalPrice.toLocaleString()}</Text>
+            </View>
           </View>
 
-          <View style={styles.paymentDiv}> 
-            <Text style={{fontFamily : 'Railway1', fontSize : 13, color : 'gray'}}>Booking Fee</Text>
-            <Text style={{marginLeft : 'auto', fontWeight : '500', fontSize : 13}}>&#8358;{percentage}</Text>
+
+          <View style={styles.bottomBtns} >
+
+          <PayWithFlutterwave
+
+              onRedirect={handleOnRedirect}
+              options={{
+                  tx_ref: generateTransactionRef(10),
+                  authorization: "FLWPUBK_TEST-1846f466dad001520b9bf6345d69c9cb-X",
+                  customer: {
+                  email: (userDetails.email),
+                  },
+                  amount: grandTotalPrice,
+                  currency: 'NGN',
+                  payment_options: 'card'
+              }}
+              customButton={(props : any) => (
+                  <TouchableOpacity style={styles.eachBottomBtn} onPress={props.onPress} disabled={props.disabled}>
+                      <Text style={{fontFamily : 'Railway2', fontSize : 15, color : 'white'}}>
+                        {isLoading === true ? <ActivityIndicator size={'small'} /> : 'Make Payment'}</Text>
+                  </TouchableOpacity>
+
+              )}
+          />
+
+            <TouchableOpacity style={styles.eachBottomBtn2} onPress={handleBackPress}>
+                <Text style={{fontFamily : 'Railway2', fontSize : 13, color : Colors.myRed}}>Cancel Order</Text>
+            </TouchableOpacity>
           </View>
 
-          <View style={styles.paymentDiv}>
-            <Text style={{fontFamily : 'Railway3', color : Colors.myRed}}>Total</Text>
-            <Text style={{marginLeft : 'auto', fontWeight : '500', fontSize : 13, color : Colors.myRed}}>&#8358;{grandTotalPrice.toLocaleString()}</Text>
-          </View>
-        </View>
 
+        </ScrollView>
 
-        <View style={styles.bottomBtns} >
-
-        <PayWithFlutterwave
-
-            onRedirect={handleOnRedirect}
-            options={{
-                tx_ref: generateTransactionRef(10),
-                authorization: "FLWPUBK_TEST-1846f466dad001520b9bf6345d69c9cb-X",
-                customer: {
-                email: (userDetails.email),
-                },
-                amount: grandTotalPrice,
-                currency: 'NGN',
-                payment_options: 'card'
-            }}
-            customButton={(props : any) => (
-                <TouchableOpacity style={styles.eachBottomBtn} onPress={props.onPress} disabled={props.disabled}>
-                    <Text style={{fontFamily : 'Railway2', fontSize : 15, color : 'white'}}>
-                      {isLoading === true ? <ActivityIndicator size={'small'} /> : 'Make Payment'}</Text>
-                </TouchableOpacity>
-
-            )}
-        />
-
-          <TouchableOpacity style={styles.eachBottomBtn2} onPress={handleBackPress}>
-              <Text style={{fontFamily : 'Railway2', fontSize : 13, color : Colors.myRed}}>Cancel Order</Text>
-          </TouchableOpacity>
-        </View>
-
-
-      </ScrollView>
+        }
     </Animated.View>
   )
 }
