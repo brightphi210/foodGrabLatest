@@ -40,9 +40,6 @@
     "extra": {
       "router": {
         "origin": false
-      },
-      "eas": {
-        "projectId": "27316463-f8a0-4080-a5a7-bec507b6b754"
       }
     },
     "owner": "bosskings"
