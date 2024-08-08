@@ -118,7 +118,7 @@ const account = () => {
               <Image source={{uri : image}} style={styles.image} />
             ) : (
 
-            <Image source={require('../../assets/images/defaultProf.png')} style={styles.image} />
+            <Image source={{uri : 'https://food-grab-images.s3.amazonaws.com/users/assets/defaultProf.png'}} style={styles.image} />
             )}
           </View>
           {/* <TouchableOpacity style={styles.editButton} onPress={() => uploadImage()}>

@@ -51,7 +51,9 @@ const welcome_three = () => {
              entering={FadeIn.duration(300).delay(300)}
              exiting={FadeOut.duration(300).delay(300)}
       >
-        <Animated.Image source={require('../../assets/images/logimg.png')} style={[styles.imgStyle, animatedStyle]}/>
+        <Animated.Image 
+        source={{uri :'https://food-grab-images.s3.amazonaws.com/users/assets/logimg.png'}} 
+        style={[styles.imgStyle, animatedStyle]}/>
 
         {/* ========= Text =============== */}
         

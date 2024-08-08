@@ -174,7 +174,7 @@ const index = () => {
           <RefreshControl refreshing={refreshing} onRefresh={fetchData} />}>
           <View>
               <View style={{paddingVertical : 0, paddingBottom : 0, }}>
-                <Image source={require('../../assets/images/dashSec2.png')}
+                <Image source={{uri : 'https://food-grab-images.s3.amazonaws.com/users/assets/dashSec2.png'}}
                   style={styles.imageDIv}
                   resizeMode='contain'
                 />
@@ -313,7 +313,7 @@ const index = () => {
                                         <Text style={{fontFamily : 'Railway3', fontSize : 15}}>{item.shopName}</Text>
                                         <Text style={{fontFamily : 'Railway1', fontSize : 12}}>{item.description}</Text>
                                       </View>
-                                        <TouchableOpacity onPress={handleIsFavorite} style={{
+                                        {/* <TouchableOpacity onPress={handleIsFavorite} style={{
                                           marginLeft : 'auto', padding : 10, 
                                           backgroundColor : Colors.myLightGray,
                                           borderRadius : 50
@@ -323,7 +323,7 @@ const index = () => {
                                           : <FontAwesome name='heart' color={Colors.myRed}  size={15}/>
                                           }
                                         
-                                        </TouchableOpacity>
+                                        </TouchableOpacity> */}
                                     </View>
                                   </Pressable>
                                   </Animated.View>
@@ -332,7 +332,6 @@ const index = () => {
                           ))}
                         </>
                       )}
-
                     </>
                   )}
 

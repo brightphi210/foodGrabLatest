@@ -60,7 +60,7 @@ const index = () => {
         <View style={{}}>
 
               <View style={{paddingVertical : 0, paddingBottom : 0, }}>
-                <Image source={require('../../assets/images/dashSec2.png')}
+                <Image source={{uri : 'https://food-grab-images.s3.amazonaws.com/users/assets/dashSec2.png'}}
                   style={styles.imageDIv}
                   resizeMode='contain'
                 />
@@ -88,24 +88,23 @@ const index = () => {
             <View style={{display: 'flex', paddingTop : 20, paddingHorizontal : 10, flexDirection : 'row', alignItems : 'center', justifyContent : 'center', gap : 10}}>
               
               <TouchableOpacity  onPress={handlePress} style={styles.imageDIvBorder}>
-                  <Image source={require('../../assets/images/foodSearch.png')}
+                  <Image source={{uri : 'https://food-grab-images.s3.amazonaws.com/users/assets/foodSearch.png'}}
                     style={{width : 130, height : 90, alignSelf : 'center'}}
                   />
                   <Text style={{textAlign : 'center', fontFamily : 'Railway2', fontSize : 15}}>Food</Text>
               </TouchableOpacity>
 
               <TouchableOpacity  onPress={handlePress} style={styles.imageDIvBorder}>
-                  <Image source={require('../../assets/images/storeSearch.png')}
+                  <Image source={{uri : 'https://food-grab-images.s3.amazonaws.com/users/assets/storeSearch.png'}}
                     style={{width : 100, height : 100, alignSelf : 'center'}}
                   />
                   <Text style={{textAlign : 'center', fontFamily : 'Railway2', fontSize : 15,}}>Restaurant</Text>
               </TouchableOpacity>
-
             </View>
 
             <TouchableOpacity  onPress={handlePress} >
                 <View style={styles.imageDIvBorder2}>
-                  <Image source={require('../../assets/images/explore.png')}
+                  <Image source={{uri : 'https://food-grab-images.s3.amazonaws.com/users/assets/explore.png'}}
                     style={{width : 100, height : 80, alignSelf : 'center'}}
                   />
                   <Text style={{textAlign : 'center', fontFamily : 'Railway2', fontSize : 15, paddingTop : 20}}>Explore the app</Text>

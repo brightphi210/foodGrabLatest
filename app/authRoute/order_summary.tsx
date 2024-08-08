@@ -17,7 +17,6 @@ import * as Location from 'expo-location';
 
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
-
 const order_summary = () => {
   const { getData, getUserData, userDetails, userToken, deleteAll  } = useContext(AuthContext)  
   const route = useRoute();
@@ -25,9 +24,9 @@ const order_summary = () => {
   const navigate = useNavigation()
   const router = useRouter()
 
-  const [address, setAddress] = useState('')
+  const [address, setAddress] = useState<any>(null)
   const [errorMsg, setErrorMsg] = useState<any>(null);
-  const [location, setLocation] = useState<any>(null);
+  const [location, setLocation] = useState<any>({ latitude: 4.8386391, longitude: 7.0298324 });
 
   const [isLoadingLoc, setIsLoadingLoc] = useState(false);
 
@@ -41,21 +40,22 @@ const order_summary = () => {
       }
 
       let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
+      setLocation({ latitude: location.coords.latitude, longitude: location.coords.longitude });
       setIsLoadingLoc(false);
     })();
   }, []);
 
-
   
-  // const newLocation = {
-  //   type : "",
-  //   coordinates : {
-  //     lat:  JSON.parse(location['coords']['latitude']),
-  //     long: location['coords']['longitude'],
-  //   }
-  // }
-  console.log(location);
+  const newLocation = {
+    type : "",
+    coordinates : {
+      lat : location.latitude,
+      long : location.longitude,
+    }
+  }
+  // console.log(newLocation);
+  // console.log(address);
+
   
 
   let text = 'Waiting..';
@@ -90,12 +90,15 @@ const order_summary = () => {
   }));
 
 
-  const [finalData, setFinalData] = useState({
+  const finalData ={
     "shopId" : shopId,
     "items" : newArray,
-    "deliveryAddress": address.toString(),
-    // "deliveryCoordinate" : newLocation
-  })
+    "deliveryAddress": address?.descriptionn,
+    "deliveryCoordinate" : newLocation
+  }
+
+  console.log('This is my address', finalData);
+  
 
 
   useEffect(() => {
@@ -162,10 +165,6 @@ const order_summary = () => {
   };
 
 
-
-console.log();
-
-
   return (
     <Animated.View style={styles.container}
     entering={FadeIn.duration(200).delay(200)}
@@ -178,9 +177,10 @@ console.log();
         <GooglePlacesAutocomplete
           placeholder='Enter address'
           renderDescription={row => row.description}
-          onPress={(data, details = null) => { 
-            console.log(data, details);
-            setAddress(data.description);
+          onPress={(data) => { 
+            setAddress(data);
+            // setIsLoadingLoc(false);
+            console.log(data);
           }}
 
           styles={{

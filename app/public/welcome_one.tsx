@@ -34,7 +34,7 @@ const welcome_one = () => {
              entering={FadeIn.duration(300).delay(300)}
              exiting={FadeOut.duration(300).delay(300)}
       >
-        <Animated.Image source={require('../../assets/images/ride.png')} style={[styles.imgStyle, animatedStyle]}/>
+        <Animated.Image source={{uri : 'https://food-grab-images.s3.amazonaws.com/users/assets/ride.png'}} style={[styles.imgStyle, animatedStyle]}/>
 
         {/* ========= Text =============== */}
         <View style={styles.textDiv}>
